@@ -130,45 +130,45 @@ plugins/melly-validation/
 
 ---
 
-### 2.1 JSON Schemas 🔴 IN PROGRESS
+### 2.1 JSON Schemas ✅ DESIGN COMPLETE
 
-**Dependencies**: Requires planning phase (this section)
+**Status**: Schema architecture designed and documented
+**Reference**: See **[docs/json-schemas-design.md](../docs/json-schemas-design.md)** for complete specification
 
-**Tasks**:
-- [ ] Create `init.json` schema definition
-  - Code repository paths
-  - Package manifests (npm, composer, etc.)
-  - Directory structure
-  - Metadata for abstractors
-  - Timestamp field for incremental updates
+**Summary**:
+The JSON schema architecture supports progressive abstraction from repositories → systems → containers → components with:
+- **Timestamp-based incremental updates** via parent references
+- **Structured observations & relations** (not free-text) - see [docs/observations-relations-schema.md](../docs/observations-relations-schema.md)
+- **Kebab-case ID conventions** for filesystem safety
+- **Flexible schema** with required and optional fields
 
-- [ ] Create `c1-systems.json` schema definition
-  - Systems identified
-  - Observations section (structured format)
-  - Relations section (dependency mappings)
-  - Repository mappings
-  - Parent reference to init.json timestamp
+**Key Schemas**:
 
-- [ ] Create `c2-containers.json` schema definition
-  - Containers per system
-  - Observations section (structured format)
-  - Relations section (dependency mappings)
-  - Technology stack detection
-  - Parent reference to c1-systems.json timestamp
+1. **init.json** - Repository metadata
+   - Absolute paths, package manifests, directory structure
+   - Technology detection, metrics
+   - No parent reference (root of hierarchy)
 
-- [ ] Create `c3-components.json` schema definition
-  - Components per container
-  - Observations section (structured format)
-  - Relations section (dependency mappings)
-  - Code structure analysis
-  - Parent reference to c2-containers.json timestamp
+2. **c1-systems.json** - System Context level
+   - Systems, actors, boundaries, responsibilities
+   - Parent reference to init.json timestamp
+   - Observations & relations with evidence
 
-**Common Schema Requirements**:
-- ISO 8601 timestamps for all JSON files
-- Version field for schema evolution
-- Metadata section (generator, date, user)
-- Consistent observations/relations format across all levels
-- Support for incremental updates via timestamp comparison
+3. **c2-containers.json** - Container level
+   - Containers per system, technology stack, runtime
+   - Parent reference to c1-systems.json timestamp
+   - Deployment information, interfaces
+
+4. **c3-components.json** - Component level
+   - Components per container, code structure, patterns
+   - Parent reference to c2-containers.json timestamp
+   - Metrics (LOC, complexity, coverage)
+
+**Implementation Tasks**:
+- [ ] Use schemas from docs/json-schemas-design.md for agent implementations
+- [ ] Use observations/relations structure from docs/observations-relations-schema.md
+- [ ] Implement checksum-based change detection for incremental updates
+- [ ] Validate timestamp ordering in workflow: init < c1 < c2 < c3
 
 ---
 
@@ -176,131 +176,97 @@ plugins/melly-validation/
 
 **See Section 2.0** - All validation scripts are now part of the `melly-validation` plugin.
 
-### 2.3 Validation Script Specifications (Part of melly-validation plugin)
+### 2.3 Validation Script Specifications ✅ DESIGN COMPLETE
 
+**Status**: Validation requirements documented
 **Location**: `plugins/melly-validation/scripts/`
+**Reference**: See **[docs/validation-requirements.md](../docs/validation-requirements.md)** for complete specification
 
-#### validate-init.py
-- [ ] Validate init.json structure against schema
-- [ ] Check repository path existence
-- [ ] Verify package manifests are readable
-- [ ] Validate timestamp format (ISO 8601)
-- [ ] Check for required metadata fields
-- [ ] Exit codes: 0=pass, 1=warning, 2=error
+**Summary**:
+All validation scripts use exit code convention:
+- `0` - Validation passed
+- `1` - Non-blocking warning (workflow continues with user confirmation)
+- `2` - Blocking error (workflow halts immediately)
 
-#### validate-c1-systems.py
-- [ ] Validate c1-systems.json structure against schema
-- [ ] Check observations format consistency
-- [ ] Verify relations format (dependency graph validity)
-- [ ] Compare timestamp with init.json (must be newer)
-- [ ] Verify all referenced repositories exist in init.json
-- [ ] Exit codes: 0=pass, 1=warning, 2=error
+**Scripts Overview**:
 
-#### validate-c2-containers.py
-- [ ] Validate c2-containers.json structure against schema
-- [ ] Check timestamp ordering vs c1-systems.json
-- [ ] Verify parent system relationships
-- [ ] Validate technology stack entries
-- [ ] Check observations/relations consistency
-- [ ] Exit codes: 0=pass, 1=warning, 2=error
+1. **validate-init.py** - Validates init.json
+   - Schema structure, repository paths (must exist), package manifests
+   - Timestamp format (ISO 8601), metadata completeness
 
-#### validate-c3-components.py
-- [ ] Validate c3-components.json structure against schema
-- [ ] Check timestamp ordering vs c2-containers.json
-- [ ] Verify parent container relationships
-- [ ] Validate component hierarchy
-- [ ] Check observations/relations consistency
-- [ ] Exit codes: 0=pass, 1=warning, 2=error
+2. **validate-c1-systems.py** - Validates c1-systems.json
+   - Parent reference (init.json must exist, timestamp valid)
+   - System IDs unique, observations/relations format
+   - Graph validity (no dangling references, circular deps warning)
 
-#### validate-markdown.py
-- [ ] Validate frontmatter YAML syntax
-- [ ] Check required frontmatter fields
-- [ ] Verify markdown structure (headings hierarchy)
-- [ ] Validate observations section format
-- [ ] Validate relations section format
-- [ ] Check for broken internal links
-- [ ] Exit codes: 0=pass, 1=warning, 2=error
+3. **validate-c2-containers.py** - Validates c2-containers.json
+   - Parent reference (c1-systems.json), timestamp ordering
+   - Container-to-system relationships, technology stack consistency
+   - Deployment validation
 
-#### create-folders.sh
-- [ ] Accept system name as argument
-- [ ] Create `knowledge-base/systems/{system-name}/` directory
-- [ ] Create subdirectories: c1/, c2/, c3/, c4/
-- [ ] Set appropriate permissions (755 for dirs)
-- [ ] Create .gitkeep files if needed
-- [ ] Exit codes: 0=success, 1=error
+4. **validate-c3-components.py** - Validates c3-components.json
+   - Parent reference (c2-containers.json), timestamp ordering
+   - Component-to-container relationships, code structure
+   - Coupling analysis (tight coupling warnings)
 
-#### check-timestamp.sh
-- [ ] Accept two JSON file paths as arguments
-- [ ] Extract timestamps from both files
-- [ ] Compare timestamps (parent must be older than child)
-- [ ] Output comparison result to stdout
-- [ ] Exit codes: 0=valid order, 1=invalid order, 2=error
+5. **validate-markdown.py** - Validates generated documentation
+   - Frontmatter YAML syntax, required fields, heading hierarchy
+   - Section structure (Overview, Observations, Relations)
+   - Internal link validation
+
+6. **create-folders.sh** - Creates system directory structure
+   - Creates `knowledge-base/systems/{system-name}/{c1,c2,c3,c4}/`
+
+7. **check-timestamp.sh** - Validates timestamp ordering
+   - Compares parent/child timestamps, ensures child > parent
+
+**Implementation Tasks**:
+- [ ] Implement all 7 validation scripts per specification
+- [ ] Use validation flow diagram from docs/validation-requirements.md
+- [ ] Integrate with workflow commands (/melly-init, /melly-c1-systems, etc.)
+- [ ] Add unit tests for each validator with valid/invalid test cases
 
 ---
 
-### 2.4 Template File Specifications (Part of melly-validation plugin)
+### 2.4 Template File Specifications ✅ DESIGN COMPLETE
 
+**Status**: Template structure and usage documented
 **Location**: `plugins/melly-validation/templates/`
+**Reference**: See **[docs/c4model-writer-workflow.md](../docs/c4model-writer-workflow.md)** Section 5 for template usage
 
-**Purpose**: Provide consistent structure templates for all JSON and Markdown files generated by the workflow.
+**Summary**:
+Templates define the structure of generated JSON and Markdown files. The c4model-writer agent processes templates with placeholder variables to generate documentation.
 
-#### JSON Templates
+**Template Types**:
 
-**init-template.json**
-- [ ] Define complete JSON schema structure
-- [ ] Include example repository entries
-- [ ] Document all required fields
-- [ ] Include metadata section template
-- [ ] Add inline comments for clarity
+#### JSON Templates (Reference/Validation)
+- **init-template.json** - Example structure for init.json
+- **c1-systems-template.json** - Example structure for c1-systems.json
+- **c2-containers-template.json** - Example structure for c2-containers.json
+- **c3-components-template.json** - Example structure for c3-components.json
 
-**c1-systems-template.json**
-- [ ] Define systems array structure
-- [ ] Include observations section template
-- [ ] Include relations section template
-- [ ] Document system identification criteria
-- [ ] Add example entries
+**Purpose**: Provide reference examples for manual creation and validation testing
 
-**c2-containers-template.json**
-- [ ] Define containers array structure
-- [ ] Include technology stack section
-- [ ] Include observations section template
-- [ ] Include relations section template
-- [ ] Add example container entries
+#### Markdown Templates (Active Generation)
+- **c1-markdown-template.md** - Template for system documentation
+- **c2-markdown-template.md** - Template for container documentation
+- **c3-markdown-template.md** - Template for component documentation
 
-**c3-components-template.json**
-- [ ] Define components array structure
-- [ ] Include code structure metadata
-- [ ] Include observations section template
-- [ ] Include relations section template
-- [ ] Add example component entries
+**Purpose**: Used by c4model-writer agent to generate markdown files
 
-#### Markdown Templates
+**Template Features**:
+- **Placeholder syntax**: `{{entity.id}}`, `{{entity.name}}`, etc.
+- **Loops**: `{{#each observations}}...{{/each}}`
+- **Conditionals**: `{{#if evidence}}...{{/if}}`
+- **Frontmatter mapping**: JSON fields → YAML frontmatter
+- **Section templates**: Overview, Observations, Relations
 
-**c1-markdown-template.md**
-- [ ] Define frontmatter structure
-- [ ] Create system overview section template
-- [ ] Create observations section template
-- [ ] Create relations section template
-- [ ] Include basic-memory integration points
-- [ ] Add example content
-
-**c2-markdown-template.md**
-- [ ] Define frontmatter structure
-- [ ] Create container overview section template
-- [ ] Create technology stack section template
-- [ ] Create observations section template
-- [ ] Create relations section template
-- [ ] Include basic-memory integration points
-- [ ] Add example content
-
-**c3-markdown-template.md**
-- [ ] Define frontmatter structure
-- [ ] Create component overview section template
-- [ ] Create code structure section template
-- [ ] Create observations section template
-- [ ] Create relations section template
-- [ ] Include basic-memory integration points
-- [ ] Add example content
+**Implementation Tasks**:
+- [ ] Create JSON template examples based on docs/json-schemas-design.md
+- [ ] Create Markdown templates with placeholder syntax
+- [ ] Implement template processing in c4model-writer agent
+- [ ] Test template rendering with sample data
+- [ ] Document template customization for users
 
 ---
 
@@ -526,33 +492,57 @@ plugins/melly-validation/
     3. Validate markdown output
     4. Commit documentation
 
-### 8.2 Sub-agent: c4model-writer
+### 8.2 Sub-agent: c4model-writer ✅ DESIGN COMPLETE
 
-- [ ] Create `.claude/agents/c4model-writer.md`
-  - Name: c4model-writer
-  - Description: Generate markdown documentation from JSON
-  - Tools: Read, Write, Bash, MCP(basic-memory)
-  - Workflow:
-    1. Accept level parameter (c1, c2, c3)
-    2. Detect changes in corresponding JSON file
-    3. Load appropriate template (c1-systems-template.json, etc.)
-    4. For each system/container/component:
-       - Check if new or updated
-       - Generate markdown from template
-       - Populate observations section
-       - Populate relations section
-       - Use basic-memory MCP for all operations
-    5. Validate markdown with `.claude/scripts/validate-markdown.py`
-    6. Return results
+**Status**: Workflow designed and documented
+**Reference**: See **[docs/c4model-writer-workflow.md](../docs/c4model-writer-workflow.md)** for complete specification
 
-- [ ] Implement parallel processing:
-  - Run c4model-writer for c1, c2, c3 simultaneously
-  - Each operates on independent data
+**Summary**:
+The c4model-writer agent converts JSON files to structured markdown documentation with support for incremental updates, parallel processing, and basic-memory MCP integration.
 
-- [ ] Add basic-memory integration:
-  - All file operations through basic-memory MCP
-  - Leverage MCP's knowledge base features
-  - Support syncing
+**5-Phase Workflow**:
+
+1. **Initialization & Validation**
+   - Validate JSON files exist, verify timestamp ordering
+   - Load markdown templates (c1/c2/c3)
+   - Verify basic-memory MCP available
+
+2. **Change Detection (Incremental Updates)**
+   - Load previous metadata (`.melly-doc-metadata.json`)
+   - Calculate entity checksums (SHA-256)
+   - Build change map: new / modified / unchanged
+   - Skip unchanged entities (performance optimization)
+
+3. **Parallel Markdown Generation**
+   - Process C1, C2, C3 levels simultaneously
+   - For each entity: apply template → transform observations/relations → validate
+   - Generate frontmatter from JSON metadata
+
+4. **basic-memory MCP Storage**
+   - Create/update notes via basic-memory MCP
+   - Organize by level (c1/, c2/, c3/)
+   - Handle MCP errors with retry logic (3 attempts, exponential backoff)
+
+5. **Validation & Reporting**
+   - Run validate-markdown.py on all generated files
+   - Generate summary report (new/modified/unchanged/errors)
+   - Update `.melly-doc-metadata.json` with checksums
+
+**Key Features**:
+- **Checksum-based change detection**: Only reprocess modified entities
+- **Template processing**: Placeholders, loops, conditionals
+- **Preserves manual edits**: Merge strategy for custom sections
+- **MCP integration**: All storage via basic-memory with error handling
+- **Parallel execution**: C1/C2/C3 processed concurrently
+
+**Implementation Tasks**:
+- [ ] Create `.claude/agents/c4model-writer.md` using workflow specification
+- [ ] Implement 5-phase workflow as documented
+- [ ] Add checksum-based incremental update logic
+- [ ] Implement template processing (placeholders, loops, conditionals)
+- [ ] Integrate basic-memory MCP with retry/error handling
+- [ ] Add metadata file (.melly-doc-metadata.json) management
+- [ ] Test with sample JSON files at all C4 levels
 
 ---
 
