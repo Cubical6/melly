@@ -32,6 +32,18 @@
       "repository": "https://github.com/Cubical6/melly",
       "license": "MIT",
       "keywords": ["skill-builder", "meta-skill", "cli", "python", "development", "tools"]
+    },
+    {
+      "name": "basic-memory",
+      "source": "./plugins/basic-memory",
+      "version": "1.0.0",
+      "description": "Knowledge management system via MCP - create, search, and sync knowledge notes across projects with multi-project support and real-time synchronization",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["memory", "knowledge", "notes", "mcp", "search", "sync", "multi-project"]
     }
   ]
 }
