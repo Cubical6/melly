@@ -59,6 +59,222 @@
       "repository": "https://github.com/Cubical6/melly",
       "license": "MIT",
       "keywords": ["memory", "knowledge", "notes", "mcp", "search", "sync", "multi-project"]
+    },
+    {
+      "name": "c4model-explorer",
+      "source": "./plugins/c4model-explorer",
+      "version": "1.0.0",
+      "description": "Repository exploration agent - scans codebases and generates init.json metadata",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+    },
+    {
+      "name": "c1-abstractor",
+      "source": "./plugins/c1-abstractor",
+      "version": "1.0.0",
+      "description": "C1 System Context analyzer - identifies high-level systems and their boundaries",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+    },
+    {
+      "name": "c2-abstractor",
+      "source": "./plugins/c2-abstractor",
+      "version": "1.0.0",
+      "description": "C2 Container analyzer - identifies deployable units and technology stacks",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+    },
+    {
+      "name": "c3-abstractor",
+      "source": "./plugins/c3-abstractor",
+      "version": "1.0.0",
+      "description": "C3 Component analyzer - identifies logical building blocks within containers",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+    },
+    {
+      "name": "c4model-writer",
+      "source": "./plugins/c4model-writer",
+      "version": "1.0.0",
+      "description": "Documentation generator - converts JSON data to markdown using basic-memory MCP",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+    },
+    {
+      "name": "mermaid-canvas-generator",
+      "source": "./plugins/mermaid-canvas-generator",
+      "version": "1.0.0",
+      "description": "Visualization generator - creates Mermaid diagrams and Obsidian canvas files",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+    },
+    {
+      "name": "melly-init",
+      "source": "./plugins/melly-init",
+      "version": "1.0.0",
+      "description": "Initialize C4 model exploration - scans repositories and generates init.json",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+    },
+    {
+      "name": "melly-c1-systems",
+      "source": "./plugins/melly-c1-systems",
+      "version": "1.0.0",
+      "description": "Identify C1 systems - analyzes system context level",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+    },
+    {
+      "name": "melly-c2-containers",
+      "source": "./plugins/melly-c2-containers",
+      "version": "1.0.0",
+      "description": "Identify C2 containers - analyzes container level",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+    },
+    {
+      "name": "melly-c3-components",
+      "source": "./plugins/melly-c3-components",
+      "version": "1.0.0",
+      "description": "Identify C3 components - analyzes component level",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+    },
+    {
+      "name": "melly-doc-c4model",
+      "source": "./plugins/melly-doc-c4model",
+      "version": "1.0.0",
+      "description": "Generate documentation - creates markdown from JSON data",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+    },
+    {
+      "name": "melly-visualize",
+      "source": "./plugins/melly-visualize",
+      "version": "1.0.0",
+      "description": "Generate visual diagrams - creates Mermaid and canvas files",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+    },
+    {
+      "name": "c4model-c1",
+      "source": "./plugins/c4model-c1",
+      "version": "1.0.0",
+      "description": "C1 System Context methodology - system identification rules and patterns",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "methodology", "documentation"]
+    },
+    {
+      "name": "c4model-c2",
+      "source": "./plugins/c4model-c2",
+      "version": "1.0.0",
+      "description": "C2 Container methodology - container identification and technology detection",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "methodology", "documentation"]
+    },
+    {
+      "name": "c4model-c3",
+      "source": "./plugins/c4model-c3",
+      "version": "1.0.0",
+      "description": "C3 Component methodology - component identification and code structure analysis",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "methodology", "documentation"]
+    },
+    {
+      "name": "c4model-observations",
+      "source": "./plugins/c4model-observations",
+      "version": "1.0.0",
+      "description": "Observation documentation methodology - key findings format and templates",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "methodology", "documentation"]
+    },
+    {
+      "name": "c4model-relations",
+      "source": "./plugins/c4model-relations",
+      "version": "1.0.0",
+      "description": "Relation documentation methodology - dependency mapping and relationship types",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "methodology", "documentation"]
+    },
+    {
+      "name": "melly-validation",
+      "source": "./plugins/melly-validation",
+      "version": "1.0.0",
+      "description": "Validation scripts and templates for Melly C4 workflow - ensures data quality and consistency",
+      "author": {
+        "name": "Melly Team"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["validation", "scripts", "templates", "quality-assurance"]
     }
   ]
 }

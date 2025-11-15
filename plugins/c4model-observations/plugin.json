@@ -1,0 +1,12 @@
+{
+  "name": "c4model-observations",
+  "version": "1.0.0",
+  "description": "Observation documentation methodology - key findings format and templates",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["skill", "c4-model", "methodology", "documentation"]
+}

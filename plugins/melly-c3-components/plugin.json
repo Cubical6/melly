@@ -1,0 +1,12 @@
+{
+  "name": "melly-c3-components",
+  "version": "1.0.0",
+  "description": "Identify C3 components - analyzes component level",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["command", "c4-model", "workflow", "slash-command"]
+}

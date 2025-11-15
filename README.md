@@ -147,18 +147,38 @@ After installation, components are automatically available:
 
 ```
 melly/
-├── .claude/                  # Claude Code configuration
-│   ├── agents/              # Specialized sub-agents
-│   ├── commands/            # Slash commands (/melly-*)
-│   ├── skills/              # C4 model methodology skills
-│   ├── scripts/             # Validation and helper scripts
-│   └── templates/           # JSON templates for C4 levels
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace definition
+│   └── marketplace.json      # Marketplace definition (18 workflow plugins)
 ├── plugins/                  # Marketplace plugins
-│   ├── abstractor-agent/
-│   ├── skill-builder/
-│   └── basic-memory/
+│   ├── abstractor-agent/    # Existing: Deep architectural analysis
+│   ├── skill-builder/       # Existing: Meta-skill for skill development
+│   ├── basic-memory/        # Existing: MCP knowledge base server
+│   │
+│   ├── Agents (6):          # C4 workflow agents
+│   ├── c4model-explorer/    # Repository exploration and init.json
+│   ├── c1-abstractor/       # C1 System Context analyzer
+│   ├── c2-abstractor/       # C2 Container analyzer
+│   ├── c3-abstractor/       # C3 Component analyzer
+│   ├── c4model-writer/      # Documentation generator
+│   ├── mermaid-canvas-generator/  # Visualization generator
+│   │
+│   ├── Commands (6):        # C4 workflow slash commands
+│   ├── melly-init/          # /melly-init
+│   ├── melly-c1-systems/    # /melly-c1-systems
+│   ├── melly-c2-containers/ # /melly-c2-containers
+│   ├── melly-c3-components/ # /melly-c3-components
+│   ├── melly-doc-c4model/   # /melly-doc-c4model
+│   ├── melly-visualize/     # /melly-visualize
+│   │
+│   ├── Skills (5):          # C4 methodology skills
+│   ├── c4model-c1/          # C1 System Context methodology
+│   ├── c4model-c2/          # C2 Container methodology
+│   ├── c4model-c3/          # C3 Component methodology
+│   ├── c4model-observations/  # Observation documentation
+│   ├── c4model-relations/   # Relation documentation
+│   │
+│   └── Validation (1):      # Quality assurance
+│       └── melly-validation/  # Scripts and templates
 ├── knowledge-base/           # C4 model knowledge base
 │   ├── libraries/           # Tool and package docs
 │   ├── systems/             # Generated C4 docs (gitignored)
@@ -175,6 +195,16 @@ melly/
 ├── TASKS.md                  # Development tasks
 └── README.md                 # This file
 ```
+
+### Plugin Categories
+
+**Total: 21 plugins** (3 existing + 18 new workflow plugins)
+
+- **Agents (6)**: c4model-explorer, c1/c2/c3-abstractor, c4model-writer, mermaid-canvas-generator
+- **Commands (6)**: melly-init, melly-c1-systems, melly-c2-containers, melly-c3-components, melly-doc-c4model, melly-visualize
+- **Skills (5)**: c4model-c1/c2/c3, c4model-observations, c4model-relations
+- **Validation (1)**: melly-validation (scripts + templates)
+- **Existing (3)**: abstractor-agent, skill-builder, basic-memory
 
 ## 🤝 Contributing
 
