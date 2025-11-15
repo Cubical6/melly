@@ -1,0 +1,2 @@
+# This directory is used by basic-memory to store project knowledge bases
+# The MCP server is configured to use ${CLAUDE_PROJECT_DIR}/knowledge-base as the project root

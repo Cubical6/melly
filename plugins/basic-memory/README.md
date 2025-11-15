@@ -91,11 +91,62 @@ Once the plugin is installed and Claude Code is restarted, you can use basic-mem
 
 ## Configuration
 
-The MCP server is automatically configured when this plugin is installed. The configuration uses:
+The MCP server is automatically configured when this plugin is installed with optimized defaults for Claude Code workflows.
 
-- **Transport**: stdio
+### Default Settings
+
+The plugin configures basic-memory with these environment variables:
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `BASIC_MEMORY_DEFAULT_PROJECT_MODE` | `true` | Automatically uses default project without prompting |
+| `BASIC_MEMORY_PROJECT_ROOT` | `${CLAUDE_PROJECT_DIR}/knowledge-base` | Stores all projects in `knowledge-base` folder |
+| `BASIC_MEMORY_KEBAB_FILENAMES` | `true` | Converts note titles to kebab-case filenames |
+
+### Knowledge Base Structure
+
+When you create notes, they are organized in your project's `knowledge-base` directory:
+
+```
+${CLAUDE_PROJECT_DIR}/
+├── knowledge-base/           # Auto-created on first use
+│   ├── main/                # Default project
+│   │   ├── note-1.md
+│   │   ├── note-2.md
+│   │   └── .basic-memory/   # Project metadata
+│   ├── work/                # Additional projects
+│   └── personal/
+└── ...
+```
+
+### Default Project
+
+The default project is `main` (basic-memory's built-in default). All notes are automatically stored there unless you specify a different project.
+
+**Example workflow:**
+```
+> "Save this conversation about React hooks"
+→ Saved to: knowledge-base/main/react-hooks.md
+
+> "Create a note in my work project about deployment"
+→ Saved to: knowledge-base/work/deployment.md
+```
+
+### Transport Configuration
+
+- **Transport**: stdio (local process)
 - **Command**: `uvx basic-memory mcp`
-- **No authentication required**: Local-first knowledge management
+- **Authentication**: Not required (local-first)
+
+### Customizing Configuration
+
+To override the default settings, you can modify the `.mcp.json` file in the plugin directory or set environment variables before starting Claude Code:
+
+```bash
+export BASIC_MEMORY_PROJECT_ROOT="/path/to/custom/knowledge-base"
+export BASIC_MEMORY_KEBAB_FILENAMES=false
+claude
+```
 
 ## Documentation
 
