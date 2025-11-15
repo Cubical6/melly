@@ -13,7 +13,7 @@ Basic Memory is an open-source knowledge management system that integrates with 
 - **Knowledge note creation**: Generate structured notes with tags and relationships
 - **Search capabilities**: Query your knowledge base including frontmatter tags
 - **Special prompts**: "Continue Conversation," "Recent Activity," and "Search" triggers
-- **Direct references**: Use `memory://` URLs with permalinks for precise context
+- **Direct references**: Use entity titles for precise context
 - **Import conversations**: Support for importing Claude and ChatGPT histories
 
 ## Prerequisites
@@ -102,7 +102,7 @@ The plugin configures basic-memory with these environment variables:
 | `BASIC_MEMORY_DEFAULT_PROJECT_MODE` | `true` | Automatically uses default project without prompting |
 | `BASIC_MEMORY_PROJECT_ROOT` | `${CLAUDE_PROJECT_DIR}/knowledge-base` | Stores all projects in `knowledge-base` folder |
 | `BASIC_MEMORY_KEBAB_FILENAMES` | `true` | Converts note titles to kebab-case filenames |
-| `BASIC_MEMORY_DISABLE_PERMALINKS` | `false` | Enables automatic permalink generation for new notes |
+| `BASIC_MEMORY_DISABLE_PERMALINKS` | `true` | Disables automatic permalink generation for new notes |
 | `BASIC_MEMORY_SYNC_CHANGES` | `true` | Enables real-time file synchronization capability |
 
 ### Knowledge Base Structure
