@@ -36,7 +36,78 @@ Meta-skill for creating, editing, and converting Claude Code skills.
 **Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
 **License:** MIT
 
+### Basic Memory (MCP Server)
+
+Knowledge management system via MCP for storing and retrieving C4 model documentation.
+
+**Key Features:**
+- Create and search knowledge notes
+- Multi-project support with sync
+- Obsidian canvas integration for visualizations
+- Permalink support for stable references
+
+**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
+**License:** MIT
+
+## 🔄 Melly C4 Model Workflow
+
+Melly provides a complete workflow for reverse engineering codebases using the C4 model methodology:
+
+### Workflow Commands
+
+1. **`/melly-init`** - Initialize C4 model exploration
+   - Scan repository structure
+   - Identify package manifests
+   - Generate init.json
+
+2. **`/melly-c1-systems`** - Identify C1 (System Context) level
+   - Detect systems from repositories
+   - Generate architectural documentation
+   - Store in knowledge base via basic-memory
+
+3. **`/melly-c2-containers`** - Identify C2 (Container) level
+   - Detect containers within systems
+   - Map technology stack
+   - Generate container documentation
+
+4. **`/melly-c3-components`** - Identify C3 (Component) level
+   - Detect components within containers
+   - Analyze code structure
+   - Generate component documentation
+
+5. **`/melly-doc-c4model`** - Generate comprehensive documentation
+   - Create markdown files from JSON data
+   - Populate observations and relations
+   - Store in basic-memory knowledge base
+
+6. **`/melly-visualize`** - Generate visual diagrams
+   - Create Mermaid diagrams
+   - Generate Obsidian canvas files
+   - Visualize system architecture
+
+### Knowledge Base Structure
+
+All generated documentation is stored in `knowledge-base/`:
+- `systems/` - C4 model documentation (gitignored, auto-generated)
+- `libraries/` - Tool and package documentation
+- `templates/` - Markdown templates for documentation
+
 ## 🚀 Installation
+
+### Prerequisites
+
+Melly requires the following MCP servers for full functionality:
+
+#### Required
+- **basic-memory**: Knowledge base storage and retrieval for C4 model documentation
+  - Installation: See [plugins/basic-memory](./plugins/basic-memory)
+  - Configuration: Enable permalinks and sync in your Claude Code settings
+
+#### Optional
+- **context7**: Enhanced contextual information retrieval
+  - Installation: Coming soon
+
+### Install Melly
 
 ```bash
 # Clone the Melly repository
@@ -46,6 +117,7 @@ cd melly
 # Install plugins via Claude Code
 /plugin add ./plugins/abstractor-agent
 /plugin add ./plugins/skill-builder
+/plugin add ./plugins/basic-memory
 ```
 
 ## 📚 Documentation
@@ -75,18 +147,32 @@ After installation, components are automatically available:
 
 ```
 melly/
+├── .claude/                  # Claude Code configuration
+│   ├── agents/              # Specialized sub-agents
+│   ├── commands/            # Slash commands (/melly-*)
+│   ├── skills/              # C4 model methodology skills
+│   ├── scripts/             # Validation and helper scripts
+│   └── templates/           # JSON templates for C4 levels
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace definition
 ├── plugins/                  # Marketplace plugins
 │   ├── abstractor-agent/
-│   └── skill-builder/
+│   ├── skill-builder/
+│   └── basic-memory/
+├── knowledge-base/           # C4 model knowledge base
+│   ├── libraries/           # Tool and package docs
+│   ├── systems/             # Generated C4 docs (gitignored)
+│   └── templates/           # Markdown templates
 ├── docs/                     # Comprehensive documentation
-│   └── claude-code/         # Claude Code documentation
-│       ├── sub-agents.md
-│       ├── skills.md
-│       ├── slash-commands.md
-│       └── ...
+│   ├── claude-code/         # Claude Code documentation
+│   │   ├── sub-agents.md
+│   │   ├── skills.md
+│   │   ├── slash-commands.md
+│   │   └── ...
+│   ├── c4model-methodology.md  # C4 approach guide
+│   └── workflow-guide.md    # Melly workflow usage
 ├── CLAUDE.md                 # Implementation guide
+├── TASKS.md                  # Development tasks
 └── README.md                 # This file
 ```
 

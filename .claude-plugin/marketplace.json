@@ -8,6 +8,21 @@
     "description": "Context building for Claude Code with knowledge base - A marketplace of Claude Code components for contextual knowledge retrieval",
     "version": "1.0.0"
   },
+  "dependencies": {
+    "mcp-servers": [
+      {
+        "name": "basic-memory",
+        "description": "Knowledge base storage and retrieval for C4 model documentation",
+        "required": true,
+        "repository": "https://github.com/Cubical6/melly/tree/main/plugins/basic-memory"
+      },
+      {
+        "name": "context7",
+        "description": "Contextual information retrieval (optional)",
+        "required": false
+      }
+    ]
+  },
   "plugins": [
     {
       "name": "abstractor-agent",

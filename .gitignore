@@ -1,1 +1,6 @@
 .idea
+
+# Melly - Claude Code marketplace
+.claude/settings.local.json
+.claude/.cache/
+knowledge-base/systems/*/
