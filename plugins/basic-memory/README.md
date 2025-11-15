@@ -102,6 +102,8 @@ The plugin configures basic-memory with these environment variables:
 | `BASIC_MEMORY_DEFAULT_PROJECT_MODE` | `true` | Automatically uses default project without prompting |
 | `BASIC_MEMORY_PROJECT_ROOT` | `${CLAUDE_PROJECT_DIR}/knowledge-base` | Stores all projects in `knowledge-base` folder |
 | `BASIC_MEMORY_KEBAB_FILENAMES` | `true` | Converts note titles to kebab-case filenames |
+| `BASIC_MEMORY_DISABLE_PERMALINKS` | `false` | Enables automatic permalink generation for new notes |
+| `BASIC_MEMORY_SYNC_CHANGES` | `true` | Enables real-time file synchronization capability |
 
 ### Knowledge Base Structure
 
