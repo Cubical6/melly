@@ -15,14 +15,15 @@ melly/
 ├── .claude-plugin/           # Plugin configuration
 │   └── marketplace.json      # Marketplace definition
 ├── docs/                     # Documentation knowledge base
-│   ├── sub-agents.md
-│   ├── slash-commands.md
-│   ├── skills.md
-│   ├── hooks.md
-│   ├── hooks-guide.md
-│   ├── common-workflows.md
-│   ├── cli-reference.md
-│   └── ...
+│   └── claude-code/         # Claude Code documentation
+│       ├── sub-agents.md
+│       ├── slash-commands.md
+│       ├── skills.md
+│       ├── hooks.md
+│       ├── hooks-guide.md
+│       ├── common-workflows.md
+│       ├── cli-reference.md
+│       └── ...
 ├── CLAUDE.md                # This guide
 └── README.md
 
@@ -47,7 +48,7 @@ Subagents are specialized AI assistants that handle specific tasks with:
 - Restricted tool access (optional)
 - Specific area of expertise
 
-> **Complete Guide**: See `docs/sub-agents.md` for detailed subagent documentation and advanced patterns.
+> **Complete Guide**: See `docs/claude-code/sub-agents.md` for detailed subagent documentation and advanced patterns.
 
 ### Locations
 
@@ -291,7 +292,7 @@ Claude delegates automatically based on the `description` field.
 
 Slash commands are reusable prompt templates stored as Markdown files.
 
-> **Complete Guide**: See `docs/slash-commands.md` for detailed command syntax and advanced features.
+> **Complete Guide**: See `docs/claude-code/slash-commands.md` for detailed command syntax and advanced features.
 
 ### Locations
 
@@ -518,7 +519,7 @@ Skills are modular capabilities that extend Claude's functionality via:
 - **Model-invoked**: Claude decides automatically when to use them
 - Progressive disclosure: Files loaded only when needed
 
-> **Complete Guide**: See `docs/skills.md` for detailed skill authoring and best practices.
+> **Complete Guide**: See `docs/claude-code/skills.md` for detailed skill authoring and best practices.
 
 ### Locations
 
@@ -799,8 +800,8 @@ Claude automatically activates the skill if it matches.
 
 Hooks are shell commands automatically executed on specific events in the Claude Code lifecycle. They provide deterministic control over behavior.
 
-> **Quick Start**: See `docs/hooks-guide.md` for a beginner-friendly introduction to hooks.
-> **Complete Reference**: See `docs/hooks.md` for detailed hook documentation.
+> **Quick Start**: See `docs/claude-code/hooks-guide.md` for a beginner-friendly introduction to hooks.
+> **Complete Reference**: See `docs/claude-code/hooks.md` for detailed hook documentation.
 
 ### Use Cases
 
@@ -1416,7 +1417,7 @@ git push
 3. Team installs plugin
 4. Automatically available in all projects
 
-See `docs/plugins.md` and `docs/plugins-reference.md` for complete plugin development guide.
+See `docs/claude-code/plugins.md` and `docs/claude-code/plugins-reference.md` for complete plugin development guide.
 
 ---
 
@@ -1537,28 +1538,28 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"test.txt"}}' | .claude/hoo
 ### Documentation
 
 **Core Components:**
-- `docs/sub-agents.md` - Complete agent guide
-- `docs/slash-commands.md` - Command reference
-- `docs/skills.md` - Skill authoring
-- `docs/hooks.md` - Hook reference
-- `docs/hooks-guide.md` - Hook quickstart
+- `docs/claude-code/sub-agents.md` - Complete agent guide
+- `docs/claude-code/slash-commands.md` - Command reference
+- `docs/claude-code/skills.md` - Skill authoring
+- `docs/claude-code/hooks.md` - Hook reference
+- `docs/claude-code/hooks-guide.md` - Hook quickstart
 
 **Plugins & Extensions:**
-- `docs/plugins.md` - Plugin development guide
-- `docs/plugins-reference.md` - Plugin API reference
-- `docs/mcp.md` - Model Context Protocol integration
+- `docs/claude-code/plugins.md` - Plugin development guide
+- `docs/claude-code/plugins-reference.md` - Plugin API reference
+- `docs/claude-code/mcp.md` - Model Context Protocol integration
 
 **Workflows & Usage:**
-- `docs/common-workflows.md` - Workflow examples
-- `docs/interactive-mode.md` - Interactive mode guide
-- `docs/headless.md` - Headless mode and automation
-- `docs/claude-code-on-the-web.md` - Web version guide
+- `docs/claude-code/common-workflows.md` - Workflow examples
+- `docs/claude-code/interactive-mode.md` - Interactive mode guide
+- `docs/claude-code/headless.md` - Headless mode and automation
+- `docs/claude-code/claude-code-on-the-web.md` - Web version guide
 
 **CLI & Configuration:**
-- `docs/cli-reference.md` - CLI flags and options
-- `docs/checkpointing.md` - Session checkpointing
-- `docs/output-styles.md` - Output formatting options
-- `docs/memory.md` - Memory management
+- `docs/claude-code/cli-reference.md` - CLI flags and options
+- `docs/claude-code/checkpointing.md` - Session checkpointing
+- `docs/claude-code/output-styles.md` - Output formatting options
+- `docs/claude-code/memory.md` - Memory management
 
 ### CLI Commands
 
@@ -1576,8 +1577,8 @@ claude --debug   # Debug mode
 claude --agents '{}' # Dynamic agents
 ```
 
-> **Mode Guides**: See `docs/interactive-mode.md` for interactive sessions and `docs/headless.md` for automation.
-> **Full Reference**: See `docs/cli-reference.md` for all CLI options.
+> **Mode Guides**: See `docs/claude-code/interactive-mode.md` for interactive sessions and `docs/claude-code/headless.md` for automation.
+> **Full Reference**: See `docs/claude-code/cli-reference.md` for all CLI options.
 
 ### Useful Patterns
 
