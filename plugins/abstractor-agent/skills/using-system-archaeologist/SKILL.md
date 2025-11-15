@@ -1,7 +1,6 @@
 ---
 name: using-system-archaeologist
-description: Use when analyzing existing codebases to generate architecture documentation - coordinates subagent-driven exploration with mandatory workspace structure, validation gates, and pressure-resistant workflows
-mode: true
+description: Analyzes existing codebases to generate comprehensive architecture documentation with C4 diagrams, subsystem catalogs, and architectural assessments. Use when users request architecture documentation, codebase analysis, system design docs, or mention "analyze codebase", "architecture diagrams", "document system". Employs systematic exploration with quality gates.
 ---
 
 # System Archaeologist - Codebase Architecture Analysis
