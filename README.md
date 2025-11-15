@@ -10,7 +10,7 @@ Melly serves as a central hub for Claude Code components optimized for contextua
 
 ## 📦 Available Plugins
 
-### Axiom System Archaeologist
+### Abstractor Agent
 
 Deep architectural analysis of existing codebases through autonomous subagent-driven exploration.
 
@@ -20,8 +20,8 @@ Deep architectural analysis of existing codebases through autonomous subagent-dr
 - Architectural documentation for stakeholders
 - Validation checks for quality assurance
 
-**Repository:** [Cubical6/skillpacks](https://github.com/Cubical6/skillpacks)
-**License:** CC-BY-SA-4.0
+**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
+**License:** MIT
 
 ### Skill Builder
 
@@ -33,7 +33,7 @@ Meta-skill for creating, editing, and converting Claude Code skills.
 - Convert sub-agents to skill format
 - CLI-first approach with Python patterns
 
-**Repository:** [Cubical6/skill-builder](https://github.com/Cubical6/skill-builder)
+**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
 **License:** MIT
 
 ## 🚀 Installation
@@ -44,7 +44,7 @@ git clone https://github.com/Cubical6/melly.git
 cd melly
 
 # Install plugins via Claude Code
-/plugin add ./plugins/axiom-system-archaeologist
+/plugin add ./plugins/abstractor-agent
 /plugin add ./plugins/skill-builder
 ```
 
@@ -64,7 +64,7 @@ Comprehensive documentation is available in the `docs/` directory:
 After installation, components are automatically available:
 
 ```bash
-# Use Axiom System Archaeologist
+# Use Abstractor Agent
 /system-archaeologist
 
 # Ask Skill Builder for help
@@ -78,7 +78,7 @@ melly/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace definition
 ├── plugins/                  # Marketplace plugins
-│   ├── axiom-system-archaeologist/
+│   ├── abstractor-agent/
 │   └── skill-builder/
 ├── docs/                     # Comprehensive documentation
 │   ├── sub-agents.md
@@ -104,6 +104,10 @@ See individual plugin licenses in their respective directories.
 
 ## 🔗 Links
 
-- [Axiom System Archaeologist](https://github.com/Cubical6/skillpacks)
-- [Skill Builder](https://github.com/Cubical6/skill-builder)
+- [Melly Marketplace](https://github.com/Cubical6/melly)
 - [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code)
+
+## 📜 Credits
+
+- **Abstractor Agent** - Based on [Axiom System Archaeologist](https://github.com/Cubical6/skillpacks) by tachyon-beep
+- **Skill Builder** - Based on [Skill Builder](https://github.com/Cubical6/skill-builder) by Ken Collins

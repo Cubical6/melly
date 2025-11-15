@@ -4,11 +4,11 @@ This directory contains Claude Code plugins that provide contextual retrieval an
 
 ## Installed Plugins
 
-### 1. Axiom System Archaeologist
+### 1. Abstractor Agent
 
-**Version:** 1.0.2
-**License:** CC-BY-SA-4.0
-**Repository:** [Cubical6/skillpacks](https://github.com/Cubical6/skillpacks)
+**Version:** 1.0.0
+**License:** MIT
+**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
 
 Deep architectural analysis of existing codebases through autonomous subagent-driven exploration. Produces comprehensive documentation, C4 diagrams, and subsystem catalogs.
 
@@ -28,7 +28,7 @@ Deep architectural analysis of existing codebases through autonomous subagent-dr
 
 **Version:** 1.0.0
 **License:** MIT
-**Repository:** [Cubical6/skill-builder](https://github.com/Cubical6/skill-builder)
+**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
 
 Meta-skill for creating, editing, and converting Claude Code skills. Includes CLI tools (gh, aws, pip), Python scripting patterns, and progressive disclosure best practices.
 
@@ -67,7 +67,7 @@ These plugins are automatically available as part of the Melly marketplace. For 
 
 ```bash
 # Install via Claude Code plugin system
-/plugin add /path/to/melly/plugins/axiom-system-archaeologist
+/plugin add /path/to/melly/plugins/abstractor-agent
 /plugin add /path/to/melly/plugins/skill-builder
 ```
 
@@ -84,7 +84,9 @@ To add a new plugin to the Melly marketplace:
 
 ## Licenses
 
-- **axiom-system-archaeologist**: CC-BY-SA-4.0
-- **skill-builder**: MIT
+All plugins in the Melly marketplace are licensed under the MIT License.
 
-See individual plugin directories for full license texts.
+## Credits
+
+- **Abstractor Agent** - Based on [Axiom System Archaeologist](https://github.com/Cubical6/skillpacks) by tachyon-beep
+- **Skill Builder** - Based on [Skill Builder](https://github.com/Cubical6/skill-builder) by Ken Collins

@@ -2,8 +2,8 @@
   "name": "skill-builder",
   "version": "1.0.0",
   "description": "Meta-skill for creating, editing, and converting Claude Code skills. Includes CLI tools (gh, aws, pip), Python scripting patterns, and progressive disclosure best practices.",
-  "author": "Ken Collins",
-  "repository": "https://github.com/Cubical6/skill-builder",
+  "author": "Melly Team",
+  "repository": "https://github.com/Cubical6/melly",
   "license": "MIT",
   "skills": [
     "skills/skill-builder"
