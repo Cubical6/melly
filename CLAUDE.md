@@ -47,6 +47,8 @@ Subagents are specialized AI assistants that handle specific tasks with:
 - Restricted tool access (optional)
 - Specific area of expertise
 
+> **Complete Guide**: See `docs/sub-agents.md` for detailed subagent documentation and advanced patterns.
+
 ### Locations
 
 | Type | Location | Scope | Priority |
@@ -289,6 +291,8 @@ Claude delegates automatically based on the `description` field.
 
 Slash commands are reusable prompt templates stored as Markdown files.
 
+> **Complete Guide**: See `docs/slash-commands.md` for detailed command syntax and advanced features.
+
 ### Locations
 
 | Type | Location | Scope | Indicator in /help |
@@ -513,6 +517,8 @@ Skills are modular capabilities that extend Claude's functionality via:
 - Organized folders with instructions, scripts, and resources
 - **Model-invoked**: Claude decides automatically when to use them
 - Progressive disclosure: Files loaded only when needed
+
+> **Complete Guide**: See `docs/skills.md` for detailed skill authoring and best practices.
 
 ### Locations
 
@@ -792,6 +798,9 @@ Claude automatically activates the skill if it matches.
 ### What are Hooks?
 
 Hooks are shell commands automatically executed on specific events in the Claude Code lifecycle. They provide deterministic control over behavior.
+
+> **Quick Start**: See `docs/hooks-guide.md` for a beginner-friendly introduction to hooks.
+> **Complete Reference**: See `docs/hooks.md` for detailed hook documentation.
 
 ### Use Cases
 
@@ -1407,6 +1416,8 @@ git push
 3. Team installs plugin
 4. Automatically available in all projects
 
+See `docs/plugins.md` and `docs/plugins-reference.md` for complete plugin development guide.
+
 ---
 
 ## 6. Tips & Best Practices
@@ -1525,13 +1536,29 @@ echo '{"tool_name":"Write","tool_input":{"file_path":"test.txt"}}' | .claude/hoo
 
 ### Documentation
 
+**Core Components:**
 - `docs/sub-agents.md` - Complete agent guide
 - `docs/slash-commands.md` - Command reference
 - `docs/skills.md` - Skill authoring
 - `docs/hooks.md` - Hook reference
 - `docs/hooks-guide.md` - Hook quickstart
+
+**Plugins & Extensions:**
+- `docs/plugins.md` - Plugin development guide
+- `docs/plugins-reference.md` - Plugin API reference
+- `docs/mcp.md` - Model Context Protocol integration
+
+**Workflows & Usage:**
 - `docs/common-workflows.md` - Workflow examples
+- `docs/interactive-mode.md` - Interactive mode guide
+- `docs/headless.md` - Headless mode and automation
+- `docs/claude-code-on-the-web.md` - Web version guide
+
+**CLI & Configuration:**
 - `docs/cli-reference.md` - CLI flags and options
+- `docs/checkpointing.md` - Session checkpointing
+- `docs/output-styles.md` - Output formatting options
+- `docs/memory.md` - Memory management
 
 ### CLI Commands
 
@@ -1548,6 +1575,9 @@ claude -p "q"    # Headless query
 claude --debug   # Debug mode
 claude --agents '{}' # Dynamic agents
 ```
+
+> **Mode Guides**: See `docs/interactive-mode.md` for interactive sessions and `docs/headless.md` for automation.
+> **Full Reference**: See `docs/cli-reference.md` for all CLI options.
 
 ### Useful Patterns
 
