@@ -121,16 +121,16 @@
       "keywords": ["agent", "c4-model", "workflow", "architecture"]
     },
     {
-      "name": "mermaid-canvas-generator",
-      "source": "./plugins/mermaid-canvas-generator",
+      "name": "c4model-drawer",
+      "source": "./plugins/c4model-drawer",
       "version": "1.0.0",
-      "description": "Visualization generator - creates Mermaid diagrams and Obsidian canvas files",
+      "description": "C4 diagram drawing agent - creates Mermaid diagrams and Obsidian canvas files for architectural visualization",
       "author": {
         "name": "Melly Team"
       },
       "repository": "https://github.com/Cubical6/melly",
       "license": "MIT",
-      "keywords": ["agent", "c4-model", "workflow", "architecture"]
+      "keywords": ["agent", "c4-model", "diagram", "visualization", "mermaid", "canvas"]
     },
     {
       "name": "melly-init",
@@ -193,16 +193,16 @@
       "keywords": ["command", "c4-model", "workflow", "slash-command"]
     },
     {
-      "name": "melly-visualize",
-      "source": "./plugins/melly-visualize",
+      "name": "melly-draw-c4model",
+      "source": "./plugins/melly-draw-c4model",
       "version": "1.0.0",
-      "description": "Generate visual diagrams - creates Mermaid and canvas files",
+      "description": "Draw C4 model diagrams - generates Mermaid diagrams and Obsidian canvas visualizations from C4 JSON data",
       "author": {
         "name": "Melly Team"
       },
       "repository": "https://github.com/Cubical6/melly",
       "license": "MIT",
-      "keywords": ["command", "c4-model", "workflow", "slash-command"]
+      "keywords": ["command", "c4-model", "diagram", "visualization", "slash-command"]
     },
     {
       "name": "c4model-c1",

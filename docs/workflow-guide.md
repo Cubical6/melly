@@ -263,7 +263,7 @@ Claude: Generating C4 model documentation...
 #### Step 6: Visualize Architecture
 
 ```bash
-/melly-visualize
+/melly-draw-c4model
 ```
 
 **What it does:**
@@ -274,7 +274,7 @@ Claude: Generating C4 model documentation...
 
 **Example interaction:**
 ```
-You: /melly-visualize
+You: /melly-draw-c4model
 
 Claude: Generating visual diagrams...
 
@@ -327,7 +327,7 @@ If your codebase changes, you can incrementally update the C4 model:
 3. **Regenerate documentation**:
    ```bash
    /melly-doc-c4model
-   /melly-visualize
+   /melly-draw-c4model
    ```
 
 ### Example: Adding a New Service
@@ -351,7 +351,7 @@ Claude: Since you added a new service, we should update from C2 level:
            /melly-doc-c4model
 
         5. Update visualizations:
-           /melly-visualize
+           /melly-draw-c4model
 
         This will integrate the new authentication service into your
         existing C4 model without regenerating everything.
@@ -366,9 +366,9 @@ Claude: Since you added a new service, we should update from C2 level:
 Generate diagrams for specific levels:
 
 ```bash
-/melly-visualize c1    # Only system context
-/melly-visualize c2    # Only containers
-/melly-visualize c3    # Only components
+/melly-draw-c4model c1    # Only system context
+/melly-draw-c4model c2    # Only containers
+/melly-draw-c4model c3    # Only components
 ```
 
 ### Custom Analysis
@@ -519,7 +519,7 @@ Generate visualizations frequently - they help validate your understanding of th
 /melly-c2-containers     # Analyzes each package
 /melly-c3-components     # Deep dive into components
 /melly-doc-c4model       # Generate docs
-/melly-visualize         # Create diagrams
+/melly-draw-c4model         # Create diagrams
 ```
 
 ### Microservices Example
@@ -540,7 +540,7 @@ Generate visualizations frequently - they help validate your understanding of th
 /melly-c2-containers     # Service containers + databases
 /melly-c3-components     # Service internals
 /melly-doc-c4model       # Generate docs
-/melly-visualize         # Create architecture diagrams
+/melly-draw-c4model         # Create architecture diagrams
 ```
 
 ---

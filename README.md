@@ -80,7 +80,7 @@ Melly provides a complete workflow for reverse engineering codebases using the C
    - Populate observations and relations
    - Store in basic-memory knowledge base
 
-6. **`/melly-visualize`** - Generate visual diagrams
+6. **`/melly-draw-c4model`** - Draw C4 model diagrams
    - Create Mermaid diagrams
    - Generate Obsidian canvas files
    - Visualize system architecture
@@ -160,7 +160,7 @@ melly/
 │   ├── c2-abstractor/       # C2 Container analyzer
 │   ├── c3-abstractor/       # C3 Component analyzer
 │   ├── c4model-writer/      # Documentation generator
-│   ├── mermaid-canvas-generator/  # Visualization generator
+│   ├── c4model-drawer/      # C4 diagram drawer
 │   │
 │   ├── Commands (6):        # C4 workflow slash commands
 │   ├── melly-init/          # /melly-init
@@ -168,7 +168,7 @@ melly/
 │   ├── melly-c2-containers/ # /melly-c2-containers
 │   ├── melly-c3-components/ # /melly-c3-components
 │   ├── melly-doc-c4model/   # /melly-doc-c4model
-│   ├── melly-visualize/     # /melly-visualize
+│   ├── melly-draw-c4model/  # /melly-draw-c4model
 │   │
 │   ├── Skills (5):          # C4 methodology skills
 │   ├── c4model-c1/          # C1 System Context methodology
@@ -200,8 +200,8 @@ melly/
 
 **Total: 21 plugins** (3 existing + 18 new workflow plugins)
 
-- **Agents (6)**: c4model-explorer, c1/c2/c3-abstractor, c4model-writer, mermaid-canvas-generator
-- **Commands (6)**: melly-init, melly-c1-systems, melly-c2-containers, melly-c3-components, melly-doc-c4model, melly-visualize
+- **Agents (6)**: c4model-explorer, c1/c2/c3-abstractor, c4model-writer, c4model-drawer
+- **Commands (6)**: melly-init, melly-c1-systems, melly-c2-containers, melly-c3-components, melly-doc-c4model, melly-draw-c4model
 - **Skills (5)**: c4model-c1/c2/c3, c4model-observations, c4model-relations
 - **Validation (1)**: melly-validation (scripts + templates)
 - **Existing (3)**: abstractor-agent, skill-builder, basic-memory

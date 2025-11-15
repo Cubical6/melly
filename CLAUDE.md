@@ -26,7 +26,7 @@ melly/
 │   ├── c2-abstractor/       # C2 Container analyzer
 │   ├── c3-abstractor/       # C3 Component analyzer
 │   ├── c4model-writer/      # Documentation generator
-│   ├── mermaid-canvas-generator/  # Visualization generator
+│   ├── c4model-drawer/      # C4 diagram drawer
 │   │
 │   ├── Commands (6):        # Each command = separate plugin
 │   ├── melly-init/          # /melly-init
@@ -34,7 +34,7 @@ melly/
 │   ├── melly-c2-containers/ # /melly-c2-containers
 │   ├── melly-c3-components/ # /melly-c3-components
 │   ├── melly-doc-c4model/   # /melly-doc-c4model
-│   ├── melly-visualize/     # /melly-visualize
+│   ├── melly-draw-c4model/  # /melly-draw-c4model
 │   │
 │   ├── Skills (5):          # Each skill = separate plugin
 │   ├── c4model-c1/          # C1 methodology
@@ -1713,7 +1713,7 @@ Melly implements a complete C4 model workflow for reverse engineering codebases.
     ↓ [generates c3-components.json]
 /melly-doc-c4model
     ↓ [generates markdown docs]
-/melly-visualize
+/melly-draw-c4model
     ↓ [generates canvas diagrams]
 ```
 
@@ -1753,10 +1753,10 @@ Each slash command is implemented as a separate plugin in `plugins/{command-name
   - Invokes: `c4model-writer` agent per level
   - Output: Markdown files in `knowledge-base/systems/`
 
-- **`/melly-visualize`** - Create visual diagrams
-  - Plugin: `plugins/melly-visualize/`
-  - Location: `plugins/melly-visualize/commands/melly-visualize.md`
-  - Invokes: `mermaid-canvas-generator` agent
+- **`/melly-draw-c4model`** - Draw C4 model diagrams
+  - Plugin: `plugins/melly-draw-c4model/`
+  - Location: `plugins/melly-draw-c4model/commands/melly-draw-c4model.md`
+  - Invokes: `c4model-drawer` agent
   - Output: Canvas files via basic-memory
 
 #### 2. Sub-agents (6 Plugins)
@@ -1796,7 +1796,7 @@ Each agent is implemented as a separate plugin in `plugins/{agent-name}/`:
   - Uses basic-memory MCP
   - Populates observations and relations
 
-- **`mermaid-canvas-generator`** - Visualization generator
+- **`c4model-drawer`** - C4 diagram drawer
   - Parses JSON data
   - Generates Mermaid diagrams
   - Creates Obsidian canvas files
@@ -1808,9 +1808,9 @@ Each agent is implemented as a separate plugin in `plugins/{agent-name}/`:
   - Uses basic-memory MCP
   - Populates observations and relations
 
-- **`mermaid-canvas-generator`** - Visualization generator
-  - Plugin: `plugins/mermaid-canvas-generator/`
-  - Location: `plugins/mermaid-canvas-generator/agents/mermaid-canvas-generator.md`
+- **`c4model-drawer`** - C4 diagram drawer
+  - Plugin: `plugins/c4model-drawer/`
+  - Location: `plugins/c4model-drawer/agents/c4model-drawer.md`
   - Parses JSON data
   - Generates Mermaid diagrams
   - Creates Obsidian canvas files
@@ -1925,7 +1925,7 @@ Commands must be run in order:
 /melly-c2-containers  # Requires c1-systems.json
 /melly-c3-components  # Requires c2-containers.json
 /melly-doc-c4model    # Requires all JSON files
-/melly-visualize      # Requires all JSON files
+/melly-draw-c4model   # Requires all JSON files
 ```
 
 #### 2. Timestamp Validation
