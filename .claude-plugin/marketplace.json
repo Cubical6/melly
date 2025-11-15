@@ -116,14 +116,14 @@
       "name": "melly-doc",
       "source": "./plugins/melly-doc",
       "version": "1.0.0",
-      "description": "C4 documentation generation - contains writer agent, doc command, markdown validation and templates",
+      "description": "C4 documentation generation - contains writer agent, doc command, methodology skills (observations/relations), markdown validation and templates",
       "author": {
         "name": "Melly Team",
         "email": "melly.jwpd1@simplelogin.com"
       },
       "repository": "https://github.com/Cubical6/melly",
       "license": "MIT",
-      "keywords": ["agent", "command", "c4-model", "documentation", "markdown", "workflow"]
+      "keywords": ["agent", "command", "skill", "c4-model", "documentation", "markdown", "methodology", "workflow"]
     },
     {
       "name": "melly-draw",
@@ -137,19 +137,6 @@
       "repository": "https://github.com/Cubical6/melly",
       "license": "MIT",
       "keywords": ["agent", "command", "c4-model", "visualization", "mermaid", "canvas", "workflow"]
-    },
-    {
-      "name": "c4model-methodology",
-      "source": "./plugins/c4model-methodology",
-      "version": "1.0.0",
-      "description": "C4 model methodology skills - observations and relations documentation patterns",
-      "author": {
-        "name": "Melly Team",
-        "email": "melly.jwpd1@simplelogin.com"
-      },
-      "repository": "https://github.com/Cubical6/melly",
-      "license": "MIT",
-      "keywords": ["skill", "c4-model", "methodology", "observations", "relations"]
     }
   ]
 }

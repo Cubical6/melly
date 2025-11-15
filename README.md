@@ -198,16 +198,15 @@ melly/
 
 ### Plugin Categories
 
-**Total: 10 plugins** (3 existing + 7 new workflow plugins)
+**Total: 9 plugins** (3 existing + 6 new workflow plugins)
 
-**Workflow Plugins (7 consolidated):**
+**Workflow Plugins (6 consolidated):**
 - **melly-init**: Explorer agent, init command, validation scripts & templates
 - **melly-c1**: C1 abstractor agent, c1-systems command, C1 methodology skill, validation & templates
 - **melly-c2**: C2 abstractor agent, c2-containers command, C2 methodology skill, validation & templates
 - **melly-c3**: C3 abstractor agent, c3-components command, C3 methodology skill, validation & templates
-- **melly-doc**: Writer agent, doc-c4model command, markdown validation & templates
+- **melly-doc**: Writer agent, doc-c4model command, methodology skills (observations/relations), markdown validation & templates
 - **melly-draw**: Drawer agent, draw-c4model command
-- **c4model-methodology**: Observations & relations methodology skills
 
 **Existing Plugins (3):**
 - **abstractor-agent**: System archaeologist for codebase exploration
