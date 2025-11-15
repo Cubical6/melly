@@ -1,0 +1,12 @@
+{
+  "name": "melly",
+  "owner": {
+    "name": "Mert Somun",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "description": "Context builing for Claude Code with knowledge base",
+  "Version": "0.0.0",
+  "plugins": [
+    
+  ]
+}
