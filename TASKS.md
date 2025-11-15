@@ -3,6 +3,7 @@
 > **Project**: Melly - Claude Code marketplace for C4 model-based code reverse engineering
 > **Version**: 1.0.0
 > **Last Updated**: 2025-11-15
+> **Current Phase**: Section 2 - Core Infrastructure (JSON Schemas & Validation)
 
 ## Overview
 
@@ -28,115 +29,278 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 ## 1. Project Setup
 
-### 1.1 Repository Structure
+### 1.1 Repository Structure ✅ COMPLETED
 
-- [ ] Create `.claude/` directory structure:
+- [x] Create plugin directory structure:
   ```
-  .claude/
-  ├── agents/          # Sub-agents
-  ├── commands/        # Slash commands
-  ├── skills/          # Skills
-  ├── scripts/         # Validation and helper scripts
-  ├── templates/       # JSON templates
-  └── settings.json    # Project settings
+  plugins/
+  ├── melly-init/      # Initialization plugin (structure exists)
+  ├── melly-c1/        # C1 Systems plugin (structure exists)
+  ├── melly-c2/        # C2 Containers plugin (structure exists)
+  ├── melly-c3/        # C3 Components plugin (structure exists)
+  ├── melly-doc/       # Documentation plugin (structure exists)
+  ├── melly-draw/      # Visualization plugin (structure exists)
+  ├── abstractor-agent/     # Deep analysis plugin (exists)
+  ├── skill-builder/        # Meta-skill plugin (exists)
+  └── basic-memory/         # Knowledge base MCP (exists)
   ```
 
-- [ ] Create `knowledge-base/` directory structure:
+- [x] Create `knowledge-base/` directory structure:
   ```
   knowledge-base/
-  ├── libraries/       # Tool and package documentation
-  ├── systems/         # Will be created by workflow
-  └── templates/       # Markdown templates
+  ├── libraries/       # Tool and package documentation ✅
+  ├── systems/         # Will be created by workflow (gitignored)
+  └── templates/       # Markdown templates ✅
   ```
 
-- [ ] Create `.gitignore` entries:
-  ```
-  .claude/settings.local.json
-  .claude/.cache/
-  knowledge-base/systems/*/  # Generated content
-  ```
+- [x] Create `.gitignore` entries (verified in repository)
 
-### 1.2 Dependencies
+**NOTE**: Plugin directories exist but are EMPTY (only .gitkeep files). Content creation is the next phase.
 
-- [ ] Add basic-memory MCP to marketplace configuration
-- [ ] Add context7 MCP to marketplace configuration
+### 1.2 Dependencies ✅ COMPLETED
+
+- [x] Add basic-memory MCP to marketplace configuration
+- [x] Add context7 MCP to marketplace configuration
 - [ ] Document MCP server requirements in README
 - [ ] Create `requirements.txt` or `package.json` for validation scripts
 
-### 1.3 Documentation
+### 1.3 Documentation ✅ COMPLETED
 
 - [ ] Update README.md with Melly workflow overview
-- [ ] Create `docs/c4model-methodology.md` explaining C4 approach
-- [ ] Create `docs/workflow-guide.md` with usage examples
-- [ ] Update CLAUDE.md with Melly-specific instructions
+- [x] Create `docs/c4model-methodology.md` explaining C4 approach
+- [x] Create `docs/workflow-guide.md` with usage examples
+- [x] Update CLAUDE.md with Melly-specific instructions
 
 ---
 
 ## 2. Core Infrastructure
 
-### 2.1 JSON Schemas
+**STATUS**: 🔴 IN PROGRESS - JSON Schemas & Validation Plugin
 
+**CRITICAL PATH**: Section 2 blocks all subsequent phases. Must complete before Phase 1-6 implementation.
+
+---
+
+### 2.0 melly-validation Plugin (NEW - P0 CRITICAL) 🚧
+
+**Purpose**: Centralized validation scripts and templates for all Melly workflow components.
+
+**Architecture Decision**: Per CLAUDE.md Section 10.4, all validation scripts and templates are consolidated into a single `melly-validation` plugin instead of scattered across individual plugins. This ensures:
+- Single source of truth for validation logic
+- Consistent validation across all workflow phases
+- Easier maintenance and updates
+- Shared templates reduce duplication
+
+**Plugin Structure**:
+```
+plugins/melly-validation/
+├── plugin.json                    # Plugin metadata
+├── README.md                      # Usage documentation
+├── scripts/                       # Validation scripts
+│   ├── validate-init.py          # Validate init.json
+│   ├── validate-c1-systems.py    # Validate c1-systems.json
+│   ├── validate-c2-containers.py # Validate c2-containers.json
+│   ├── validate-c3-components.py # Validate c3-components.json
+│   ├── validate-markdown.py      # Validate generated markdown
+│   ├── create-folders.sh         # Create system folder structure
+│   └── check-timestamp.sh        # Timestamp ordering validation
+└── templates/                     # JSON & Markdown templates
+    ├── init-template.json
+    ├── c1-systems-template.json
+    ├── c2-containers-template.json
+    ├── c3-components-template.json
+    ├── c1-markdown-template.md
+    ├── c2-markdown-template.md
+    └── c3-markdown-template.md
+```
+
+**Tasks**:
+- [ ] Create `plugins/melly-validation/plugin.json` with metadata
+- [ ] Create `plugins/melly-validation/README.md` documenting usage
+- [ ] Implement all validation scripts (see Section 2.3 for details)
+- [ ] Create all template files (see Section 2.4 for details)
+- [ ] Add to `.claude-plugin/marketplace.json`
+- [ ] Test validation scripts with sample data
+- [ ] Document exit codes and error messages
+
+**Exit Code Convention**:
+- `0` - Validation passed
+- `1` - Non-blocking warning
+- `2` - Blocking error (stops workflow)
+
+---
+
+### 2.1 JSON Schemas 🔴 IN PROGRESS
+
+**Dependencies**: Requires planning phase (this section)
+
+**Tasks**:
 - [ ] Create `init.json` schema definition
   - Code repository paths
   - Package manifests (npm, composer, etc.)
   - Directory structure
   - Metadata for abstractors
+  - Timestamp field for incremental updates
 
 - [ ] Create `c1-systems.json` schema definition
   - Systems identified
-  - Observations section
-  - Relations section
+  - Observations section (structured format)
+  - Relations section (dependency mappings)
   - Repository mappings
+  - Parent reference to init.json timestamp
 
 - [ ] Create `c2-containers.json` schema definition
   - Containers per system
-  - Observations section
-  - Relations section
-  - Technology stack
+  - Observations section (structured format)
+  - Relations section (dependency mappings)
+  - Technology stack detection
+  - Parent reference to c1-systems.json timestamp
 
 - [ ] Create `c3-components.json` schema definition
   - Components per container
-  - Observations section
-  - Relations section
-  - Code structure
+  - Observations section (structured format)
+  - Relations section (dependency mappings)
+  - Code structure analysis
+  - Parent reference to c2-containers.json timestamp
 
-### 2.2 Validation Scripts
+**Common Schema Requirements**:
+- ISO 8601 timestamps for all JSON files
+- Version field for schema evolution
+- Metadata section (generator, date, user)
+- Consistent observations/relations format across all levels
+- Support for incremental updates via timestamp comparison
 
-- [ ] Create `.claude/scripts/validate-init.py`
-  - Validate init.json structure
-  - Check path existence
-  - Verify package manifests
-  - Exit with appropriate codes
+---
 
-- [ ] Create `.claude/scripts/validate-c1-systems.py`
-  - Validate c1-systems.json structure
-  - Check observations format
-  - Verify relations format
-  - Compare with init.json
+### 2.2 Validation Scripts (MOVED to melly-validation plugin)
 
-- [ ] Create `.claude/scripts/validate-c2-containers.py`
-  - Validate c2-containers.json structure
-  - Check timestamp ordering
-  - Verify parent relationships
+**See Section 2.0** - All validation scripts are now part of the `melly-validation` plugin.
 
-- [ ] Create `.claude/scripts/validate-c3-components.py`
-  - Validate c3-components.json structure
-  - Check timestamp ordering
-  - Verify parent relationships
+### 2.3 Validation Script Specifications (Part of melly-validation plugin)
 
-- [ ] Create `.claude/scripts/validate-markdown.py`
-  - Validate frontmatter YAML
-  - Check markdown structure
-  - Verify observations/relations sections
+**Location**: `plugins/melly-validation/scripts/`
 
-- [ ] Create `.claude/scripts/create-folders.sh`
-  - Create system folders
-  - Create c1/c2/c3/c4 subdirectories
-  - Set appropriate permissions
+#### validate-init.py
+- [ ] Validate init.json structure against schema
+- [ ] Check repository path existence
+- [ ] Verify package manifests are readable
+- [ ] Validate timestamp format (ISO 8601)
+- [ ] Check for required metadata fields
+- [ ] Exit codes: 0=pass, 1=warning, 2=error
 
-- [ ] Create `.claude/scripts/check-timestamp.sh`
-  - Compare JSON file timestamps
-  - Determine if reprocessing needed
+#### validate-c1-systems.py
+- [ ] Validate c1-systems.json structure against schema
+- [ ] Check observations format consistency
+- [ ] Verify relations format (dependency graph validity)
+- [ ] Compare timestamp with init.json (must be newer)
+- [ ] Verify all referenced repositories exist in init.json
+- [ ] Exit codes: 0=pass, 1=warning, 2=error
+
+#### validate-c2-containers.py
+- [ ] Validate c2-containers.json structure against schema
+- [ ] Check timestamp ordering vs c1-systems.json
+- [ ] Verify parent system relationships
+- [ ] Validate technology stack entries
+- [ ] Check observations/relations consistency
+- [ ] Exit codes: 0=pass, 1=warning, 2=error
+
+#### validate-c3-components.py
+- [ ] Validate c3-components.json structure against schema
+- [ ] Check timestamp ordering vs c2-containers.json
+- [ ] Verify parent container relationships
+- [ ] Validate component hierarchy
+- [ ] Check observations/relations consistency
+- [ ] Exit codes: 0=pass, 1=warning, 2=error
+
+#### validate-markdown.py
+- [ ] Validate frontmatter YAML syntax
+- [ ] Check required frontmatter fields
+- [ ] Verify markdown structure (headings hierarchy)
+- [ ] Validate observations section format
+- [ ] Validate relations section format
+- [ ] Check for broken internal links
+- [ ] Exit codes: 0=pass, 1=warning, 2=error
+
+#### create-folders.sh
+- [ ] Accept system name as argument
+- [ ] Create `knowledge-base/systems/{system-name}/` directory
+- [ ] Create subdirectories: c1/, c2/, c3/, c4/
+- [ ] Set appropriate permissions (755 for dirs)
+- [ ] Create .gitkeep files if needed
+- [ ] Exit codes: 0=success, 1=error
+
+#### check-timestamp.sh
+- [ ] Accept two JSON file paths as arguments
+- [ ] Extract timestamps from both files
+- [ ] Compare timestamps (parent must be older than child)
+- [ ] Output comparison result to stdout
+- [ ] Exit codes: 0=valid order, 1=invalid order, 2=error
+
+---
+
+### 2.4 Template File Specifications (Part of melly-validation plugin)
+
+**Location**: `plugins/melly-validation/templates/`
+
+**Purpose**: Provide consistent structure templates for all JSON and Markdown files generated by the workflow.
+
+#### JSON Templates
+
+**init-template.json**
+- [ ] Define complete JSON schema structure
+- [ ] Include example repository entries
+- [ ] Document all required fields
+- [ ] Include metadata section template
+- [ ] Add inline comments for clarity
+
+**c1-systems-template.json**
+- [ ] Define systems array structure
+- [ ] Include observations section template
+- [ ] Include relations section template
+- [ ] Document system identification criteria
+- [ ] Add example entries
+
+**c2-containers-template.json**
+- [ ] Define containers array structure
+- [ ] Include technology stack section
+- [ ] Include observations section template
+- [ ] Include relations section template
+- [ ] Add example container entries
+
+**c3-components-template.json**
+- [ ] Define components array structure
+- [ ] Include code structure metadata
+- [ ] Include observations section template
+- [ ] Include relations section template
+- [ ] Add example component entries
+
+#### Markdown Templates
+
+**c1-markdown-template.md**
+- [ ] Define frontmatter structure
+- [ ] Create system overview section template
+- [ ] Create observations section template
+- [ ] Create relations section template
+- [ ] Include basic-memory integration points
+- [ ] Add example content
+
+**c2-markdown-template.md**
+- [ ] Define frontmatter structure
+- [ ] Create container overview section template
+- [ ] Create technology stack section template
+- [ ] Create observations section template
+- [ ] Create relations section template
+- [ ] Include basic-memory integration points
+- [ ] Add example content
+
+**c3-markdown-template.md**
+- [ ] Define frontmatter structure
+- [ ] Create component overview section template
+- [ ] Create code structure section template
+- [ ] Create observations section template
+- [ ] Create relations section template
+- [ ] Include basic-memory integration points
+- [ ] Add example content
 
 ---
 
@@ -182,25 +346,9 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
   - Relationship types
   - Template structure
 
-### 3.3 Template Files
+### 3.3 Template Files ✅ MOVED
 
-- [ ] Create `.claude/templates/c1-systems-template.json`
-  - Markdown structure for C1 docs
-  - Frontmatter requirements
-  - Section templates
-  - Observations/relations format
-
-- [ ] Create `.claude/templates/c2-containers-template.json`
-  - Markdown structure for C2 docs
-  - Frontmatter requirements
-  - Section templates
-  - Observations/relations format
-
-- [ ] Create `.claude/templates/c3-components-template.json`
-  - Markdown structure for C3 docs
-  - Frontmatter requirements
-  - Section templates
-  - Observations/relations format
+**See Section 2.4** - All template files are now part of the `melly-validation` plugin at `plugins/melly-validation/templates/`.
 
 ---
 
@@ -558,13 +706,15 @@ graph TD
 
 ### Priority Assignments
 
-#### P0 Tasks
-1. Project Setup (Section 1)
-2. JSON Schemas (Section 2.1)
-3. Validation Scripts (Section 2.2)
-4. C4 Model Skills - C1, C2, C3 (Section 3.1)
-5. Phase 1: Initialization (Section 4)
-6. Phase 2: C1 Systems (Section 5)
+#### P0 Tasks (CRITICAL PATH - MUST COMPLETE FIRST)
+1. ✅ Project Setup (Section 1) - COMPLETED
+2. 🚧 **melly-validation Plugin (Section 2.0)** - IN PROGRESS (BLOCKING)
+3. 🚧 **JSON Schemas (Section 2.1)** - IN PROGRESS (BLOCKING)
+4. Validation Script Implementation (Section 2.3) - Depends on 2.0, 2.1
+5. Template File Implementation (Section 2.4) - Depends on 2.0, 2.1
+6. C4 Model Skills - C1, C2, C3 (Section 3.1)
+7. Phase 1: Initialization (Section 4)
+8. Phase 2: C1 Systems (Section 5)
 
 #### P1 Tasks
 7. Phase 3: C2 Containers (Section 6)
@@ -587,15 +737,27 @@ graph TD
 
 ## Notes
 
-- All scripts should be executable: `chmod +x .claude/scripts/*`
-- All JSON files should be validated before commit
+**CRITICAL**:
+- Section 2 (Core Infrastructure) is BLOCKING all other work
+- melly-validation plugin must be completed before any agent/command implementation
+- All validation scripts should be executable: `chmod +x plugins/melly-validation/scripts/*`
+
+**Best Practices**:
+- All JSON files must be validated before commit using melly-validation scripts
 - Use basic-memory MCP for all knowledge base operations
 - Test incrementally after each phase
 - Keep documentation synchronized with implementation
 - Follow CLAUDE.md guidelines for all component development
+- Exit code convention: 0=success, 1=warning, 2=blocking error
+
+**Architecture Decisions**:
+- Centralized validation in melly-validation plugin (not scattered across plugins)
+- Shared templates in melly-validation plugin (avoid duplication)
+- All workflow plugins depend on melly-validation
 
 ---
 
-**Total Tasks**: 100+
+**Total Tasks**: 110+ (updated with melly-validation plugin)
 **Estimated Timeline**: 4-6 weeks for complete implementation
+**Current Sprint**: JSON Schemas & Validation Plugin (Section 2.0-2.4)
 **Last Updated**: 2025-11-15
