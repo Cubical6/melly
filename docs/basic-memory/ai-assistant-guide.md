@@ -12,7 +12,6 @@ The Melly basic-memory plugin is pre-configured with:
 - **Default Project**: `main` - automatically selected, no prompting required
 - **Project Root**: `${CLAUDE_PROJECT_DIR}/knowledge-base` - all notes stored here
 - **Kebab Filenames**: Enabled - note titles automatically converted to kebab-case
-- **Permalinks**: Enabled - automatic `memory://` URLs for precise references
 - **Sync**: Enabled - real-time file synchronization
 
 **You can start using knowledge management immediately without any setup.**
@@ -36,7 +35,7 @@ The system is built on three principles:
 ### Entities
 
 Entities are individual markdown files representing concepts. Each entity has:
-- **Frontmatter metadata**: Title, tags, timestamps, permalink
+- **Frontmatter metadata**: Title, tags, timestamps
 - **Observations**: Categorized facts about the entity
 - **Relations**: Links to other entities
 
@@ -49,7 +48,6 @@ title: React Hooks
 tags: [react, javascript, frontend]
 created: 2025-01-15T10:30:00Z
 updated: 2025-01-15T14:45:00Z
-permalink: memory://abc123
 ---
 
 # React Hooks
@@ -136,15 +134,15 @@ Brief background or overview
 
 ### Reading Knowledge
 
-Read notes by identifier or `memory://` URL:
+Read notes by identifier:
 
 ```
 > "Show me the note about React Hooks"
-> "Read memory://abc123"
+> "Read the authentication flow note"
 ```
 
 Responses include:
-- **Metadata**: Title, tags, timestamps, permalink
+- **Metadata**: Title, tags, timestamps
 - **Content**: Paginated for large notes
 - **Relations**: Connected entities
 
@@ -171,7 +169,7 @@ Responses include:
 - Relevance scores
 - Metadata preview
 - Content snippets
-- Permalinks for full access
+- Entity identifiers for full access
 
 ### Building Context
 
@@ -229,8 +227,6 @@ Capture discussions with user permission:
 **File paths**: Notes are stored in `knowledge-base/main/` with kebab-case filenames
 - "React Hooks" → `react-hooks.md`
 - "API Design Patterns" → `api-design-patterns.md`
-
-**Permalinks**: Every note has a stable `memory://` URL for precise references
 
 **Tags**: Use frontmatter tags for categorization and cross-cutting concerns
 
@@ -438,7 +434,7 @@ argument-hint: [search-query]
 Search the knowledge base for: $1
 
 Use semantic search to find relevant notes, then:
-1. List matching entities with permalinks
+1. List matching entities with identifiers
 2. Show key observations from top results
 3. Suggest related entities to explore
 ```
@@ -513,7 +509,7 @@ Location: `plugins/basic-memory/.mcp.json`
       "BASIC_MEMORY_DEFAULT_PROJECT_MODE": "true",
       "BASIC_MEMORY_PROJECT_ROOT": "${CLAUDE_PROJECT_DIR}/knowledge-base",
       "BASIC_MEMORY_KEBAB_FILENAMES": "true",
-      "BASIC_MEMORY_DISABLE_PERMALINKS": "false",
+      "BASIC_MEMORY_DISABLE_PERMALINKS": "true",
       "BASIC_MEMORY_SYNC_CHANGES": "true"
     }
   }
@@ -527,7 +523,7 @@ Location: `plugins/basic-memory/.mcp.json`
 | `BASIC_MEMORY_DEFAULT_PROJECT_MODE` | `true` | Auto-select default project (no prompting) |
 | `BASIC_MEMORY_PROJECT_ROOT` | `${CLAUDE_PROJECT_DIR}/knowledge-base` | Root directory for all projects |
 | `BASIC_MEMORY_KEBAB_FILENAMES` | `true` | Convert titles to kebab-case filenames |
-| `BASIC_MEMORY_DISABLE_PERMALINKS` | `false` | Enable automatic permalink generation |
+| `BASIC_MEMORY_DISABLE_PERMALINKS` | `true` | Disable automatic permalink generation |
 | `BASIC_MEMORY_SYNC_CHANGES` | `true` | Enable real-time file synchronization |
 
 ### Customizing Configuration

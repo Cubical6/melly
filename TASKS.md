@@ -404,7 +404,7 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 - [ ] Add basic-memory integration:
   - All file operations through basic-memory MCP
   - Leverage MCP's knowledge base features
-  - Support permalinks and syncing
+  - Support syncing
 
 ---
 
