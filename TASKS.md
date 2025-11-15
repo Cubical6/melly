@@ -410,10 +410,10 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 ## 9. Phase 6: Visualization
 
-### 9.1 Sub-agent: mermaid-canvas-generator
+### 9.1 Sub-agent: c4model-drawer
 
-- [ ] Create `.claude/agents/mermaid-canvas-generator.md`
-  - Name: mermaid-canvas-generator
+- [ ] Create `.claude/agents/c4model-drawer.md`
+  - Name: c4model-drawer
   - Description: Generate Obsidian canvas diagrams with Mermaid
   - Tools: Read, Write, MCP(basic-memory)
   - Workflow:
@@ -429,12 +429,12 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 ### 9.2 Slash Command
 
-- [ ] Create `.claude/commands/melly-visualize.md`
+- [ ] Create `.claude/commands/melly-draw-c4model.md`
   - Description: Generate visual diagrams from C4 model
   - Argument hint: [level]  # c1, c2, c3, or all
   - Allowed tools: Task, MCP(basic-memory)
   - Command logic:
-    - Invoke mermaid-canvas-generator
+    - Invoke c4model-drawer
     - Specify level (c1/c2/c3/all)
     - Validate canvas output
 
@@ -457,7 +457,7 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 - [ ] Test `/melly-c2-containers` on each test case
 - [ ] Test `/melly-c3-components` on each test case
 - [ ] Test `/melly-doc-c4model` on each test case
-- [ ] Test `/melly-visualize` on each test case
+- [ ] Test `/melly-draw-c4model` on each test case
 
 ### 10.3 Incremental Update Testing
 

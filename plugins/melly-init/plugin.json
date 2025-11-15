@@ -1,0 +1,12 @@
+{
+  "name": "melly-init",
+  "version": "1.0.0",
+  "description": "Initialize C4 model exploration - contains explorer agent, init command, validation scripts and templates",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["agent", "command", "c4-model", "initialization", "workflow"]
+}

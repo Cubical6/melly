@@ -13,27 +13,70 @@ Melly is a marketplace consisting of Claude Code components for contextual retri
 ```
 melly/
 ├── .claude-plugin/           # Plugin configuration
-│   └── marketplace.json      # Marketplace definition
-├── docs/                     # Documentation knowledge base
-│   └── claude-code/         # Claude Code documentation
-│       ├── sub-agents.md
-│       ├── slash-commands.md
-│       ├── skills.md
-│       ├── hooks.md
-│       ├── hooks-guide.md
-│       ├── common-workflows.md
-│       ├── cli-reference.md
-│       └── ...
+│   └── marketplace.json      # Marketplace definition (21 plugins)
+├── plugins/                  # Marketplace plugins (modular architecture)
+│   ├── Existing (3):
+│   ├── abstractor-agent/    # Deep architectural analysis
+│   ├── skill-builder/       # Meta-skill development
+│   ├── basic-memory/        # MCP knowledge base
+│   │
+│   ├── Agents (6):          # Each agent = separate plugin
+│   ├── c4model-explorer/    # Repository exploration
+│   ├── c1-abstractor/       # C1 System analyzer
+│   ├── c2-abstractor/       # C2 Container analyzer
+│   ├── c3-abstractor/       # C3 Component analyzer
+│   ├── c4model-writer/      # Documentation generator
+│   ├── c4model-drawer/      # C4 diagram drawer
+│   │
+│   ├── Commands (6):        # Each command = separate plugin
+│   ├── melly-init/          # /melly-init
+│   ├── melly-c1-systems/    # /melly-c1-systems
+│   ├── melly-c2-containers/ # /melly-c2-containers
+│   ├── melly-c3-components/ # /melly-c3-components
+│   ├── melly-doc-c4model/   # /melly-doc-c4model
+│   ├── melly-draw-c4model/  # /melly-draw-c4model
+│   │
+│   ├── Skills (5):          # Each skill = separate plugin
+│   ├── c4model-c1/          # C1 methodology
+│   ├── c4model-c2/          # C2 methodology
+│   ├── c4model-c3/          # C3 methodology
+│   ├── c4model-observations/  # Observation docs
+│   ├── c4model-relations/   # Relation docs
+│   │
+│   └── Validation (1):
+│       └── melly-validation/  # Scripts + templates
+├── knowledge-base/           # C4 model knowledge base
+│   ├── libraries/           # Tool and package docs
+│   ├── systems/             # Generated C4 docs (gitignored)
+│   └── templates/           # Markdown templates
+├── docs/                     # Documentation
+│   ├── claude-code/         # Claude Code docs
+│   │   ├── sub-agents.md
+│   │   ├── slash-commands.md
+│   │   ├── skills.md
+│   │   └── ...
+│   ├── c4model-methodology.md  # C4 approach guide
+│   └── workflow-guide.md    # Melly workflow usage
 ├── CLAUDE.md                # This guide
+├── TASKS.md                 # Development roadmap
 └── README.md
+```
 
-Future structure:
-├── .claude/
-│   ├── agents/              # Project subagents
-│   ├── commands/            # Project slash commands
-│   ├── skills/              # Project skills
-│   ├── hooks/               # Hook scripts
-│   └── settings.json        # Project settings
+### Modular Plugin Architecture
+
+**Each component is an independent, installable plugin.** This allows:
+- Selective installation (install only what you need)
+- Independent versioning
+- Individual contributions
+- Mix-and-match workflow components
+
+Example installation:
+```bash
+# Install specific workflow components
+/plugin add ./plugins/c4model-explorer
+/plugin add ./plugins/melly-init
+/plugin add ./plugins/c4model-c1
+/plugin add ./plugins/melly-validation
 ```
 
 ---
@@ -1648,6 +1691,325 @@ code .claude/settings.json
 # Test
 claude --debug
 ```
+
+---
+
+## 10. Melly C4 Model Workflow Implementation
+
+### Overview
+
+Melly implements a complete C4 model workflow for reverse engineering codebases. This section provides specific guidance for implementing the Melly workflow components.
+
+### Workflow Architecture
+
+```
+/melly-init
+    ↓ [generates init.json]
+/melly-c1-systems
+    ↓ [generates c1-systems.json]
+/melly-c2-containers
+    ↓ [generates c2-containers.json]
+/melly-c3-components
+    ↓ [generates c3-components.json]
+/melly-doc-c4model
+    ↓ [generates markdown docs]
+/melly-draw-c4model
+    ↓ [generates canvas diagrams]
+```
+
+### Core Components
+
+#### 1. Slash Commands (6 Plugins)
+
+Each slash command is implemented as a separate plugin in `plugins/{command-name}/`:
+
+- **`/melly-init`** - Initialize C4 exploration
+  - Plugin: `plugins/melly-init/`
+  - Location: `plugins/melly-init/commands/melly-init.md`
+  - Invokes: `c4model-explorer` agent
+  - Output: `init.json`
+
+- **`/melly-c1-systems`** - Identify C1 systems
+  - Plugin: `plugins/melly-c1-systems/`
+  - Location: `plugins/melly-c1-systems/commands/melly-c1-systems.md`
+  - Invokes: `c1-abstractor` agent per repository
+  - Output: `c1-systems.json`
+
+- **`/melly-c2-containers`** - Identify C2 containers
+  - Plugin: `plugins/melly-c2-containers/`
+  - Location: `plugins/melly-c2-containers/commands/melly-c2-containers.md`
+  - Invokes: `c2-abstractor` agent per system
+  - Output: `c2-containers.json`
+
+- **`/melly-c3-components`** - Identify C3 components
+  - Plugin: `plugins/melly-c3-components/`
+  - Location: `plugins/melly-c3-components/commands/melly-c3-components.md`
+  - Invokes: `c3-abstractor` agent per container
+  - Output: `c3-components.json`
+
+- **`/melly-doc-c4model`** - Generate documentation
+  - Plugin: `plugins/melly-doc-c4model/`
+  - Location: `plugins/melly-doc-c4model/commands/melly-doc-c4model.md`
+  - Invokes: `c4model-writer` agent per level
+  - Output: Markdown files in `knowledge-base/systems/`
+
+- **`/melly-draw-c4model`** - Draw C4 model diagrams
+  - Plugin: `plugins/melly-draw-c4model/`
+  - Location: `plugins/melly-draw-c4model/commands/melly-draw-c4model.md`
+  - Invokes: `c4model-drawer` agent
+  - Output: Canvas files via basic-memory
+
+#### 2. Sub-agents (6 Plugins)
+
+Each agent is implemented as a separate plugin in `plugins/{agent-name}/`:
+
+- **`c4model-explorer`** - Repository exploration
+  - Plugin: `plugins/c4model-explorer/`
+  - Location: `plugins/c4model-explorer/agents/c4model-explorer.md`
+  - Scans code repositories
+  - Identifies package manifests
+  - Generates `init.json`
+
+- **`c1-abstractor`** - System identification
+  - Plugin: `plugins/c1-abstractor/`
+  - Location: `plugins/c1-abstractor/agents/c1-abstractor.md`
+  - Uses `c4model-c1` skill
+  - Creates system folders
+  - Generates `c1-systems.json`
+
+- **`c2-abstractor`** - Container identification
+  - Plugin: `plugins/c2-abstractor/`
+  - Location: `plugins/c2-abstractor/agents/c2-abstractor.md`
+  - Uses `c4model-c2` skill
+  - Detects technology stacks
+  - Generates `c2-containers.json`
+
+- **`c3-abstractor`** - Component identification
+  - Plugin: `plugins/c3-abstractor/`
+  - Location: `plugins/c3-abstractor/agents/c3-abstractor.md`
+  - Uses `c4model-c3` skill
+  - Analyzes code structure
+  - Generates `c3-components.json`
+
+- **`c4model-writer`** - Documentation generator
+  - Converts JSON to markdown
+  - Uses basic-memory MCP
+  - Populates observations and relations
+
+- **`c4model-drawer`** - C4 diagram drawer
+  - Parses JSON data
+  - Generates Mermaid diagrams
+  - Creates Obsidian canvas files
+
+- **`c4model-writer`** - Documentation generator
+  - Plugin: `plugins/c4model-writer/`
+  - Location: `plugins/c4model-writer/agents/c4model-writer.md`
+  - Converts JSON to markdown
+  - Uses basic-memory MCP
+  - Populates observations and relations
+
+- **`c4model-drawer`** - C4 diagram drawer
+  - Plugin: `plugins/c4model-drawer/`
+  - Location: `plugins/c4model-drawer/agents/c4model-drawer.md`
+  - Parses JSON data
+  - Generates Mermaid diagrams
+  - Creates Obsidian canvas files
+
+#### 3. Skills (5 Plugins)
+
+Each skill is implemented as a separate plugin in `plugins/{skill-name}/`:
+
+- **`c4model-c1`** - C1 System Context methodology
+  - Plugin: `plugins/c4model-c1/`
+  - Location: `plugins/c4model-c1/skills/c4model-c1/SKILL.md`
+  - System identification rules
+  - Boundary detection
+  - Actor identification
+
+- **`c4model-c2`** - C2 Container methodology
+  - Plugin: `plugins/c4model-c2/`
+  - Location: `plugins/c4model-c2/skills/c4model-c2/SKILL.md`
+  - Container identification
+  - Technology detection
+  - Runtime analysis
+
+- **`c4model-c3`** - C3 Component methodology
+  - Plugin: `plugins/c4model-c3/`
+  - Location: `plugins/c4model-c3/skills/c4model-c3/SKILL.md`
+  - Component identification
+  - Code structure analysis
+  - Pattern detection
+
+- **`c4model-observations`** - Observation documentation
+  - Plugin: `plugins/c4model-observations/`
+  - Location: `plugins/c4model-observations/skills/c4model-observations/SKILL.md`
+  - Key findings format
+  - Pattern templates
+
+- **`c4model-relations`** - Relation documentation
+  - Plugin: `plugins/c4model-relations/`
+  - Location: `plugins/c4model-relations/skills/c4model-relations/SKILL.md`
+  - Dependency mapping
+  - Relationship types
+
+#### 4. Validation Scripts & Templates (1 Plugin)
+
+The `melly-validation` plugin contains all validation scripts and templates:
+
+**Plugin:** `plugins/melly-validation/`
+
+**Validation Scripts** (`plugins/melly-validation/scripts/`):
+```bash
+scripts/
+├── validate-init.py           # Validate init.json structure
+├── validate-c1-systems.py     # Validate c1-systems.json
+├── validate-c2-containers.py  # Validate c2-containers.json
+├── validate-c3-components.py  # Validate c3-components.json
+├── validate-markdown.py       # Validate generated markdown
+├── create-folders.sh          # Create system folder structure
+└── check-timestamp.sh         # Check file timestamps
+```
+
+**Exit Codes:**
+- `0` - Validation passed
+- `1` - Non-blocking error (warning)
+- `2` - Blocking error (halt workflow)
+
+**JSON Templates** (`plugins/melly-validation/templates/`):
+```bash
+templates/
+├── init-template.json
+├── c1-systems-template.json
+├── c2-containers-template.json
+├── c3-components-template.json
+├── c1-markdown-template.md
+├── c2-markdown-template.md
+└── c3-markdown-template.md
+```
+
+### Integration with basic-memory MCP
+
+All documentation operations must use basic-memory MCP:
+
+**Required Operations:**
+1. **Create notes** - Each markdown file becomes a knowledge note
+2. **Search notes** - Full-text search across C4 documentation
+3. **Multi-project support** - Share knowledge across projects
+4. **Sync** - Keep documentation synchronized
+5. **Permalinks** - Stable references to documentation
+6. **Canvas integration** - Store visual diagrams
+
+**Configuration:**
+```json
+{
+  "mcp-servers": {
+    "basic-memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "KNOWLEDGE_BASE": "knowledge-base/systems"
+      }
+    }
+  }
+}
+```
+
+### Workflow Best Practices
+
+#### 1. Sequential Execution
+
+Commands must be run in order:
+```bash
+/melly-init           # Must run first
+/melly-c1-systems     # Requires init.json
+/melly-c2-containers  # Requires c1-systems.json
+/melly-c3-components  # Requires c2-containers.json
+/melly-doc-c4model    # Requires all JSON files
+/melly-draw-c4model   # Requires all JSON files
+```
+
+#### 2. Timestamp Validation
+
+Each JSON file includes a timestamp. Commands must:
+1. Check if previous JSON files exist
+2. Validate timestamps are in order
+3. Warn if reprocessing is needed
+4. Support incremental updates
+
+#### 3. Parallel Processing
+
+Where possible, use parallel execution:
+- Multiple repositories in C1 analysis
+- Multiple systems in C2 analysis
+- Multiple containers in C3 analysis
+- Multiple documentation levels (C1, C2, C3 simultaneously)
+
+#### 4. Error Handling
+
+All components must:
+1. Validate inputs before processing
+2. Run validation scripts after generation
+3. Provide clear error messages
+4. Support recovery from partial failures
+
+#### 5. Incremental Updates
+
+Support incremental processing:
+1. Detect changed repositories via timestamp
+2. Process only modified entities
+3. Merge new data with existing JSON
+4. Preserve manual edits where possible
+
+### Implementation Checklist
+
+When implementing Melly components:
+
+- [ ] Follow C4 methodology strictly (see `docs/c4model-methodology.md`)
+- [ ] Use validation scripts for all JSON output
+- [ ] Integrate with basic-memory MCP for all documentation
+- [ ] Support incremental updates via timestamp checking
+- [ ] Implement parallel processing where possible
+- [ ] Provide clear user feedback during processing
+- [ ] Handle errors gracefully with recovery options
+- [ ] Document all observations and relations
+- [ ] Generate visualizations automatically
+- [ ] Test with multiple repository types (monorepo, microservices, etc.)
+
+### Testing Strategy
+
+Test the workflow with:
+
+1. **Single repository project** - Simple web app
+2. **Multi-repository project** - Frontend + backend
+3. **Monorepo** - Multiple packages in one repo
+4. **Microservices** - Many small services
+5. **Mixed technology** - Different languages/frameworks
+
+For each test case:
+1. Run complete workflow start to finish
+2. Verify JSON structure and validation
+3. Check markdown documentation quality
+4. Validate visualizations
+5. Test incremental updates
+6. Verify basic-memory integration
+
+### Documentation Requirements
+
+All Melly components must include:
+
+1. **Component documentation** - How it works, inputs/outputs
+2. **Usage examples** - Concrete examples of use
+3. **Error handling** - Common errors and solutions
+4. **Integration points** - How it connects to other components
+5. **Dependencies** - Required MCP servers, scripts, etc.
+
+### References
+
+For Melly implementation details, see:
+- **TASKS.md** - Complete development roadmap
+- **docs/c4model-methodology.md** - C4 approach and methodology
+- **docs/workflow-guide.md** - Usage guide with examples
+- **README.md** - Quick start and installation
 
 ---
 
