@@ -1,0 +1,11 @@
+{
+  "metadata": {
+    "schema_version": "1.0.0",
+    "timestamp": "2025-11-15T20:30:00.000Z",
+    "parent": {
+      "file": "c2-containers.json",
+      "timestamp": "2025-11-15T20:20:00.000Z"
+    }
+  },
+  "components": []
+}
