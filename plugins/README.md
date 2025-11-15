@@ -45,6 +45,41 @@ Ask natural questions like:
 - "Improve the description for my data-processing skill"
 - "Convert my code-reviewer sub-agent to a skill"
 
+### 3. Basic Memory
+
+**Version:** 1.0.0
+**License:** MIT
+**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
+
+Knowledge management system via MCP - create, search, and sync knowledge notes across projects with multi-project support and real-time synchronization.
+
+**Key Features:**
+- Multi-project knowledge organization (work, personal, research)
+- Real-time synchronization across devices
+- Structured notes with tags and relationships
+- Full-text search with frontmatter support
+- Direct memory references with `memory://` URLs
+- Import conversations from Claude and ChatGPT
+
+**Prerequisites:**
+Requires basic-memory installation:
+```bash
+# Recommended
+curl -LsSf https://basicmemory.com/install/latest.sh | sh
+
+# Or via uv
+uv tool install basic-memory
+```
+
+**Usage:**
+Natural language interactions:
+- "Save this conversation about React hooks to my knowledge base"
+- "What did I learn about error handling last week?"
+- "Search my notes for information about API design"
+- "Continue our conversation about microservices"
+
+**Documentation:** https://docs.basicmemory.com/
+
 ## Plugin Structure
 
 Each plugin follows this structure:
@@ -69,6 +104,7 @@ These plugins are automatically available as part of the Melly marketplace. For 
 # Install via Claude Code plugin system
 /plugin add /path/to/melly/plugins/abstractor-agent
 /plugin add /path/to/melly/plugins/skill-builder
+/plugin add /path/to/melly/plugins/basic-memory
 ```
 
 ## Development
@@ -90,3 +126,4 @@ All plugins in the Melly marketplace are licensed under the MIT License.
 
 - **Abstractor Agent** - Based on [Axiom System Archaeologist](https://github.com/Cubical6/skillpacks) by tachyon-beep
 - **Skill Builder** - Based on [Skill Builder](https://github.com/Cubical6/skill-builder) by Ken Collins
+- **Basic Memory** - Created by [Basic Machines Co.](https://basicmemory.com)

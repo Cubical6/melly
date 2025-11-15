@@ -1,0 +1,11 @@
+{
+  "basic-memory": {
+    "command": "uvx",
+    "args": ["basic-memory", "mcp"],
+    "env": {
+      "BASIC_MEMORY_DEFAULT_PROJECT_MODE": "true",
+      "BASIC_MEMORY_PROJECT_ROOT": "${CLAUDE_PROJECT_DIR}/knowledge-base",
+      "BASIC_MEMORY_KEBAB_FILENAMES": "true"
+    }
+  }
+}
