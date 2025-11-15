@@ -209,7 +209,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ---
 
-### Phase 6: Visualization (`/melly-visualize`)
+### Phase 6: Visualization (`/melly-draw-c4model`)
 
 **Input:** All JSON files
 **Process:**
