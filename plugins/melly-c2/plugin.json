@@ -1,0 +1,12 @@
+{
+  "name": "melly-c2",
+  "version": "1.0.0",
+  "description": "C2 Container level - contains abstractor agent, command, methodology skill, validation scripts and templates",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["agent", "command", "skill", "c4-model", "c2", "containers", "workflow"]
+}

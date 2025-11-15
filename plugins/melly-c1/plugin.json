@@ -1,0 +1,12 @@
+{
+  "name": "melly-c1",
+  "version": "1.0.0",
+  "description": "C1 System Context level - contains abstractor agent, command, methodology skill, validation scripts and templates",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["agent", "command", "skill", "c4-model", "c1", "system-context", "workflow"]
+}

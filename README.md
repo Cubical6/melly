@@ -198,13 +198,21 @@ melly/
 
 ### Plugin Categories
 
-**Total: 21 plugins** (3 existing + 18 new workflow plugins)
+**Total: 10 plugins** (3 existing + 7 new workflow plugins)
 
-- **Agents (6)**: c4model-explorer, c1/c2/c3-abstractor, c4model-writer, c4model-drawer
-- **Commands (6)**: melly-init, melly-c1-systems, melly-c2-containers, melly-c3-components, melly-doc-c4model, melly-draw-c4model
-- **Skills (5)**: c4model-c1/c2/c3, c4model-observations, c4model-relations
-- **Validation (1)**: melly-validation (scripts + templates)
-- **Existing (3)**: abstractor-agent, skill-builder, basic-memory
+**Workflow Plugins (7 consolidated):**
+- **melly-init**: Explorer agent, init command, validation scripts & templates
+- **melly-c1**: C1 abstractor agent, c1-systems command, C1 methodology skill, validation & templates
+- **melly-c2**: C2 abstractor agent, c2-containers command, C2 methodology skill, validation & templates
+- **melly-c3**: C3 abstractor agent, c3-components command, C3 methodology skill, validation & templates
+- **melly-doc**: Writer agent, doc-c4model command, markdown validation & templates
+- **melly-draw**: Drawer agent, draw-c4model command
+- **c4model-methodology**: Observations & relations methodology skills
+
+**Existing Plugins (3):**
+- **abstractor-agent**: System archaeologist for codebase exploration
+- **skill-builder**: Create and manage skills
+- **basic-memory**: Knowledge management via MCP
 
 ## 🤝 Contributing
 

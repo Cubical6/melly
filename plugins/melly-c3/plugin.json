@@ -1,0 +1,12 @@
+{
+  "name": "melly-c3",
+  "version": "1.0.0",
+  "description": "C3 Component level - contains abstractor agent, command, methodology skill, validation scripts and templates",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["agent", "command", "skill", "c4-model", "c3", "components", "workflow"]
+}

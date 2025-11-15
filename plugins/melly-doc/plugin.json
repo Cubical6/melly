@@ -1,0 +1,12 @@
+{
+  "name": "melly-doc",
+  "version": "1.0.0",
+  "description": "C4 documentation generation - contains writer agent, doc command, markdown validation and templates",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": ["agent", "command", "c4-model", "documentation", "markdown", "workflow"]
+}
