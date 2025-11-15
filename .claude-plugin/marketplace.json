@@ -4,9 +4,28 @@
     "name": "Mert Somun",
     "email": "melly.jwpd1@simplelogin.com"
   },
-  "description": "Context builing for Claude Code with knowledge base",
-  "Version": "0.0.0",
+  "description": "Context building for Claude Code with knowledge base - A marketplace of Claude Code components for contextual knowledge retrieval",
+  "version": "0.1.0",
   "plugins": [
-    
+    {
+      "name": "axiom-system-archaeologist",
+      "path": "plugins/axiom-system-archaeologist",
+      "version": "1.0.2",
+      "description": "Deep architectural analysis of existing codebases through autonomous subagent-driven exploration - produces comprehensive documentation, C4 diagrams, and subsystem catalogs",
+      "author": "tachyon-beep",
+      "repository": "https://github.com/Cubical6/skillpacks",
+      "license": "CC-BY-SA-4.0",
+      "keywords": ["axiom", "system", "archaeologist", "architecture", "analysis", "documentation", "c4-diagrams"]
+    },
+    {
+      "name": "skill-builder",
+      "path": "plugins/skill-builder",
+      "version": "1.0.0",
+      "description": "Meta-skill for creating, editing, and converting Claude Code skills. Includes CLI tools (gh, aws, pip), Python scripting patterns, and progressive disclosure best practices.",
+      "author": "Ken Collins",
+      "repository": "https://github.com/Cubical6/skill-builder",
+      "license": "MIT",
+      "keywords": ["skill-builder", "meta-skill", "cli", "python", "development", "tools"]
+    }
   ]
 }
