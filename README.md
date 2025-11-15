@@ -53,10 +53,10 @@ cd melly
 Comprehensive documentation is available in the `docs/` directory:
 
 - **CLAUDE.md** - Implementation guide for agents, skills, commands, and hooks
-- **docs/sub-agents.md** - Complete agent guide
-- **docs/skills.md** - Skill authoring best practices
-- **docs/slash-commands.md** - Command reference
-- **docs/hooks.md** - Hook system documentation
+- **docs/claude-code/sub-agents.md** - Complete agent guide
+- **docs/claude-code/skills.md** - Skill authoring best practices
+- **docs/claude-code/slash-commands.md** - Command reference
+- **docs/claude-code/hooks.md** - Hook system documentation
 - And more...
 
 ## 🛠️ Usage
@@ -81,10 +81,11 @@ melly/
 │   ├── abstractor-agent/
 │   └── skill-builder/
 ├── docs/                     # Comprehensive documentation
-│   ├── sub-agents.md
-│   ├── skills.md
-│   ├── slash-commands.md
-│   └── ...
+│   └── claude-code/         # Claude Code documentation
+│       ├── sub-agents.md
+│       ├── skills.md
+│       ├── slash-commands.md
+│       └── ...
 ├── CLAUDE.md                 # Implementation guide
 └── README.md                 # This file
 ```
