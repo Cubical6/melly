@@ -199,13 +199,18 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 **Input:** All JSON files (init, c1, c2, c3)
 **Process:**
 1. For each level (C1, C2, C3):
-   - Load appropriate template
-   - Generate markdown from JSON data
-   - Populate observations section
-   - Populate relations section
+   - Load appropriate template (`.claude/templates/c{1,2,3}-*-template.json`)
+     - Templates are JSON files defining markdown document structure
+     - Specify frontmatter requirements, section order, and formatting
+     - Used to transform JSON data into consistent markdown documentation
+   - Generate markdown from JSON data using template structure
+   - Populate observations section with findings from JSON
+   - Populate relations section with dependencies from JSON
    - Store in basic-memory knowledge base
 
 **Output:** Markdown files in `knowledge-base/systems/*/c1|c2|c3/`
+
+**Note:** Templates define HOW to generate markdown (structure), while validation scripts check IF the markdown is correct (validation).
 
 ---
 
@@ -336,6 +341,55 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
   ]
 }
 ```
+
+### Template Files
+
+**Purpose:** Define the structure and format for generated markdown documentation
+
+**Location:** `.claude/templates/`
+
+**Format:** JSON files describing markdown document structure
+
+Template files are used by the `c4model-writer` agent to transform JSON data files into consistent markdown documentation. They specify:
+- Frontmatter fields and format
+- Section order and headings
+- Content structure for observations and relations
+- Example formatting
+
+**Example: c1-systems-template.json**
+
+```json
+{
+  "frontmatter": {
+    "required": ["id", "name", "level", "repositories"],
+    "optional": ["tags", "aliases"]
+  },
+  "sections": [
+    {
+      "heading": "Overview",
+      "content": "Brief description of the system"
+    },
+    {
+      "heading": "Observations",
+      "format": "bulleted-list",
+      "source": "observations"
+    },
+    {
+      "heading": "Relations",
+      "format": "table",
+      "columns": ["Target", "Type", "Description"],
+      "source": "relations"
+    },
+    {
+      "heading": "Repositories",
+      "format": "code-block",
+      "source": "repositories"
+    }
+  ]
+}
+```
+
+**Note:** These are templates for markdown generation, NOT validation schemas. Validation is performed separately by `validate-markdown.py`.
 
 ---
 
