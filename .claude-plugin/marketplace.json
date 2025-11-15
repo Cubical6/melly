@@ -4,9 +4,28 @@
     "name": "Mert Somun",
     "email": "melly.jwpd1@simplelogin.com"
   },
-  "description": "Context builing for Claude Code with knowledge base",
-  "Version": "0.0.0",
+  "description": "Context building for Claude Code with knowledge base - A marketplace of Claude Code components for contextual knowledge retrieval",
+  "version": "1.0.0",
   "plugins": [
-    
+    {
+      "name": "abstractor-agent",
+      "path": "plugins/abstractor-agent",
+      "version": "1.0.0",
+      "description": "Deep architectural analysis of existing codebases through autonomous subagent-driven exploration - produces comprehensive documentation, C4 diagrams, and subsystem catalogs",
+      "author": "Melly Team",
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["abstractor", "agent", "architecture", "analysis", "documentation", "c4-diagrams"]
+    },
+    {
+      "name": "skill-builder",
+      "path": "plugins/skill-builder",
+      "version": "1.0.0",
+      "description": "Meta-skill for creating, editing, and converting Claude Code skills. Includes CLI tools (gh, aws, pip), Python scripting patterns, and progressive disclosure best practices.",
+      "author": "Melly Team",
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill-builder", "meta-skill", "cli", "python", "development", "tools"]
+    }
   ]
 }
