@@ -1,10 +1,10 @@
 # Melly - Claude Code Workflow Configuration Guide
 
-> Context building for Claude Code with markdown-based knowledge base
+> A marketplace of Claude Code components for contextual knowledge retrieval
 
 ## Overview
 
-Melly is a repository with Claude marketplace structure serving as a knowledge base for Claude Code. This document provides a complete guide for implementing and configuring agents, hooks, slash commands, and skills.
+Melly is a marketplace consisting of Claude Code components for contextual retrieval from a knowledge base that Claude Code can use. This document provides a complete guide for implementing and configuring agents, hooks, slash commands, and skills to enable intelligent knowledge retrieval and workflow automation.
 
 ## Repository Structure
 
