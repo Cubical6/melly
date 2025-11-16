@@ -81,7 +81,7 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 ---
 
-### 2.0 melly-validation Plugin (NEW - P0 CRITICAL) 🚧
+### 2.0 melly-validation Plugin ✅ COMPLETED
 
 **Purpose**: Centralized validation scripts and templates for all Melly workflow components.
 
@@ -124,7 +124,7 @@ plugins/melly-validation/
 - ✅ All JSON templates created with comprehensive examples
 - ✅ Generation scripts FULLY IMPLEMENTED (generate-c1/c2/c3-markdown.py)
 - ✅ Validation scripts FULLY IMPLEMENTED (7 scripts, 2,859 LOC, production-ready)
-- ❌ Not yet added to `.claude-plugin/marketplace.json`
+- ✅ Added to `.claude-plugin/marketplace.json` (position: after basic-memory)
 
 **Implementation Summary**:
 - **validate-init.py** (11 KB): Schema, paths, manifests, timestamp validation
@@ -148,7 +148,7 @@ plugins/melly-validation/
   - [x] validate-markdown.py - ✅ Production-ready
   - [x] create-folders.sh - ✅ Tested successfully
   - [x] check-timestamp.sh - ✅ Production-ready
-- [ ] **NEXT: Add to `.claude-plugin/marketplace.json`**
+- [x] Add to `.claude-plugin/marketplace.json` ✅ COMPLETED
 - [x] Test validation scripts with sample data
 - [x] Document exit codes and error messages (in README.md)
 
