@@ -13,25 +13,25 @@ Suppose you've just joined a new project and need to understand its structure qu
 <Steps>
   <Step title="Navigate to the project root directory">
     ```bash  theme={null}
-    cd /path/to/project 
+    cd /path/to/project
     ```
   </Step>
 
   <Step title="Start Claude Code">
     ```bash  theme={null}
-    claude 
+    claude
     ```
   </Step>
 
   <Step title="Ask for a high-level overview">
     ```
-    > give me an overview of this codebase 
+    > give me an overview of this codebase
     ```
   </Step>
 
   <Step title="Dive deeper into specific components">
     ```
-    > explain the main architecture patterns used here 
+    > explain the main architecture patterns used here
     ```
 
     ```
@@ -59,19 +59,19 @@ Suppose you need to locate code related to a specific feature or functionality.
 <Steps>
   <Step title="Ask Claude to find relevant files">
     ```
-    > find the files that handle user authentication 
+    > find the files that handle user authentication
     ```
   </Step>
 
   <Step title="Get context on how components interact">
     ```
-    > how do these authentication files work together? 
+    > how do these authentication files work together?
     ```
   </Step>
 
   <Step title="Understand the execution flow">
     ```
-    > trace the login process from front-end to database 
+    > trace the login process from front-end to database
     ```
   </Step>
 </Steps>
@@ -92,19 +92,19 @@ Suppose you've encountered an error message and need to find and fix its source.
 <Steps>
   <Step title="Share the error with Claude">
     ```
-    > I'm seeing an error when I run npm test 
+    > I'm seeing an error when I run npm test
     ```
   </Step>
 
   <Step title="Ask for fix recommendations">
     ```
-    > suggest a few ways to fix the @ts-ignore in user.ts 
+    > suggest a few ways to fix the @ts-ignore in user.ts
     ```
   </Step>
 
   <Step title="Apply the fix">
     ```
-    > update user.ts to add the null check you suggested 
+    > update user.ts to add the null check you suggested
     ```
   </Step>
 </Steps>
@@ -126,25 +126,25 @@ Suppose you need to update old code to use modern patterns and practices.
 <Steps>
   <Step title="Identify legacy code for refactoring">
     ```
-    > find deprecated API usage in our codebase 
+    > find deprecated API usage in our codebase
     ```
   </Step>
 
   <Step title="Get refactoring recommendations">
     ```
-    > suggest how to refactor utils.js to use modern JavaScript features 
+    > suggest how to refactor utils.js to use modern JavaScript features
     ```
   </Step>
 
   <Step title="Apply the changes safely">
     ```
-    > refactor utils.js to use ES2024 features while maintaining the same behavior 
+    > refactor utils.js to use ES2024 features while maintaining the same behavior
     ```
   </Step>
 
   <Step title="Verify the refactoring">
     ```
-    > run tests for the refactored code 
+    > run tests for the refactored code
     ```
   </Step>
 </Steps>
@@ -292,25 +292,25 @@ Suppose you need to add tests for uncovered code.
 <Steps>
   <Step title="Identify untested code">
     ```
-    > find functions in NotificationsService.swift that are not covered by tests 
+    > find functions in NotificationsService.swift that are not covered by tests
     ```
   </Step>
 
   <Step title="Generate test scaffolding">
     ```
-    > add tests for the notification service 
+    > add tests for the notification service
     ```
   </Step>
 
   <Step title="Add meaningful test cases">
     ```
-    > add test cases for edge conditions in the notification service 
+    > add test cases for edge conditions in the notification service
     ```
   </Step>
 
   <Step title="Run and verify tests">
     ```
-    > run the new tests and fix any failures 
+    > run the new tests and fix any failures
     ```
   </Step>
 </Steps>
@@ -332,25 +332,25 @@ Suppose you need to create a well-documented pull request for your changes.
 <Steps>
   <Step title="Summarize your changes">
     ```
-    > summarize the changes I've made to the authentication module 
+    > summarize the changes I've made to the authentication module
     ```
   </Step>
 
   <Step title="Generate a PR with Claude">
     ```
-    > create a pr 
+    > create a pr
     ```
   </Step>
 
   <Step title="Review and refine">
     ```
-    > enhance the PR description with more context about the security improvements 
+    > enhance the PR description with more context about the security improvements
     ```
   </Step>
 
   <Step title="Add testing details">
     ```
-    > add information about how these changes were tested 
+    > add information about how these changes were tested
     ```
   </Step>
 </Steps>
@@ -370,25 +370,25 @@ Suppose you need to add or update documentation for your code.
 <Steps>
   <Step title="Identify undocumented code">
     ```
-    > find functions without proper JSDoc comments in the auth module 
+    > find functions without proper JSDoc comments in the auth module
     ```
   </Step>
 
   <Step title="Generate documentation">
     ```
-    > add JSDoc comments to the undocumented functions in auth.js 
+    > add JSDoc comments to the undocumented functions in auth.js
     ```
   </Step>
 
   <Step title="Review and enhance">
     ```
-    > improve the generated documentation with more context and examples 
+    > improve the generated documentation with more context and examples
     ```
   </Step>
 
   <Step title="Verify documentation">
     ```
-    > check if the documentation follows our project standards 
+    > check if the documentation follows our project standards
     ```
   </Step>
 </Steps>
@@ -523,11 +523,11 @@ Suppose you're working on complex architectural decisions, challenging bugs, or 
 
   <Step title="Refine the thinking with follow-up prompts">
     ```
-    > think about potential security vulnerabilities in this approach 
+    > think about potential security vulnerabilities in this approach
     ```
 
     ```
-    > think hard about edge cases we should handle 
+    > think hard about edge cases we should handle
     ```
   </Step>
 </Steps>
@@ -650,7 +650,7 @@ Suppose you need to work on multiple tasks simultaneously with complete code iso
 
   <Step title="Create a new worktree">
     ```bash  theme={null}
-    # Create a new worktree with a new branch 
+    # Create a new worktree with a new branch
     git worktree add ../project-feature-a -b feature-a
 
     # Or create a worktree with an existing branch
@@ -662,7 +662,7 @@ Suppose you need to work on multiple tasks simultaneously with complete code iso
 
   <Step title="Run Claude Code in each worktree">
     ```bash  theme={null}
-    # Navigate to your worktree 
+    # Navigate to your worktree
     cd ../project-feature-a
 
     # Run Claude Code in this isolated environment
@@ -808,13 +808,13 @@ Suppose you want to create reusable slash commands for your project that all tea
 
   <Step title="Create a Markdown file for each command">
     ```bash  theme={null}
-    echo "Analyze the performance of this code and suggest three specific optimizations:" > .claude/commands/optimize.md 
+    echo "Analyze the performance of this code and suggest three specific optimizations:" > .claude/commands/optimize.md
     ```
   </Step>
 
   <Step title="Use your custom command in Claude Code">
     ```
-    > /optimize 
+    > /optimize
     ```
   </Step>
 </Steps>
@@ -839,7 +839,7 @@ Suppose you want to create flexible slash commands that can accept additional in
     Understand the issue described in the ticket 2. Locate the relevant code in
     our codebase 3. Implement a solution that addresses the root cause 4. Add
     appropriate tests 5. Prepare a concise PR description' >
-    .claude/commands/fix-issue.md 
+    .claude/commands/fix-issue.md
     ```
   </Step>
 
@@ -847,7 +847,7 @@ Suppose you want to create flexible slash commands that can accept additional in
     In your Claude session, use the command with arguments.
 
     ```
-    > /fix-issue 123 
+    > /fix-issue 123
     ```
 
     This will replace \$ARGUMENTS with "123" in the prompt.
@@ -869,20 +869,20 @@ Suppose you want to create personal slash commands that work across all your pro
 <Steps>
   <Step title="Create a commands directory in your home folder">
     ```bash  theme={null}
-    mkdir -p ~/.claude/commands 
+    mkdir -p ~/.claude/commands
     ```
   </Step>
 
   <Step title="Create a Markdown file for each command">
     ```bash  theme={null}
     echo "Review this code for security vulnerabilities, focusing on:" >
-    ~/.claude/commands/security-review.md 
+    ~/.claude/commands/security-review.md
     ```
   </Step>
 
   <Step title="Use your personal custom command">
     ```
-    > /security-review 
+    > /security-review
     ```
   </Step>
 </Steps>

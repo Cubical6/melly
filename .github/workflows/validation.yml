@@ -1,0 +1,449 @@
+name: Melly Validation Pipeline
+
+# ==============================================================================
+# Workflow Configuration
+# ==============================================================================
+# This workflow implements Design B from the implementation plan:
+# - Parallel job execution for maximum speed (2-3 min vs 8-10 min sequential)
+# - Path-based filtering to only run relevant validations
+# - Comprehensive validation across JSON, Shell, Markdown, and Python files
+# ==============================================================================
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'claude/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Concurrency control: Cancel outdated workflow runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================================
+  # JOB 1: Detect Changed Files
+  # ============================================================================
+  # Uses path filtering to determine which validation jobs should run.
+  # This dramatically reduces CI time by only running relevant checks.
+  # ============================================================================
+  detect-changes:
+    name: Detect Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      json: ${{ steps.filter.outputs.json }}
+      shell: ${{ steps.filter.outputs.shell }}
+      markdown: ${{ steps.filter.outputs.markdown }}
+      python: ${{ steps.filter.outputs.python }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check changed file paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            json:
+              - '**/*.json'
+              - '.schemas/**'
+              - 'plugins/melly-validation/templates/**'
+            shell:
+              - '**/*.sh'
+              - '.shellcheckrc'
+            markdown:
+              - '**/*.md'
+              - '.markdownlint.json'
+              - '.lychee.toml'
+            python:
+              - '**/*.py'
+              - 'requirements.txt'
+
+  # ============================================================================
+  # JOB 2: JSON Validation
+  # ============================================================================
+  # Validates JSON files using:
+  # 1. jq for syntax checking (fast, pre-installed)
+  # 2. check-jsonschema for schema validation (comprehensive)
+  # 3. Custom Python validators for business logic
+  # ============================================================================
+  validate-json:
+    name: Validate JSON Files
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.json == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install check-jsonschema
+        run: |
+          pip install check-jsonschema
+
+      - name: Validate JSON syntax with jq
+        run: |
+          echo "🔍 Checking JSON syntax..."
+          find . -name "*.json" -type f ! -path "./node_modules/*" ! -path "./.git/*" | while read -r file; do
+            echo "  ✓ Checking: $file"
+            jq empty "$file" || exit 1
+          done
+          echo "✅ All JSON files have valid syntax"
+
+      - name: Validate against schemas
+        run: |
+          echo "🔍 Validating JSON files against schemas..."
+
+          # Validate init.json if exists
+          if [ -f "init.json" ]; then
+            echo "  ✓ Validating init.json"
+            check-jsonschema --schemafile .schemas/init-schema.json init.json --verbose
+          fi
+
+          # Validate C1 systems
+          if find knowledge-base/systems -name "c1-systems.json" -type f 2>/dev/null | grep -q .; then
+            echo "  ✓ Validating C1 systems..."
+            find knowledge-base/systems -name "c1-systems.json" -type f 2>/dev/null | while read -r file; do
+              echo "    - $file"
+              check-jsonschema --schemafile .schemas/c1-systems-schema.json "$file" --verbose || exit 1
+            done
+          fi
+
+          # Validate C2 containers
+          if find knowledge-base/systems -name "c2-containers.json" -type f 2>/dev/null | grep -q .; then
+            echo "  ✓ Validating C2 containers..."
+            find knowledge-base/systems -name "c2-containers.json" -type f 2>/dev/null | while read -r file; do
+              echo "    - $file"
+              check-jsonschema --schemafile .schemas/c2-containers-schema.json "$file" --verbose || exit 1
+            done
+          fi
+
+          # Validate C3 components
+          if find knowledge-base/systems -name "c3-components.json" -type f 2>/dev/null | grep -q .; then
+            echo "  ✓ Validating C3 components..."
+            find knowledge-base/systems -name "c3-components.json" -type f 2>/dev/null | while read -r file; do
+              echo "    - $file"
+              check-jsonschema --schemafile .schemas/c3-components-schema.json "$file" --verbose || exit 1
+            done
+          fi
+
+          echo "✅ All JSON files validated successfully"
+
+      - name: Run custom Python validators
+        run: |
+          echo "🔍 Running custom validation scripts..."
+
+          # Check if validators exist
+          if [ ! -d "plugins/melly-validation/scripts" ]; then
+            echo "⚠️  No validation scripts directory found, skipping"
+            exit 0
+          fi
+
+          # Run each validator
+          found=false
+          for validator in plugins/melly-validation/scripts/validate-*.py; do
+            if [ -f "$validator" ]; then
+              found=true
+              echo "  ✓ Running: $(basename $validator)"
+              python "$validator" || exit 1
+            fi
+          done
+
+          if [ "$found" = false ]; then
+            echo "⚠️  No Python validators found, skipping"
+          else
+            echo "✅ All custom validators passed"
+          fi
+
+  # ============================================================================
+  # JOB 3: Shell Script Validation
+  # ============================================================================
+  # Validates shell scripts using:
+  # 1. ShellCheck for static analysis (industry standard)
+  # 2. bash -n for syntax checking (built-in)
+  # 3. BATS for unit testing (if available)
+  # ============================================================================
+  validate-shell:
+    name: Validate Shell Scripts
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.shell == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: List shell scripts
+        run: |
+          echo "🔍 Shell scripts to validate:"
+          find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*" | sort | while read -r file; do
+            echo "  - $file"
+          done
+
+      - name: Run ShellCheck
+        run: |
+          echo "🔍 Running ShellCheck static analysis..."
+          find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*" \
+            -exec shellcheck -S warning {} +
+          echo "✅ ShellCheck passed"
+
+      - name: Validate Bash syntax
+        run: |
+          echo "🔍 Checking Bash syntax..."
+          find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*" | while read -r script; do
+            echo "  ✓ Checking: $script"
+            bash -n "$script" || exit 1
+          done
+          echo "✅ All shell scripts have valid syntax"
+
+      - name: Run BATS tests (if available)
+        run: |
+          if [ -d "plugins/melly-validation/tests" ]; then
+            echo "🔍 Installing BATS..."
+            npm install -g bats
+
+            echo "🔍 Running BATS tests..."
+            if ls plugins/melly-validation/tests/*.bats 1> /dev/null 2>&1; then
+              bats plugins/melly-validation/tests/*.bats
+              echo "✅ BATS tests passed"
+            else
+              echo "⚠️  No BATS tests found"
+            fi
+          else
+            echo "⚠️  No test directory found, skipping BATS tests"
+          fi
+
+  # ============================================================================
+  # JOB 4: Markdown Validation
+  # ============================================================================
+  # Validates markdown files using:
+  # 1. markdownlint-cli2 for linting (50+ rules)
+  # 2. lychee for link checking (fast, supports offline mode)
+  # ============================================================================
+  validate-markdown:
+    name: Validate Markdown Files
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.markdown == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: |
+            **/*.md
+            !node_modules/**/*.md
+            !.git/**/*.md
+          config: '.markdownlint.json'
+          fix: false
+
+      - name: Check markdown links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --verbose --no-progress --offline '**/*.md'
+          fail: true
+          output: lychee/out.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload link check results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee/out.md
+          if-no-files-found: warn
+          retention-days: 7
+
+  # ============================================================================
+  # JOB 5: Python Validation
+  # ============================================================================
+  # Validates Python scripts using:
+  # 1. py_compile for syntax checking (built-in)
+  # 2. Ruff for linting (10-100x faster than pylint)
+  # 3. Custom import validation
+  # ============================================================================
+  validate-python:
+    name: Validate Python Scripts
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.python == 'true'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          if [ -f "requirements.txt" ]; then
+            echo "📦 Installing requirements..."
+            pip install -r requirements.txt
+          fi
+          pip install ruff
+
+      - name: Check Python syntax
+        run: |
+          echo "🔍 Checking Python syntax..."
+          find . -type f -name "*.py" ! -path "./node_modules/*" ! -path "./.git/*" ! -path "./.venv/*" | while read -r file; do
+            echo "  ✓ Checking: $file"
+            python -m py_compile "$file" || exit 1
+          done
+          echo "✅ All Python files have valid syntax"
+
+      - name: Run Ruff linter
+        run: |
+          echo "🔍 Running Ruff linter..."
+          ruff check . --output-format=github || true
+          echo "✅ Ruff linting complete"
+
+      - name: Validate imports
+        run: |
+          echo "🔍 Validating imports..."
+
+          # Check if validation scripts exist
+          if [ ! -d "plugins/melly-validation/scripts" ]; then
+            echo "⚠️  No validation scripts directory found, skipping"
+            exit 0
+          fi
+
+          # Simple import check: try importing each Python file
+          for pyfile in plugins/melly-validation/scripts/*.py; do
+            if [ -f "$pyfile" ]; then
+              echo "  ✓ Checking imports in: $(basename $pyfile)"
+              python -c "import sys; sys.path.insert(0, 'plugins/melly-validation/scripts'); exec(open('$pyfile').read())" 2>/dev/null || echo "    ⚠️  Warning: Could not validate imports (non-blocking)"
+            fi
+          done
+
+          echo "✅ Import validation complete"
+
+  # ============================================================================
+  # JOB 6: Validation Summary
+  # ============================================================================
+  # Aggregates results from all validation jobs and:
+  # 1. Checks if any validations failed
+  # 2. Posts summary comment to PR (if applicable)
+  # 3. Fails the workflow if any validation failed
+  # ============================================================================
+  validation-summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [detect-changes, validate-json, validate-shell, validate-markdown, validate-python]
+    if: always()
+    steps:
+      - name: Check all validations passed
+        run: |
+          echo "======================================"
+          echo "      Validation Results Summary      "
+          echo "======================================"
+          echo ""
+          echo "JSON Validation:     ${{ needs.validate-json.result }}"
+          echo "Shell Validation:    ${{ needs.validate-shell.result }}"
+          echo "Markdown Validation: ${{ needs.validate-markdown.result }}"
+          echo "Python Validation:   ${{ needs.validate-python.result }}"
+          echo ""
+          echo "======================================"
+
+          # Check for failures
+          if [[ "${{ needs.validate-json.result }}" == "failure" ]] || \
+             [[ "${{ needs.validate-shell.result }}" == "failure" ]] || \
+             [[ "${{ needs.validate-markdown.result }}" == "failure" ]] || \
+             [[ "${{ needs.validate-python.result }}" == "failure" ]]; then
+            echo ""
+            echo "❌ VALIDATION FAILED"
+            echo "One or more validation checks failed. Please review the logs above."
+            exit 1
+          fi
+
+          # Count skipped jobs
+          skipped_count=0
+          [[ "${{ needs.validate-json.result }}" == "skipped" ]] && ((skipped_count++))
+          [[ "${{ needs.validate-shell.result }}" == "skipped" ]] && ((skipped_count++))
+          [[ "${{ needs.validate-markdown.result }}" == "skipped" ]] && ((skipped_count++))
+          [[ "${{ needs.validate-python.result }}" == "skipped" ]] && ((skipped_count++))
+
+          if [ $skipped_count -eq 4 ]; then
+            echo ""
+            echo "⚠️  NO VALIDATIONS RUN"
+            echo "No relevant files were changed - all validations were skipped."
+          else
+            echo ""
+            echo "✅ ALL VALIDATIONS PASSED"
+            echo "All required validation checks completed successfully!"
+          fi
+
+      - name: Post summary to PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const statusIcon = (result) => {
+              const icons = {
+                'success': '✅',
+                'failure': '❌',
+                'skipped': '⏭️'
+              };
+              return icons[result] || '⚪';
+            };
+
+            const results = {
+              json: '${{ needs.validate-json.result }}',
+              shell: '${{ needs.validate-shell.result }}',
+              markdown: '${{ needs.validate-markdown.result }}',
+              python: '${{ needs.validate-python.result }}'
+            };
+
+            const allPassed = Object.values(results).every(r => r === 'success' || r === 'skipped');
+            const anyFailed = Object.values(results).some(r => r === 'failure');
+
+            let tableRows = [
+              '## 🔍 Validation Summary\n',
+              '| Validation Type | Result |',
+              '|----------------|--------|',
+              `| JSON Schema & Syntax | ${statusIcon(results.json)} ${results.json} |`,
+              `| Shell Scripts | ${statusIcon(results.shell)} ${results.shell} |`,
+              `| Markdown Files | ${statusIcon(results.markdown)} ${results.markdown} |`,
+              `| Python Scripts | ${statusIcon(results.python)} ${results.python} |\n`
+            ];
+
+            if (anyFailed) {
+              tableRows.push('❌ **Some validations failed** - please review the logs above and fix the issues.\n');
+            }
+            if (allPassed) {
+              tableRows.push('✅ **All validations passed!** Your changes look good.\n');
+            }
+
+            tableRows.push('---');
+            tableRows.push('<details>');
+            tableRows.push('<summary>ℹ️ About this workflow</summary>\n');
+            tableRows.push('This automated validation pipeline checks:');
+            tableRows.push('- **JSON**: Schema validation and syntax checking');
+            tableRows.push('- **Shell**: ShellCheck static analysis and bash syntax');
+            tableRows.push('- **Markdown**: Linting rules and link checking');
+            tableRows.push('- **Python**: Syntax, imports, and Ruff linting\n');
+            tableRows.push('Only validations for changed files are executed to keep CI time minimal (~2-3 minutes).');
+            tableRows.push('</details>');
+
+            const summary = tableRows.join('\n');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });

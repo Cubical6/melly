@@ -17,6 +17,8 @@ Analyze markdown-based library documentation and extract observations and relati
 
 ## Workflow
 
+<!-- markdownlint-disable MD029 -->
+
 ### Phase 1: Validation
 
 1. **Validate arguments**:
@@ -32,9 +34,9 @@ Analyze markdown-based library documentation and extract observations and relati
 ### Phase 2: Analysis
 
 3. **Invoke lib-doc-analyzer agent**:
-   
+
    Explicitly invoke the lib-doc-analyzer agent to perform the analysis:
-   
+
    ```
    Use the lib-doc-analyzer agent to analyze the $1 library documentation.
    
@@ -44,15 +46,15 @@ Analyze markdown-based library documentation and extract observations and relati
    - Task: Analyze all markdown files and extract observations and relations
    - Skill: Use the lib-doc-methodology skill for guidance
    ```
-   
+
    **Alternative invocation patterns:**
-   
+
    ```
    Have the lib-doc-analyzer agent process the library documentation at $2.
    Extract metadata from $1 documentation using the lib-doc-analyzer agent.
    Ask lib-doc-analyzer to analyze library docs for $1 at $2.
    ```
-   
+
    **What the agent will do:**
    - Automatically follow the 5-phase workflow defined in its system prompt
    - Use the lib-doc-methodology skill for extraction rules

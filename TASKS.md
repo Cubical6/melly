@@ -707,21 +707,21 @@ graph TD
 8. Phase 2: C1 Systems (Section 5)
 
 #### P1 Tasks
-7. Phase 3: C2 Containers (Section 6)
-8. Phase 4: C3 Components (Section 7)
-9. Documentation Skills (Section 3.2)
-10. Template Files (Section 3.3)
-11. Phase 5: Documentation (Section 8)
+1. Phase 3: C2 Containers (Section 6)
+2. Phase 4: C3 Components (Section 7)
+3. Documentation Skills (Section 3.2)
+4. Template Files (Section 3.3)
+5. Phase 5: Documentation (Section 8)
 
 #### P2 Tasks
-12. Phase 6: Visualization (Section 9)
-13. Integration & Testing (Section 10)
-14. Marketplace Preparation (Section 11)
+1. Phase 6: Visualization (Section 9)
+2. Integration & Testing (Section 10)
+3. Marketplace Preparation (Section 11)
 
 #### P3 Tasks
-15. C4 Level 4 (Code) implementation
-16. Advanced visualizations
-17. AI-powered refactoring suggestions
+1. C4 Level 4 (Code) implementation
+2. Advanced visualizations
+3. AI-powered refactoring suggestions
 
 ---
 
