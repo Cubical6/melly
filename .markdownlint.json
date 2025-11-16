@@ -4,31 +4,19 @@
   "MD003": {
     "style": "consistent"
   },
-  "MD004": {
-    "style": "consistent"
-  },
-  "MD007": {
-    "indent": 2,
-    "start_indented": false
-  },
+  "MD004": false,
+  "MD007": false,
   "MD009": {
     "br_spaces": 2,
     "list_item_empty_lines": false
   },
+  "MD010": false,
+  "MD012": false,
   "MD013": false,
-  "MD024": {
-    "siblings_only": true
-  },
+  "MD022": false,
+  "MD024": false,
   "MD025": false,
-  "MD026": {
-    "punctuation": ".,;:!?",
-    "period": true,
-    "comma": true,
-    "semicolon": true,
-    "colon": true,
-    "exclamation": true,
-    "question": true
-  },
+  "MD026": false,
   "MD028": false,
   "MD029": {
     "style": "ordered"
@@ -39,20 +27,26 @@
     "ul_multi": 1,
     "ol_multi": 1
   },
+  "MD031": false,
+  "MD032": false,
   "MD033": false,
-  "MD034": true,
+  "MD034": false,
   "MD035": {
     "style": "consistent"
   },
   "MD036": false,
+  "MD038": false,
   "MD040": false,
   "MD041": false,
   "MD045": false,
   "MD046": false,
+  "MD047": false,
+  "MD049": false,
   "MD050": {
     "style": "consistent"
   },
   "MD051": false,
   "MD055": false,
-  "MD056": false
+  "MD056": false,
+  "MD060": false
 }
