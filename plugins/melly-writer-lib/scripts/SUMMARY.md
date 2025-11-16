@@ -2,7 +2,7 @@
 
 ## Created Scripts
 
-✓ 4 Python validation scripts created in `plugins/melly-lib-docs/scripts/`
+✓ 4 Python validation scripts created in `plugins/melly-writer-lib/scripts/`
 
 ### 1. parse-markdown.py (169 lines)
 
@@ -187,7 +187,7 @@ All scripts tested and working:
 ## File Structure
 
 ```
-plugins/melly-lib-docs/scripts/
+plugins/melly-writer-lib/scripts/
 ├── parse-markdown.py       (169 lines) - Markdown parser
 ├── extract-metadata.py     (363 lines) - Metadata extractor
 ├── validate-content.py     (218 lines) - Content validator
@@ -204,7 +204,7 @@ These scripts are ready for integration into:
 1. `lib-docs-explorer` agent (uses parse-markdown.py, extract-metadata.py)
 2. `lib-docs-writer` agent (uses validate-content.py, validate-lib-docs.py)
 3. Hook validation (PostToolUse hooks for automatic validation)
-4. `/melly-lib-docs` command (orchestrates all scripts)
+4. `/melly-writer-lib` command (orchestrates all scripts)
 
 ## Usage Example
 

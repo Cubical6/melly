@@ -1,6 +1,6 @@
 # Library Documentation Validation Scripts
 
-Python validation scripts for the `melly-lib-docs` plugin.
+Python validation scripts for the `melly-writer-lib` plugin.
 
 ## Scripts Overview
 
@@ -180,7 +180,7 @@ These scripts can be used in hooks for automated validation:
         "hooks": [
           {
             "type": "command",
-            "command": "python plugins/melly-lib-docs/scripts/validate-content.py \"$ORIGINAL\" \"$ENHANCED\"",
+            "command": "python plugins/melly-writer-lib/scripts/validate-content.py \"$ORIGINAL\" \"$ENHANCED\"",
             "timeout": 30
           }
         ]

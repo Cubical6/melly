@@ -73,10 +73,10 @@ Analyze markdown-based library documentation and extract observations and relati
 5. **Run validation scripts**:
    ```bash
    # Validate metadata JSON
-   python3 plugins/melly-lib-docs/scripts/validate-lib-docs.py lib-docs-$1.json
+   python3 plugins/melly-writer-lib/scripts/validate-lib-docs.py lib-docs-$1.json
    
    # Verify content preservation
-   python3 plugins/melly-lib-docs/scripts/validate-content.py $2
+   python3 plugins/melly-writer-lib/scripts/validate-content.py $2
    ```
 
 6. **Check validation results**:
@@ -234,11 +234,11 @@ Each enhanced markdown file becomes a searchable entity:
 
 ### Agent doesn't activate
 **Cause**: lib-doc-analyzer agent not found
-**Solution**: Ensure agent exists in `plugins/melly-lib-docs/agents/`
+**Solution**: Ensure agent exists in `plugins/melly-writer-lib/agents/`
 
 ### Skill not used
 **Cause**: lib-doc-methodology skill not loaded
-**Solution**: Check `plugins/melly-lib-docs/skills/lib-doc-methodology/SKILL.md` exists
+**Solution**: Check `plugins/melly-writer-lib/skills/lib-doc-methodology/SKILL.md` exists
 
 ### Validation scripts fail
 **Cause**: Python dependencies missing
@@ -265,5 +265,5 @@ Each enhanced markdown file becomes a searchable entity:
 ---
 
 **Version**: 1.0.0
-**Plugin**: melly-lib-docs
+**Plugin**: melly-writer-lib
 **Category**: knowledge-extraction

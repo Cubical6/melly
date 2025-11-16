@@ -1,10 +1,10 @@
-# melly-lib-docs
+# melly-writer-lib
 
 Universal library documentation analyzer with metadata extraction for the Melly marketplace.
 
 ## Overview
 
-The `melly-lib-docs` plugin provides a systematic methodology for analyzing and documenting third-party libraries, frameworks, and packages. It extracts structured knowledge from documentation sources into a hierarchical format compatible with the C4 model knowledge base.
+The `melly-writer-lib` plugin provides a systematic methodology for analyzing and documenting third-party libraries, frameworks, and packages. It extracts structured knowledge from documentation sources into a hierarchical format compatible with the C4 model knowledge base.
 
 ## Features
 
@@ -28,13 +28,13 @@ The `melly-lib-docs` plugin provides a systematic methodology for analyzing and 
 ```bash
 # From Melly repository root
 cd /path/to/melly
-/plugin add ./plugins/melly-lib-docs
+/plugin add ./plugins/melly-writer-lib
 ```
 
 Or via marketplace:
 
 ```bash
-/plugin add melly-lib-docs
+/plugin add melly-writer-lib
 ```
 
 ## Components
@@ -373,7 +373,7 @@ All extracted knowledge is stored in the basic-memory MCP server:
 
 **Explicit activation**: Use "Use the lib-doc-methodology skill to..."
 
-**Verify installation**: Run `/plugins` to confirm melly-lib-docs is installed
+**Verify installation**: Run `/plugins` to confirm melly-writer-lib is installed
 
 ### Metadata Missing
 
