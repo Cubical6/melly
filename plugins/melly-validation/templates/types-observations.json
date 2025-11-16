@@ -1,0 +1,483 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://melly.dev/schemas/types-observations.json",
+  "title": "Melly Observation Type Definitions",
+  "description": "Comprehensive type definitions for observations across C1, C2, and C3 levels of the C4 model. Observations are key findings about systems, containers, and components documented during architecture analysis.",
+  "version": "1.0.0",
+  "lastUpdated": "2025-11-16",
+
+  "definitions": {
+    "observationStructure": {
+      "description": "Standard structure for an observation entry",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this observation",
+          "pattern": "^obs-[a-z0-9-]+$",
+          "examples": ["obs-auth-jwt-storage", "obs-async-patterns"]
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of observation (level-specific, see categories below)"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "warning", "info"],
+          "description": "Severity level of the observation"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short, descriptive title",
+          "maxLength": 100,
+          "examples": [
+            "JWT tokens stored in localStorage",
+            "Event-driven architecture pattern",
+            "No error handling in critical paths"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the observation",
+          "examples": [
+            "The application stores JWT authentication tokens in browser localStorage, which is vulnerable to XSS attacks. Consider using httpOnly cookies instead.",
+            "System uses event-driven architecture with message queues for asynchronous processing, improving scalability and resilience."
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "description": "Evidence supporting this observation",
+          "items": {
+            "$ref": "#/definitions/evidence"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorization and search",
+          "examples": [["security", "authentication"], ["architecture", "scalability"]]
+        },
+        "impact": {
+          "type": "string",
+          "description": "Impact or implications of this observation",
+          "examples": [
+            "High security risk",
+            "Enables horizontal scaling",
+            "May cause performance issues under load"
+          ]
+        },
+        "recommendation": {
+          "type": "string",
+          "description": "Recommended action or improvement (optional)",
+          "examples": [
+            "Migrate to httpOnly cookies",
+            "Continue current approach",
+            "Add error handling middleware"
+          ]
+        }
+      },
+      "required": ["id", "category", "severity", "title", "description"]
+    },
+
+    "evidence": {
+      "description": "Evidence supporting an observation",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "file",
+            "code",
+            "config",
+            "pattern",
+            "dependency",
+            "metric",
+            "log-output",
+            "documentation",
+            "file-path",
+            "code-snippet",
+            "configuration"
+          ],
+          "description": "Type of evidence. Short forms (file, code, config, pattern) are preferred; long forms (file-path, code-snippet, configuration) are also accepted for backwards compatibility."
+        },
+        "location": {
+          "type": "string",
+          "description": "File path or location of evidence",
+          "examples": [
+            "src/auth/AuthService.ts:45-52",
+            "package.json",
+            "docker-compose.yml"
+          ]
+        },
+        "snippet": {
+          "type": "string",
+          "description": "Code snippet or excerpt (if applicable)",
+          "examples": [
+            "localStorage.setItem('token', jwt);",
+            "\"express\": \"^4.18.0\""
+          ]
+        },
+        "note": {
+          "type": "string",
+          "description": "Additional context for this evidence"
+        }
+      },
+      "required": ["type", "location"]
+    },
+
+    "severityLevels": {
+      "description": "Severity level definitions",
+      "type": "object",
+      "properties": {
+        "critical": {
+          "description": "Issues requiring immediate attention",
+          "examples": [
+            "Security vulnerabilities",
+            "Data loss risks",
+            "System unavailability",
+            "Critical bugs",
+            "Exposed secrets or credentials"
+          ]
+        },
+        "warning": {
+          "description": "Issues that should be addressed",
+          "examples": [
+            "Performance bottlenecks",
+            "Code quality issues",
+            "Missing error handling",
+            "Deprecated dependencies",
+            "Architectural anti-patterns"
+          ]
+        },
+        "info": {
+          "description": "Informational findings, positive patterns, or neutral observations",
+          "examples": [
+            "Design patterns in use",
+            "Technology stack details",
+            "Architectural decisions",
+            "Good practices observed",
+            "System capabilities"
+          ]
+        }
+      }
+    },
+
+    "c1Categories": {
+      "description": "Observation categories for C1 System Context level",
+      "type": "string",
+      "enum": [
+        "architecture",
+        "integration",
+        "boundaries",
+        "security",
+        "scalability",
+        "actors",
+        "deployment",
+        "users",
+        "external-dependencies",
+        "data-flow",
+        "technology-stack"
+      ],
+      "examples": [
+        {
+          "category": "architecture",
+          "description": "Overall system architecture patterns and decisions"
+        },
+        {
+          "category": "integration",
+          "description": "How systems integrate with each other"
+        },
+        {
+          "category": "boundaries",
+          "description": "System boundary definitions and scope"
+        },
+        {
+          "category": "security",
+          "description": "System-level security concerns and patterns"
+        },
+        {
+          "category": "scalability",
+          "description": "Scalability patterns and constraints"
+        },
+        {
+          "category": "actors",
+          "description": "User types and external actors interacting with the system"
+        },
+        {
+          "category": "external-dependencies",
+          "description": "Third-party systems and services"
+        }
+      ]
+    },
+
+    "c2Categories": {
+      "description": "Observation categories for C2 Container level",
+      "type": "string",
+      "enum": [
+        "technology",
+        "runtime",
+        "communication",
+        "data-storage",
+        "authentication",
+        "deployment",
+        "scalability",
+        "performance",
+        "dependencies",
+        "configuration",
+        "monitoring",
+        "security"
+      ],
+      "examples": [
+        {
+          "category": "technology",
+          "description": "Technology stack, frameworks, and libraries"
+        },
+        {
+          "category": "communication",
+          "description": "Inter-container communication protocols and patterns"
+        },
+        {
+          "category": "data-storage",
+          "description": "Database, cache, and storage mechanisms"
+        },
+        {
+          "category": "deployment",
+          "description": "Containerization, orchestration, and deployment strategies"
+        }
+      ]
+    },
+
+    "c3Categories": {
+      "description": "Observation categories for C3 Component level",
+      "type": "string",
+      "enum": [
+        "design-patterns",
+        "code-structure",
+        "dependencies",
+        "error-handling",
+        "testing",
+        "performance",
+        "security",
+        "code-quality",
+        "documentation",
+        "complexity",
+        "coupling",
+        "cohesion",
+        "maintainability"
+      ],
+      "examples": [
+        {
+          "category": "design-patterns",
+          "description": "Design patterns and architectural patterns used"
+        },
+        {
+          "category": "code-structure",
+          "description": "Code organization, modularity, and structure"
+        },
+        {
+          "category": "error-handling",
+          "description": "Error handling strategies and patterns"
+        },
+        {
+          "category": "coupling",
+          "description": "Component coupling and dependencies"
+        }
+      ]
+    }
+  },
+
+  "examples": {
+    "c1Observations": [
+      {
+        "id": "obs-event-driven-arch",
+        "category": "architecture",
+        "severity": "info",
+        "title": "Event-driven architecture with message queues",
+        "description": "The system uses event-driven architecture with RabbitMQ message queues for asynchronous processing between services. This enables loose coupling and improved scalability.",
+        "evidence": [
+          {
+            "type": "config",
+            "location": "docker-compose.yml",
+            "snippet": "rabbitmq:\n  image: rabbitmq:3-management",
+            "note": "RabbitMQ configured as message broker"
+          },
+          {
+            "type": "dependency",
+            "location": "backend/package.json",
+            "snippet": "\"amqplib\": \"^0.10.3\"",
+            "note": "AMQP library for queue integration"
+          }
+        ],
+        "tags": ["architecture", "messaging", "async"],
+        "impact": "Enables horizontal scaling and system resilience",
+        "recommendation": "Continue current approach, consider adding dead letter queues"
+      },
+      {
+        "id": "obs-third-party-payment",
+        "category": "external-dependencies",
+        "severity": "warning",
+        "title": "Critical dependency on third-party payment gateway",
+        "description": "System has a hard dependency on Stripe payment gateway with no fallback mechanism. Stripe outages directly impact payment processing.",
+        "evidence": [
+          {
+            "type": "code",
+            "location": "src/services/payment.ts:23",
+            "snippet": "const stripe = new Stripe(process.env.STRIPE_KEY);",
+            "note": "Direct Stripe integration with no abstraction layer"
+          }
+        ],
+        "tags": ["external-dependency", "payments", "resilience"],
+        "impact": "System unavailable for payments during Stripe outages",
+        "recommendation": "Implement payment gateway abstraction layer to support multiple providers"
+      }
+    ],
+
+    "c2Observations": [
+      {
+        "id": "obs-spa-state-mgmt",
+        "category": "technology",
+        "severity": "info",
+        "title": "Redux Toolkit for state management",
+        "description": "Frontend SPA uses Redux Toolkit for global state management, following best practices with slices and RTK Query for API calls.",
+        "evidence": [
+          {
+            "type": "dependency",
+            "location": "frontend/package.json",
+            "snippet": "\"@reduxjs/toolkit\": \"^1.9.5\""
+          },
+          {
+            "type": "file",
+            "location": "frontend/src/store/",
+            "note": "Well-organized store structure with feature slices"
+          }
+        ],
+        "tags": ["state-management", "redux", "frontend"],
+        "impact": "Predictable state updates, improved debugging capability"
+      },
+      {
+        "id": "obs-db-no-connection-pool",
+        "category": "performance",
+        "severity": "warning",
+        "title": "Database connections not pooled",
+        "description": "Backend API creates new database connections for each request instead of using connection pooling, leading to performance issues under load.",
+        "evidence": [
+          {
+            "type": "code",
+            "location": "src/db/connection.ts:12-15",
+            "snippet": "export async function getConnection() {\n  return await mysql.createConnection(config);\n}",
+            "note": "New connection created each time"
+          }
+        ],
+        "tags": ["performance", "database", "scalability"],
+        "impact": "High latency and resource exhaustion under concurrent load",
+        "recommendation": "Implement connection pooling with mysql2/pool"
+      }
+    ],
+
+    "c3Observations": [
+      {
+        "id": "obs-auth-jwt-localstorage",
+        "category": "security",
+        "severity": "critical",
+        "title": "JWT tokens stored in localStorage",
+        "description": "Authentication component stores JWT tokens in browser localStorage, making them vulnerable to XSS attacks. Tokens should be stored in httpOnly cookies.",
+        "evidence": [
+          {
+            "type": "code",
+            "location": "src/features/auth/authSlice.ts:45",
+            "snippet": "localStorage.setItem('authToken', action.payload.token);",
+            "note": "Token persisted in localStorage"
+          },
+          {
+            "type": "code",
+            "location": "src/features/auth/authSlice.ts:52",
+            "snippet": "const token = localStorage.getItem('authToken');",
+            "note": "Token retrieved from localStorage"
+          }
+        ],
+        "tags": ["security", "authentication", "xss"],
+        "impact": "High security risk - XSS attacks can steal authentication tokens",
+        "recommendation": "Migrate to httpOnly cookies for token storage"
+      },
+      {
+        "id": "obs-repository-pattern",
+        "category": "design-patterns",
+        "severity": "info",
+        "title": "Repository pattern for data access",
+        "description": "User service implements the repository pattern to abstract database operations, improving testability and maintainability.",
+        "evidence": [
+          {
+            "type": "file",
+            "location": "src/repositories/UserRepository.ts",
+            "note": "Dedicated repository class for user data access"
+          },
+          {
+            "type": "code",
+            "location": "src/services/UserService.ts:23",
+            "snippet": "constructor(private userRepo: IUserRepository)",
+            "note": "Dependency injection of repository interface"
+          }
+        ],
+        "tags": ["design-pattern", "repository", "data-access"],
+        "impact": "Improved testability and separation of concerns"
+      },
+      {
+        "id": "obs-no-error-handling",
+        "category": "error-handling",
+        "severity": "warning",
+        "title": "Missing error handling in async operations",
+        "description": "Payment component performs async operations without proper error handling, risking unhandled promise rejections.",
+        "evidence": [
+          {
+            "type": "code",
+            "location": "src/features/payment/PaymentService.ts:78-82",
+            "snippet": "async processPayment(amount: number) {\n  const charge = await stripe.charges.create({ amount });\n  return charge.id;\n}",
+            "note": "No try-catch or .catch() for async operation"
+          }
+        ],
+        "tags": ["error-handling", "async", "reliability"],
+        "impact": "Application crashes or silent failures on errors",
+        "recommendation": "Add try-catch blocks and proper error handling"
+      }
+    ]
+  },
+
+  "usage": {
+    "description": "How to use observation types in the Melly workflow",
+    "guidelines": [
+      "Each observation should have a unique ID starting with 'obs-'",
+      "Choose appropriate severity: critical (security, data loss), warning (should fix), info (neutral/positive)",
+      "Select category based on C4 level (c1, c2, or c3)",
+      "Provide specific evidence with file paths and snippets",
+      "Write clear, actionable descriptions",
+      "Include impact and recommendations for warnings/critical issues",
+      "Use tags for cross-referencing and search",
+      "Focus on observations, not opinions - document what you see in the code"
+    ],
+    "validationRules": [
+      "ID must match pattern: ^obs-[a-z0-9-]+$",
+      "Severity must be one of: critical, warning, info",
+      "Category must match the appropriate C4 level categories",
+      "Title should be concise (max 100 characters)",
+      "Description should be detailed and specific",
+      "Evidence should include at least location",
+      "Critical/warning observations should include recommendations"
+    ],
+    "integrationPoints": [
+      "Used by c1-abstractor, c2-abstractor, c3-abstractor agents",
+      "Stored in JSON files (c1-systems.json, c2-containers.json, c3-components.json)",
+      "Converted to markdown by c4model-writer agent",
+      "Validated by validate-*.py scripts",
+      "Searchable via basic-memory MCP"
+    ]
+  },
+
+  "references": [
+    "C4 Methodology: /home/user/melly/docs/c4model-methodology.md",
+    "Validation Scripts: /home/user/melly/plugins/melly-validation/scripts/",
+    "Agent Prompts: /home/user/melly/plugins/*/agents/*.md",
+    "JSON Schema: http://json-schema.org/"
+  ]
+}

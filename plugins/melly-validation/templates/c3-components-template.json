@@ -1,4 +1,8 @@
 {
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "C3 Component Level Schema",
+  "description": "Template for C3 (Component) level C4 model documentation. Components are the building blocks inside a container that work together to deliver the container's functionality.",
+
   "metadata": {
     "schema_version": "1.0.0",
     "timestamp": "2025-11-15T20:30:00.000Z",
@@ -7,5 +11,544 @@
       "timestamp": "2025-11-15T20:20:00.000Z"
     }
   },
-  "components": []
+
+  "components": [
+    {
+      "_comment": "EXAMPLE COMPONENT - Complete template showing all available fields",
+
+      "id": "user-authentication-service",
+      "name": "User Authentication Service",
+      "type": "service",
+      "container_id": "backend-api",
+      "responsibility": "Handles user authentication, token generation, and session management",
+
+      "structure": {
+        "_comment": "Code structure information - physical location and organization",
+
+        "path": "src/services/auth",
+        "language": "TypeScript",
+
+        "files": [
+          {
+            "path": "src/services/auth/AuthService.ts",
+            "lines": 350,
+            "type": "service-class"
+          },
+          {
+            "path": "src/services/auth/TokenManager.ts",
+            "lines": 120,
+            "type": "utility-class"
+          },
+          {
+            "path": "src/services/auth/SessionStore.ts",
+            "lines": 85,
+            "type": "repository-class"
+          }
+        ],
+
+        "exports": [
+          {
+            "name": "AuthService",
+            "type": "class"
+          },
+          {
+            "name": "TokenManager",
+            "type": "class"
+          },
+          {
+            "name": "authenticate",
+            "type": "function"
+          },
+          {
+            "name": "validateToken",
+            "type": "function"
+          }
+        ]
+      },
+
+      "patterns": [
+        {
+          "_comment": "Design patterns used in this component",
+
+          "name": "Singleton",
+          "category": "creational",
+          "description": "AuthService uses singleton pattern to ensure single instance manages all authentication state"
+        },
+        {
+          "name": "Strategy Pattern",
+          "category": "behavioral",
+          "description": "Multiple authentication strategies (JWT, OAuth, Session) implemented using strategy pattern"
+        },
+        {
+          "name": "Dependency Injection",
+          "category": "architectural",
+          "description": "TokenManager and SessionStore injected via constructor for testability"
+        }
+      ],
+
+      "metrics": {
+        "_comment": "Code quality metrics for this component",
+
+        "lines_of_code": 555,
+        "cyclomatic_complexity": 12,
+        "test_coverage": 85.5
+      },
+
+      "observations": [
+        {
+          "_comment": "Observations about design patterns",
+          "category": "design-patterns",
+          "severity": "info",
+          "description": "Well-structured use of Strategy pattern for authentication methods",
+          "evidence": {
+            "location": "src/services/auth/AuthService.ts:45-120",
+            "type": "code-structure"
+          },
+          "tags": ["pattern-implementation", "best-practice"]
+        },
+        {
+          "_comment": "Observations about code quality",
+          "category": "code-quality",
+          "severity": "warning",
+          "description": "High cyclomatic complexity in authenticate() method suggests need for refactoring",
+          "evidence": {
+            "location": "src/services/auth/AuthService.ts:78-145",
+            "type": "complexity-metric"
+          },
+          "tags": ["refactoring-candidate", "complexity"]
+        },
+        {
+          "_comment": "Observations about dependencies",
+          "category": "dependencies",
+          "severity": "critical",
+          "description": "Direct dependency on deprecated bcrypt library version",
+          "evidence": {
+            "location": "package.json",
+            "type": "dependency-version"
+          },
+          "tags": ["security", "deprecated-dependency"]
+        },
+        {
+          "_comment": "Observations about testing",
+          "category": "testing",
+          "severity": "info",
+          "description": "Comprehensive unit tests with good coverage of edge cases",
+          "evidence": {
+            "location": "src/services/auth/__tests__/",
+            "type": "test-suite"
+          },
+          "tags": ["test-quality", "well-tested"]
+        },
+        {
+          "_comment": "Observations about complexity",
+          "category": "complexity",
+          "severity": "warning",
+          "description": "Token validation logic could be simplified using validator chain pattern",
+          "evidence": {
+            "location": "src/services/auth/TokenManager.ts:34-89",
+            "type": "code-structure"
+          },
+          "tags": ["simplification-opportunity"]
+        },
+        {
+          "_comment": "Observations about maintainability",
+          "category": "maintainability",
+          "severity": "info",
+          "description": "Clear separation of concerns between authentication and session management",
+          "evidence": {
+            "location": "src/services/auth/",
+            "type": "architecture"
+          },
+          "tags": ["clean-architecture", "separation-of-concerns"]
+        }
+      ],
+
+      "relations": [
+        {
+          "_comment": "Dependency relation",
+          "target": "user-repository",
+          "type": "dependency",
+          "coupling": "moderate",
+          "description": "Uses UserRepository to fetch and validate user credentials"
+        },
+        {
+          "_comment": "Composition relation",
+          "target": "token-manager",
+          "type": "composition",
+          "coupling": "tight",
+          "description": "Owns and manages TokenManager lifecycle for JWT operations"
+        },
+        {
+          "_comment": "Interface implementation",
+          "target": "authentication-interface",
+          "type": "interface-implementation",
+          "coupling": "loose",
+          "description": "Implements IAuthenticationService interface contract"
+        },
+        {
+          "_comment": "Event publishing",
+          "target": "audit-logger",
+          "type": "event-publisher",
+          "coupling": "loose",
+          "description": "Publishes authentication events for audit logging"
+        },
+        {
+          "_comment": "Event subscription",
+          "target": "user-service",
+          "type": "event-subscriber",
+          "coupling": "loose",
+          "description": "Subscribes to user creation events to initialize authentication"
+        },
+        {
+          "_comment": "Aggregation relation",
+          "target": "session-store",
+          "type": "aggregation",
+          "coupling": "moderate",
+          "description": "References SessionStore for managing active user sessions"
+        },
+        {
+          "_comment": "Inheritance relation",
+          "target": "base-service",
+          "type": "inheritance",
+          "coupling": "moderate",
+          "description": "Extends BaseService for common service functionality"
+        }
+      ]
+    }
+  ],
+
+  "_documentation": {
+    "title": "C3 Component Template Documentation",
+    "version": "1.0.0",
+
+    "frontmatter_requirements": {
+      "description": "Generated markdown files MUST include YAML frontmatter with these fields",
+      "required_fields": {
+        "id": "Component ID (kebab-case, must match JSON id field)",
+        "title": "Component name (human-readable, matches name field)",
+        "level": "Always 'c3' for component level",
+        "type": "Component type (service, controller, repository, model, utility, middleware)",
+        "container": "Parent container ID (must reference existing container)",
+        "generated": "Always 'auto' to indicate automatic generation"
+      },
+      "example": "---\nid: user-authentication-service\ntitle: User Authentication Service\nlevel: c3\ntype: service\ncontainer: backend-api\ngenerated: auto\n---"
+    },
+
+    "field_definitions": {
+      "id": {
+        "type": "string",
+        "format": "kebab-case",
+        "description": "Unique identifier for the component within the system",
+        "required": true,
+        "example": "user-authentication-service"
+      },
+
+      "name": {
+        "type": "string",
+        "description": "Human-readable name of the component",
+        "required": true,
+        "example": "User Authentication Service"
+      },
+
+      "type": {
+        "type": "string",
+        "enum": ["service", "controller", "repository", "model", "utility", "middleware"],
+        "description": "Classification of the component's role in the architecture",
+        "required": true,
+        "definitions": {
+          "service": "Business logic and application services",
+          "controller": "Request handlers and API endpoints",
+          "repository": "Data access and persistence layer",
+          "model": "Domain models and data structures",
+          "utility": "Helper functions and shared utilities",
+          "middleware": "Request/response processing pipeline components"
+        }
+      },
+
+      "container_id": {
+        "type": "string",
+        "format": "kebab-case",
+        "description": "ID of the parent container that hosts this component",
+        "required": true,
+        "example": "backend-api"
+      },
+
+      "responsibility": {
+        "type": "string",
+        "description": "Clear, concise description of what this component does",
+        "required": true,
+        "example": "Handles user authentication, token generation, and session management"
+      },
+
+      "structure": {
+        "type": "object",
+        "description": "Physical code structure and organization",
+        "required": true,
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Relative path from repository root to component code",
+            "example": "src/services/auth"
+          },
+          "language": {
+            "type": "string",
+            "description": "Primary programming language",
+            "example": "TypeScript"
+          },
+          "files": {
+            "type": "array",
+            "description": "List of files that comprise this component",
+            "items": {
+              "path": "Relative file path",
+              "lines": "Number of lines of code",
+              "type": "File classification (service-class, utility-class, etc.)"
+            }
+          },
+          "exports": {
+            "type": "array",
+            "description": "Public API exported by this component",
+            "items": {
+              "name": "Export name",
+              "type": "Export type (class, function, interface, type, constant)"
+            }
+          }
+        }
+      },
+
+      "patterns": {
+        "type": "array",
+        "description": "Design patterns identified in this component",
+        "required": false,
+        "items": {
+          "name": {
+            "type": "string",
+            "description": "Pattern name",
+            "examples": ["Singleton", "Factory", "Strategy", "Observer", "Repository"]
+          },
+          "category": {
+            "type": "string",
+            "enum": ["creational", "structural", "behavioral", "architectural"],
+            "description": "Pattern category classification"
+          },
+          "description": {
+            "type": "string",
+            "description": "How the pattern is used in this component"
+          }
+        }
+      },
+
+      "metrics": {
+        "type": "object",
+        "description": "Code quality metrics",
+        "required": false,
+        "properties": {
+          "lines_of_code": {
+            "type": "number",
+            "description": "Total lines of code (excluding comments and blank lines)"
+          },
+          "cyclomatic_complexity": {
+            "type": "number",
+            "description": "Average cyclomatic complexity across methods/functions"
+          },
+          "test_coverage": {
+            "type": "number",
+            "description": "Percentage of code covered by tests",
+            "format": "percentage"
+          }
+        }
+      },
+
+      "observations": {
+        "type": "array",
+        "description": "Notable findings about this component",
+        "required": true,
+        "items": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "design-patterns",
+              "code-quality",
+              "dependencies",
+              "testing",
+              "complexity",
+              "maintainability"
+            ],
+            "description": "Observation category for grouping"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "warning", "info"],
+            "description": "Importance level of the observation",
+            "definitions": {
+              "critical": "Requires immediate attention (security, bugs, breaking issues)",
+              "warning": "Should be addressed (technical debt, performance, maintainability)",
+              "info": "Informational (good practices, patterns, documentation)"
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Clear description of what was observed"
+          },
+          "evidence": {
+            "type": "object",
+            "description": "Supporting evidence for the observation",
+            "properties": {
+              "location": "File path or code location",
+              "type": "Type of evidence (code-structure, metric, dependency, etc.)"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "description": "Searchable tags for categorization",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+
+      "relations": {
+        "type": "array",
+        "description": "Dependencies and relationships with other components",
+        "required": true,
+        "items": {
+          "target": {
+            "type": "string",
+            "format": "kebab-case",
+            "description": "ID of the target component"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "dependency",
+              "inheritance",
+              "composition",
+              "aggregation",
+              "interface-implementation",
+              "event-publisher",
+              "event-subscriber"
+            ],
+            "description": "Type of relationship",
+            "definitions": {
+              "dependency": "Uses another component's functionality",
+              "inheritance": "Extends another component (is-a relationship)",
+              "composition": "Owns another component's lifecycle (strong has-a)",
+              "aggregation": "References another component (weak has-a)",
+              "interface-implementation": "Implements a contract defined by another component",
+              "event-publisher": "Publishes events consumed by other components",
+              "event-subscriber": "Subscribes to events from other components"
+            }
+          },
+          "coupling": {
+            "type": "string",
+            "enum": ["loose", "moderate", "tight"],
+            "description": "Degree of coupling between components",
+            "definitions": {
+              "loose": "Minimal dependency, easy to change independently",
+              "moderate": "Some dependency, requires coordination for changes",
+              "tight": "Strong dependency, difficult to change independently"
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Active voice description of the relationship (e.g., 'Uses X to do Y')"
+          }
+        }
+      }
+    },
+
+    "validation_rules": {
+      "metadata": [
+        "schema_version must be present",
+        "timestamp must be ISO 8601 format",
+        "parent.file must reference c2-containers.json",
+        "parent.timestamp must be earlier than current timestamp"
+      ],
+      "components": [
+        "Each component must have unique id",
+        "id must be kebab-case",
+        "name must be human-readable",
+        "type must be one of: service, controller, repository, model, utility, middleware",
+        "container_id must reference existing container from c2-containers.json",
+        "responsibility must be clear and concise",
+        "structure.path must be valid relative path",
+        "structure.language must be specified",
+        "observations array must not be empty",
+        "relations array must not be empty",
+        "All relation targets must reference valid component IDs"
+      ],
+      "observations": [
+        "category must be one of defined categories",
+        "severity must be critical, warning, or info",
+        "description must be clear and actionable",
+        "evidence should provide supporting details",
+        "tags should be relevant and searchable"
+      ],
+      "relations": [
+        "target must be valid component-id",
+        "type must be one of defined relation types",
+        "coupling must be loose, moderate, or tight",
+        "description must use active voice"
+      ]
+    },
+
+    "markdown_generation": {
+      "description": "This template is used to generate markdown files via generate-c3-markdown.py script",
+      "output_path": "knowledge-base/systems/{system-id}/c3/{component-id}.md",
+      "sections": [
+        "Frontmatter (YAML)",
+        "Overview (name, type, container, responsibility)",
+        "Code Structure (path, language, files, exports)",
+        "Design Patterns (patterns array)",
+        "Metrics (lines of code, complexity, coverage)",
+        "Observations (grouped by category, sorted by severity)",
+        "Relations (table format)",
+        "Metadata (source file, level, IDs)"
+      ],
+      "script": "plugins/melly-validation/scripts/generate-c3-markdown.py"
+    },
+
+    "usage_notes": [
+      "This template shows ALL available fields - not all are required for every component",
+      "observations and relations arrays are required but can be minimal",
+      "patterns and metrics are optional but recommended for comprehensive documentation",
+      "Use validation script to verify JSON structure before generating markdown",
+      "Component IDs must be unique within the system",
+      "Container IDs must reference existing containers from c2-containers.json",
+      "Timestamps should reflect actual analysis time",
+      "Parent timestamp must be earlier than current timestamp"
+    ],
+
+    "example_minimal_component": {
+      "description": "Minimal valid component with only required fields",
+      "example": {
+        "id": "minimal-component",
+        "name": "Minimal Component",
+        "type": "utility",
+        "container_id": "backend-api",
+        "responsibility": "Provides minimal functionality",
+        "structure": {
+          "path": "src/utils",
+          "language": "JavaScript",
+          "files": [],
+          "exports": []
+        },
+        "observations": [
+          {
+            "category": "code-quality",
+            "severity": "info",
+            "description": "Simple utility component with clear purpose"
+          }
+        ],
+        "relations": [
+          {
+            "target": "main-service",
+            "type": "dependency",
+            "coupling": "loose",
+            "description": "Used by main service for utility functions"
+          }
+        ]
+      }
+    }
+  }
 }
