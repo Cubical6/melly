@@ -26,7 +26,7 @@
 
 ---
 
-### 2. extract-metadata.py (363 lines)
+### 2. extract-metadata.py (367 lines)
 
 **Key Functions**:
 - `extract_observations(parsed: Dict, library: str) -> List[Dict]`
@@ -57,7 +57,7 @@
 
 ---
 
-### 3. validate-content.py (218 lines)
+### 3. validate-content.py (231 lines)
 
 **Key Functions**:
 - `validate_content_preservation(original_file, enhanced_file, strict) -> Tuple[bool, str]`
@@ -189,14 +189,14 @@ All scripts tested and working:
 ```
 plugins/melly-writer-lib/scripts/
 ├── parse-markdown.py       (169 lines) - Markdown parser
-├── extract-metadata.py     (363 lines) - Metadata extractor
-├── validate-content.py     (218 lines) - Content validator
+├── extract-metadata.py     (367 lines) - Metadata extractor
+├── validate-content.py     (231 lines) - Content validator
 ├── validate-lib-docs.py    (284 lines) - JSON validator
 ├── README.md                          - Complete documentation
 └── SUMMARY.md                         - This file
 ```
 
-**Total**: 1,034 lines of Python code + documentation
+**Total**: 1,051 lines of Python code + documentation
 
 ## Next Steps
 

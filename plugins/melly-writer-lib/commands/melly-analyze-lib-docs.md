@@ -241,8 +241,11 @@ Each enhanced markdown file becomes a searchable entity:
 **Solution**: Check `plugins/melly-writer-lib/skills/lib-doc-methodology/SKILL.md` exists
 
 ### Validation scripts fail
-**Cause**: Python dependencies missing
-**Solution**: Install required packages (see plugin README.md)
+**Cause**: Python version incompatibility or missing dependencies
+**Solution**:
+- Ensure Python 3.8+ is installed: `python3 --version`
+- Make scripts executable: `chmod +x plugins/melly-writer-lib/scripts/*.py`
+- Install required packages (see plugin README.md)
 
 ### basic-memory errors
 **Cause**: MCP server configuration issue

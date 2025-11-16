@@ -414,9 +414,9 @@ Part of the Melly marketplace. See main repository for license information.
 
 ## Support
 
-- GitHub Issues: https://github.com/your-org/melly/issues
+- GitHub Issues: https://github.com/Cubical6/melly/issues
 - Documentation: See `docs/` folder in main repository
-- Community: [Community link]
+- Community: https://github.com/Cubical6/melly/discussions
 
 ---
 
