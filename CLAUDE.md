@@ -4,9 +4,12 @@
 
 ## Overview
 
-Melly is a marketplace consisting of Claude Code components for contextual retrieval from a knowledge base that Claude Code can use.
+Melly is a marketplace consisting of Claude Code components for contextual retrieval from a knowledge base
+that Claude Code can use.
 
-**This document serves as an implementation guide** to help build and configure production-ready agents, hooks, slash commands, and skills that enable intelligent knowledge retrieval and workflow automation for the Melly marketplace.
+**This document serves as an implementation guide** to help build and configure production-ready agents,
+hooks, slash commands, and skills that enable intelligent knowledge retrieval and workflow automation
+for the Melly marketplace.
 
 ## Repository Structure
 
@@ -322,10 +325,10 @@ Claude delegates automatically based on the `description` field.
 ### Best Practices
 
 1. **Focused agents**: One responsibility per agent
-2. **Detailed prompts**: Specific instructions and examples
-3. **Limit tools**: Only necessary tools
-4. **Descriptive descriptions**: Include "use PROACTIVELY" for automatic use
-5. **Version control**: Check project agents into git for team use
+1. **Detailed prompts**: Specific instructions and examples
+1. **Limit tools**: Only necessary tools
+1. **Descriptive descriptions**: Include "use PROACTIVELY" for automatic use
+1. **Version control**: Check project agents into git for team use
 
 ---
 
@@ -546,10 +549,10 @@ echo "Create feature branch:" > .claude/commands/git/feature.md
 ### Best Practices
 
 1. **Use for frequent prompts**: Repeatable tasks
-2. **Clear descriptions**: How and when to use
-3. **Argument hints**: Help users with syntax
-4. **Tool restrictions**: Limit to necessary tools
-5. **Include context**: Use !`command` for runtime data
+1. **Clear descriptions**: How and when to use
+1. **Argument hints**: Help users with syntax
+1. **Tool restrictions**: Limit to necessary tools
+1. **Include context**: Use !`command` for runtime data
 
 ---
 
@@ -829,11 +832,11 @@ Claude automatically activates the skill if it matches.
 ### Best Practices
 
 1. **Focused skills**: One capability per skill
-2. **Clear descriptions**: Include what, when, and keywords
-3. **Progressive disclosure**: Link to extra docs, load only when needed
-4. **Document dependencies**: List required packages in description
-5. **Test with team**: Verify skill activation expectations
-6. **Version in SKILL.md**: Track changes over time
+1. **Clear descriptions**: Include what, when, and keywords
+1. **Progressive disclosure**: Link to extra docs, load only when needed
+1. **Document dependencies**: List required packages in description
+1. **Test with team**: Verify skill activation expectations
+1. **Version in SKILL.md**: Track changes over time
 
 ---
 
@@ -1276,14 +1279,14 @@ LLM response format:
 ### Best Practices
 
 1. **Validate inputs**: Always quote shell variables (`"$VAR"`)
-2. **Block path traversal**: Check for `..` in paths
-3. **Use absolute paths**: Use `$CLAUDE_PROJECT_DIR`
-4. **Skip sensitive files**: Avoid `.env`, `.git/`, keys
-5. **Test in isolation**: Test hooks manually first
-6. **Handle errors gracefully**: Don't crash on unexpected input
-7. **Use appropriate exit codes**: 0=success, 2=block, other=warning
-8. **Keep hooks fast**: Use timeouts, optimize scripts
-9. **Log for debugging**: Use `claude --debug` to inspect execution
+1. **Block path traversal**: Check for `..` in paths
+1. **Use absolute paths**: Use `$CLAUDE_PROJECT_DIR`
+1. **Skip sensitive files**: Avoid `.env`, `.git/`, keys
+1. **Test in isolation**: Test hooks manually first
+1. **Handle errors gracefully**: Don't crash on unexpected input
+1. **Use appropriate exit codes**: 0=success, 2=block, other=warning
+1. **Keep hooks fast**: Use timeouts, optimize scripts
+1. **Log for debugging**: Use `claude --debug` to inspect execution
 
 ### Security Considerations
 
@@ -1469,52 +1472,52 @@ See `docs/claude-code/plugins.md` and `docs/claude-code/plugins-reference.md` fo
 ### Agent Development
 
 1. **Start with Claude-generated**: Use `/agents` and let Claude draft
-2. **Iterate**: Test and refine based on usage
-3. **Focused responsibility**: One task per agent
-4. **Rich prompts**: Detailed instructions and examples
-5. **Tool restrictions**: Only what's needed
-6. **Proactive triggers**: Include "PROACTIVELY" in description
+1. **Iterate**: Test and refine based on usage
+1. **Focused responsibility**: One task per agent
+1. **Rich prompts**: Detailed instructions and examples
+1. **Tool restrictions**: Only what's needed
+1. **Proactive triggers**: Include "PROACTIVELY" in description
 
 ### Command Design
 
 1. **Frequent tasks**: Commands for repeatable actions
-2. **Clear purpose**: One clear goal per command
-3. **Good defaults**: Work without arguments where possible
-4. **Flexible**: Support arguments for variation
-5. **Context aware**: Use !`command` for runtime data
+1. **Clear purpose**: One clear goal per command
+1. **Good defaults**: Work without arguments where possible
+1. **Flexible**: Support arguments for variation
+1. **Context aware**: Use !`command` for runtime data
 
 ### Skill Authoring
 
 1. **Discovery keywords**: Include in description what users would say
-2. **Progressive detail**: Main SKILL.md concise, link to details
-3. **Document deps**: List required packages
-4. **Examples**: Concrete examples in skill
-5. **Test discovery**: Verify Claude activates skill as expected
+1. **Progressive detail**: Main SKILL.md concise, link to details
+1. **Document deps**: List required packages
+1. **Examples**: Concrete examples in skill
+1. **Test discovery**: Verify Claude activates skill as expected
 
 ### Hook Development
 
 1. **Test locally first**: Run command manually
-2. **Handle errors**: Graceful failures
-3. **Fast execution**: Keep under 5 seconds ideally
-4. **Quote variables**: Always `"$VAR"`
-5. **Validate input**: Never trust blindly
-6. **Use exit codes**: 0=success, 2=block, other=warning
-7. **Debug mode**: Test with `claude --debug`
+1. **Handle errors**: Graceful failures
+1. **Fast execution**: Keep under 5 seconds ideally
+1. **Quote variables**: Always `"$VAR"`
+1. **Validate input**: Never trust blindly
+1. **Use exit codes**: 0=success, 2=block, other=warning
+1. **Debug mode**: Test with `claude --debug`
 
 ### Performance
 
 1. **Agent context**: Agents have their own context window (good)
-2. **Skill loading**: Progressive disclosure (load on demand)
-3. **Hook timeouts**: Set appropriate timeouts (default 60s)
-4. **Command caching**: Commands cached per session
+1. **Skill loading**: Progressive disclosure (load on demand)
+1. **Hook timeouts**: Set appropriate timeouts (default 60s)
+1. **Command caching**: Commands cached per session
 
 ### Security
 
 1. **Review all code**: Before adding to config
-2. **Principle of least privilege**: Minimal tool access
-3. **Protect sensitive files**: Use hooks to block
-4. **Audit logs**: Track what Claude does
-5. **Test in isolation**: Safe environment first
+1. **Principle of least privilege**: Minimal tool access
+1. **Protect sensitive files**: Use hooks to block
+1. **Audit logs**: Track what Claude does
+1. **Test in isolation**: Safe environment first
 
 ---
 
@@ -1665,9 +1668,9 @@ claude update
 ### Priority Order
 
 1. **Agents**: CLI → Project → User → Plugin
-2. **Commands**: Project → User → Plugin
-3. **Skills**: Project → Personal → Plugin
-4. **Settings**: Local → Project → User → Enterprise
+1. **Commands**: Project → User → Plugin
+1. **Skills**: Project → Personal → Plugin
+1. **Settings**: Local → Project → User → Enterprise
 
 ### Quick Commands
 
@@ -2018,9 +2021,9 @@ For Melly implementation details, see:
 This implementation guide provides everything needed to build production-ready Claude Code components for the Melly marketplace. Use this guide to:
 
 1. **Implement Agents** - Specialized AI assistants for contextual knowledge retrieval
-2. **Create Commands** - Reusable prompts that leverage the knowledge base
-3. **Develop Skills** - Extensible capabilities for intelligent information extraction
-4. **Configure Hooks** - Automation and quality control for production workflows
+1. **Create Commands** - Reusable prompts that leverage the knowledge base
+1. **Develop Skills** - Extensible capabilities for intelligent information extraction
+1. **Configure Hooks** - Automation and quality control for production workflows
 
 By following this guide, you'll create a production-ready marketplace of Claude Code components that enable powerful contextual retrieval from your knowledge base.
 
