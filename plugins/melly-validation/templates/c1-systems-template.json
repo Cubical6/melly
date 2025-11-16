@@ -1,4 +1,7 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "C1 (System Context) Level JSON Template - Complete structure for system identification and analysis",
+
   "metadata": {
     "schema_version": "1.0.0",
     "timestamp": "2025-11-15T20:10:00.000Z",
@@ -7,5 +10,492 @@
       "timestamp": "2025-11-15T20:00:00.000Z"
     }
   },
-  "systems": []
+
+  "systems": [
+    {
+      "_comment": "Complete example showing ALL C1 system fields",
+
+      "id": "web-frontend",
+      "_id_description": "Unique identifier in kebab-case format. Pattern: ^[a-z0-9]+(-[a-z0-9]+)*$",
+
+      "name": "Web Frontend",
+      "_name_description": "Human-readable system name",
+
+      "type": "web-application",
+      "_type_description": "System type classification",
+      "_type_values": [
+        "web-application",
+        "mobile-application",
+        "desktop-application",
+        "api-service",
+        "database",
+        "message-broker",
+        "cache",
+        "cdn",
+        "external-service",
+        "user-facing",
+        "internal-service",
+        "data-store",
+        "integration",
+        "other"
+      ],
+
+      "description": "Customer-facing e-commerce web application providing product catalog, shopping cart, and checkout functionality",
+      "_description_description": "Detailed description of system purpose and responsibilities (max 1000 chars)",
+
+      "repositories": [
+        "/repos/frontend-spa"
+      ],
+      "_repositories_description": "Array of repository paths (absolute or relative). Must have at least one repository.",
+
+      "boundaries": {
+        "scope": "internal",
+        "_scope_values": ["internal", "external", "hybrid"],
+        "_scope_description": "Ownership and control boundary",
+
+        "deployment": "cloud",
+        "_deployment_values": ["on-premise", "cloud", "hybrid", "saas", "unknown"],
+        "_deployment_description": "Hosting and deployment model",
+
+        "network": "public",
+        "_network_values": ["public", "private", "dmz", "unknown"],
+        "_network_description": "Network accessibility level"
+      },
+
+      "responsibilities": [
+        "Display product catalog and search",
+        "Manage shopping cart and user sessions",
+        "Handle user authentication",
+        "Process checkout workflow"
+      ],
+      "_responsibilities_description": "Key responsibilities and capabilities of the system",
+
+      "observations": [
+        {
+          "_comment": "Architectural observation example",
+          "id": "obs-arch-spa-react",
+          "title": "SPA architecture using React framework",
+          "category": "architecture",
+          "severity": "info",
+          "description": "Single Page Application (SPA) architecture using React framework with client-side routing",
+          "evidence": [
+            {
+              "type": "file",
+              "location": "package.json",
+              "snippet": "\"react\": \"^18.2.0\", \"react-router-dom\": \"^6.8.0\""
+            }
+          ],
+          "tags": ["react", "spa", "frontend", "client-side-routing"]
+        },
+        {
+          "_comment": "Integration observation example",
+          "id": "obs-int-rest-api",
+          "title": "Backend REST API integration with JWT",
+          "category": "integration",
+          "severity": "info",
+          "description": "Communicates with backend REST API over HTTPS with JWT authentication",
+          "evidence": [
+            {
+              "type": "config",
+              "location": ".env.example",
+              "snippet": "REACT_APP_API_URL=https://api.example.com"
+            }
+          ],
+          "tags": ["rest-api", "https", "integration", "jwt"]
+        },
+        {
+          "_comment": "Boundaries observation example",
+          "id": "obs-bound-api-gateway",
+          "title": "API gateway defines system boundary",
+          "category": "boundaries",
+          "severity": "info",
+          "description": "System boundary defined by API gateway - all external communication routed through centralized entry point",
+          "evidence": [
+            {
+              "type": "pattern",
+              "location": "src/api/client.ts",
+              "snippet": "const apiClient = axios.create({ baseURL: API_URL })"
+            }
+          ],
+          "tags": ["api-gateway", "boundary", "centralized"]
+        },
+        {
+          "_comment": "Security observation with warning severity",
+          "id": "obs-sec-localstorage-xss",
+          "title": "Tokens in localStorage vulnerable to XSS",
+          "category": "security",
+          "severity": "warning",
+          "description": "Authentication tokens stored in browser localStorage - vulnerable to XSS attacks",
+          "impact": "If an XSS vulnerability exists elsewhere in the application, attackers can steal authentication tokens and impersonate users",
+          "recommendation": "Store tokens in httpOnly cookies or use a more secure authentication pattern like OAuth with PKCE",
+          "evidence": [
+            {
+              "type": "code",
+              "location": "src/auth/AuthService.ts",
+              "snippet": "localStorage.setItem('token', jwt)"
+            }
+          ],
+          "tags": ["authentication", "jwt", "security", "xss-risk"]
+        },
+        {
+          "_comment": "Scalability observation example",
+          "id": "obs-scale-cdn-assets",
+          "title": "CDN used for static asset delivery",
+          "category": "scalability",
+          "severity": "info",
+          "description": "Static assets served via CDN for global scalability and performance",
+          "evidence": [
+            {
+              "type": "config",
+              "location": "public/index.html",
+              "snippet": "<link rel=\"preconnect\" href=\"https://cdn.example.com\">"
+            }
+          ],
+          "tags": ["cdn", "scalability", "performance", "static-assets"]
+        },
+        {
+          "_comment": "Actors observation example",
+          "id": "obs-actor-user-roles",
+          "title": "Three primary user types identified",
+          "category": "actors",
+          "severity": "info",
+          "description": "Three primary user types: anonymous visitors, registered customers, and administrators",
+          "evidence": [
+            {
+              "type": "pattern",
+              "location": "src/types/User.ts",
+              "snippet": "type UserRole = 'anonymous' | 'customer' | 'admin'"
+            }
+          ],
+          "tags": ["user-types", "roles", "actors"]
+        },
+        {
+          "_comment": "Critical security finding",
+          "id": "obs-sec-no-csrf",
+          "title": "No CSRF protection on state-changing operations",
+          "category": "security",
+          "severity": "critical",
+          "description": "No CSRF protection implemented on state-changing operations",
+          "impact": "Attackers can forge requests from authenticated users to perform unauthorized actions (e.g., transfer funds, change passwords, delete data)",
+          "recommendation": "Implement CSRF token validation for all state-changing operations (POST, PUT, DELETE). Use synchronizer token pattern or double-submit cookie pattern",
+          "evidence": [
+            {
+              "type": "file",
+              "location": "src/api/",
+              "snippet": "No CSRF token implementation found"
+            }
+          ],
+          "tags": ["csrf", "security", "vulnerability", "critical"]
+        }
+      ],
+      "_observations_description": "Structured findings about the system. Each observation must have category, severity, description. Evidence and tags are recommended.",
+      "_observation_categories": [
+        "architecture - System-level architectural patterns and decisions",
+        "integration - External system integrations and communication",
+        "boundaries - System boundary definitions and scope",
+        "security - Security posture, authentication, authorization",
+        "scalability - Scalability patterns and constraints",
+        "actors - User types and external actors",
+        "deployment - Deployment patterns, hosting, and infrastructure",
+        "users - User behavior, personas, and usage patterns",
+        "external-dependencies - Third-party services and dependencies",
+        "data-flow - Data movement and transformation patterns",
+        "technology-stack - Technologies, frameworks, and libraries used"
+      ],
+      "_observation_severities": [
+        "info - Informational observation",
+        "warning - Potential issue requiring attention",
+        "critical - Critical issue requiring immediate action"
+      ],
+      "_evidence_types": [
+        "file - Package manifest or configuration file (alias: file-path)",
+        "code - Source code snippet (alias: code-snippet)",
+        "config - Configuration file or settings (alias: configuration)",
+        "metric - Measured metric or statistic",
+        "pattern - Architectural or code pattern",
+        "dependency - Package dependency or library reference",
+        "log-output - Log file or command output",
+        "documentation - README, docs, or inline documentation"
+      ],
+
+      "relations": [
+        {
+          "_comment": "HTTP REST relation example",
+          "target": "api-backend",
+          "type": "http-rest",
+          "direction": "outbound",
+          "_direction_values": ["outbound", "inbound", "bidirectional", "unidirectional"],
+          "description": "Fetches product catalog, user data, and order information via REST API",
+          "protocol": {
+            "method": "GET, POST, PUT, DELETE",
+            "endpoint": "/api/v1/*",
+            "format": "JSON",
+            "authentication": "JWT Bearer Token"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "high",
+            "critical": true
+          },
+          "tags": ["rest", "json", "api", "critical"]
+        },
+        {
+          "_comment": "External service integration example",
+          "target": "payment-gateway",
+          "type": "http-rest",
+          "direction": "outbound",
+          "description": "Processes payments through external payment gateway (Stripe)",
+          "protocol": {
+            "method": "POST",
+            "endpoint": "https://api.stripe.com/v1/charges",
+            "format": "JSON",
+            "authentication": "API Key"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "medium",
+            "critical": true
+          },
+          "tags": ["payment", "stripe", "external", "pci"]
+        },
+        {
+          "_comment": "GraphQL relation example",
+          "target": "graphql-api",
+          "type": "http-graphql",
+          "direction": "outbound",
+          "description": "Queries real-time product availability and pricing via GraphQL",
+          "protocol": {
+            "method": "POST",
+            "endpoint": "/graphql",
+            "format": "GraphQL",
+            "authentication": "JWT Bearer Token"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "high",
+            "critical": false
+          },
+          "tags": ["graphql", "real-time", "product-data"]
+        },
+        {
+          "_comment": "Message queue relation example",
+          "target": "notification-service",
+          "type": "message-queue",
+          "direction": "outbound",
+          "description": "Publishes user events to notification service via message queue",
+          "protocol": {
+            "method": "PUBLISH",
+            "endpoint": "user-events-queue",
+            "format": "JSON",
+            "authentication": "Service Token"
+          },
+          "metadata": {
+            "synchronous": false,
+            "frequency": "medium",
+            "critical": false
+          },
+          "tags": ["async", "events", "notifications"]
+        },
+        {
+          "_comment": "Authentication relation example",
+          "target": "auth-service",
+          "type": "authentication",
+          "direction": "bidirectional",
+          "description": "Authenticates users and validates session tokens",
+          "protocol": {
+            "method": "POST",
+            "endpoint": "/auth/login, /auth/validate",
+            "format": "JSON",
+            "authentication": "Basic Auth for login, JWT for validation"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "high",
+            "critical": true
+          },
+          "tags": ["auth", "login", "session", "critical"]
+        },
+        {
+          "_comment": "gRPC relation example",
+          "target": "inventory-service",
+          "type": "grpc",
+          "direction": "outbound",
+          "description": "Checks product inventory levels via gRPC",
+          "protocol": {
+            "method": "CheckInventory",
+            "endpoint": "inventory.InventoryService/CheckInventory",
+            "format": "Protobuf",
+            "authentication": "mTLS"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "high",
+            "critical": true
+          },
+          "tags": ["grpc", "inventory", "protobuf"]
+        },
+        {
+          "_comment": "Database query relation example",
+          "target": "user-cache",
+          "type": "database-query",
+          "direction": "bidirectional",
+          "description": "Reads and writes user session data to Redis cache",
+          "protocol": {
+            "method": "GET, SET, DEL",
+            "endpoint": "redis://cache:6379",
+            "format": "Redis Protocol",
+            "authentication": "Password"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "high",
+            "critical": false
+          },
+          "tags": ["redis", "cache", "session"]
+        },
+        {
+          "_comment": "File transfer relation example",
+          "target": "cdn",
+          "type": "file-transfer",
+          "direction": "inbound",
+          "description": "Loads static assets (images, CSS, JavaScript) from CDN",
+          "protocol": {
+            "method": "GET",
+            "endpoint": "https://cdn.example.com/assets/*",
+            "format": "Binary",
+            "authentication": "None"
+          },
+          "metadata": {
+            "synchronous": true,
+            "frequency": "high",
+            "critical": false
+          },
+          "tags": ["cdn", "static-assets", "performance"]
+        }
+      ],
+      "_relations_description": "Directional connections to other systems. Target is system-id, type defines communication pattern, description uses active voice.",
+      "_relation_type_guidelines": [
+        "Prefer specific types over generic types:",
+        "  - Use 'http-rest' instead of 'http' for REST APIs",
+        "  - Use 'http-graphql' instead of 'https' for GraphQL APIs",
+        "  - Use 'database-query' for read-only database access",
+        "Generic types (http, https) are provided for flexibility but less descriptive"
+      ],
+      "_relation_types": [
+        "http - Generic HTTP communication",
+        "https - Secure HTTP communication",
+        "http-rest - RESTful HTTP API",
+        "http-graphql - GraphQL over HTTP",
+        "graphql - GraphQL API communication",
+        "websocket - WebSocket real-time bidirectional communication",
+        "grpc - gRPC remote procedure calls",
+        "rpc - Generic RPC (Remote Procedure Call)",
+        "message-queue - Asynchronous message queue (RabbitMQ, Kafka, etc.)",
+        "event-stream - Server-sent events or event streaming",
+        "database-query - Database read/write operations",
+        "database-connection - Database connection and pooling",
+        "file-transfer - File upload/download operations",
+        "authentication - Authentication and identity verification",
+        "soap - SOAP web service communication",
+        "smtp - Email communication via SMTP",
+        "external-api - Third-party API integration"
+      ],
+      "_relation_directions": [
+        "outbound - This system initiates communication to target (PREFERRED)",
+        "inbound - Target system initiates communication to this system (PREFERRED)",
+        "bidirectional - Communication flows both ways",
+        "unidirectional - Legacy term for one-way communication (use 'outbound' or 'inbound' instead for clarity)"
+      ]
+    }
+  ],
+
+  "_frontmatter_requirements": {
+    "_description": "When generating markdown from this JSON, the frontmatter MUST include these fields",
+    "required_fields": [
+      "id - System ID (from system.id)",
+      "title - System name (from system.name)",
+      "level - Always 'c1' for C1 level",
+      "type - System type (from system.type)",
+      "generated - Always 'auto' to indicate automated generation"
+    ],
+    "example": "---\nid: web-frontend\ntitle: Web Frontend\nlevel: c1\ntype: web-application\ngenerated: auto\n---"
+  },
+
+  "_schema_documentation": {
+    "version": "1.0.0",
+    "description": "C1 Systems JSON Schema Template",
+    "purpose": "Define system-level (C1) entities in the C4 model hierarchy",
+    "parent": "init.json",
+    "children": "c2-containers.json",
+
+    "field_definitions": {
+      "metadata": {
+        "schema_version": "Version of this schema (semver format)",
+        "timestamp": "ISO 8601 datetime with UTC timezone (YYYY-MM-DDTHH:mm:ss.sssZ)",
+        "parent.file": "Name of parent JSON file (init.json)",
+        "parent.timestamp": "Timestamp from parent file for ordering validation"
+      },
+
+      "system": {
+        "id": "Unique identifier in kebab-case. Pattern: ^[a-z0-9]+(-[a-z0-9]+)*$",
+        "name": "Human-readable system name",
+        "type": "System classification - see _type_values for allowed values",
+        "description": "Detailed description of system purpose (max 1000 chars)",
+        "repositories": "Array of repository paths associated with this system",
+        "boundaries.scope": "Ownership boundary: internal (we own it) | external (third-party) | hybrid",
+        "boundaries.deployment": "Deployment model: on-premise | cloud | hybrid | saas | unknown",
+        "boundaries.network": "Network accessibility: public | private | dmz | unknown",
+        "responsibilities": "Array of key responsibilities this system handles"
+      },
+
+      "observation": {
+        "category": "Classification of observation - see _observation_categories",
+        "severity": "Importance level: info | warning | critical",
+        "description": "Detailed finding description (min 10 chars)",
+        "evidence.type": "Type of supporting evidence: file | code | config | metric | pattern",
+        "evidence.location": "Path to evidence file (relative to repository root)",
+        "evidence.snippet": "Code excerpt or configuration showing the observation",
+        "tags": "Array of lowercase kebab-case strings for searchability"
+      },
+
+      "relation": {
+        "target": "Target system ID (must reference valid system)",
+        "type": "Relationship type - see _relation_types",
+        "direction": "Communication direction: outbound | inbound | bidirectional",
+        "description": "Active voice description of the relationship (what this system does)",
+        "protocol.method": "Communication method (HTTP verbs, RPC methods, SQL, etc.)",
+        "protocol.endpoint": "API endpoint, queue name, database connection, etc.",
+        "protocol.format": "Data format: JSON | XML | Protobuf | Binary | etc.",
+        "protocol.authentication": "Authentication method: JWT | API Key | OAuth | mTLS | etc.",
+        "metadata.synchronous": "Boolean - is communication synchronous?",
+        "metadata.frequency": "Communication frequency: high | medium | low",
+        "metadata.critical": "Boolean - is this a critical dependency?",
+        "tags": "Array of tags for searchability"
+      }
+    },
+
+    "validation_rules": {
+      "timestamp_ordering": "metadata.timestamp MUST be > parent.timestamp",
+      "unique_ids": "All system IDs must be unique within the file",
+      "valid_references": "All relation targets must reference valid system IDs",
+      "required_fields": "id, name, type, repositories, description, observations, relations are required",
+      "observations_array": "observations must be an array (can be empty)",
+      "relations_array": "relations must be an array (can be empty)",
+      "kebab_case_ids": "All IDs must match pattern ^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+
+    "markdown_generation": {
+      "script": "plugins/melly-validation/scripts/generate-c1-markdown.py",
+      "output_pattern": "knowledge-base/systems/{system-id}/c1/README.md",
+      "sections": [
+        "1. Frontmatter (YAML)",
+        "2. Overview (name, type, scope, repositories)",
+        "3. Observations (grouped by category, sorted by severity)",
+        "4. Relations (table format)",
+        "5. Metadata (source, level, ID)"
+      ],
+      "observation_rendering": "Grouped by category with severity icons (🔴 critical, ⚠️ warning, ℹ️ info)",
+      "relation_rendering": "Markdown table with columns: Target | Type | Direction | Description"
+    }
+  }
 }

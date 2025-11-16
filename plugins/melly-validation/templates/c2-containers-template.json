@@ -1,11 +1,338 @@
 {
+  "_comment": "C2 Container Level Template - Complete schema with examples and documentation",
+  "_schema_version": "1.0.0",
+  "_description": "Template for documenting containers (deployable/runnable units) within each system. Each container represents a separately deployable part of the architecture.",
+
   "metadata": {
     "schema_version": "1.0.0",
     "timestamp": "2025-11-15T20:20:00.000Z",
     "parent": {
       "file": "c1-systems.json",
-      "timestamp": "2025-11-15T20:10:00.000Z"
+      "timestamp": "2025-11-15T20:10:00.000Z",
+      "_comment": "Parent timestamp must be earlier than this file's timestamp"
     }
   },
-  "containers": []
+
+  "containers": [
+    {
+      "_comment": "Example container - Remove or replace with actual containers",
+
+      "id": "example-api-server",
+      "_id_comment": "REQUIRED: Unique identifier in kebab-case. Used for file naming and cross-references.",
+
+      "name": "Example API Server",
+      "_name_comment": "REQUIRED: Human-readable name for the container",
+
+      "type": "app-server",
+      "_type_comment": "REQUIRED: Container type. Valid values: web-server, app-server, database, cache, message-broker, spa, api, worker, file-storage",
+      "_type_options": [
+        "web-server - HTTP servers like Nginx, Apache",
+        "app-server - Application runtime servers (Node.js, Python, Java)",
+        "database - Database systems (PostgreSQL, MongoDB, etc.)",
+        "cache - Caching systems (Redis, Memcached)",
+        "message-broker - Message queues (RabbitMQ, Kafka)",
+        "spa - Single Page Applications (runs in browser)",
+        "api - API gateways or dedicated API servers",
+        "worker - Background job processors",
+        "file-storage - File/blob storage systems"
+      ],
+
+      "system_id": "example-system",
+      "_system_id_comment": "REQUIRED: Parent system ID (must match an ID from c1-systems.json)",
+
+      "responsibility": "Provides REST API endpoints for client applications, handles business logic, and manages data persistence",
+      "_responsibility_comment": "REQUIRED: Clear description of what this container does and why it exists",
+
+      "technology": {
+        "_comment": "Technology stack information - what this container is built with",
+
+        "primary_language": "JavaScript",
+        "_primary_language_comment": "REQUIRED: Main programming language (e.g., JavaScript, Python, Java, Go, TypeScript)",
+
+        "framework": "Express.js 4.18.2",
+        "_framework_comment": "REQUIRED: Primary framework/runtime (e.g., Express.js, Django, Spring Boot, Next.js)",
+
+        "libraries": [
+          {
+            "name": "sequelize",
+            "version": "6.32.1",
+            "purpose": "ORM for database access and schema management",
+            "_comment": "Each library should document name, version, and why it's used"
+          },
+          {
+            "name": "passport",
+            "version": "0.6.0",
+            "purpose": "Authentication middleware with JWT strategy"
+          },
+          {
+            "name": "joi",
+            "version": "17.9.2",
+            "purpose": "Request validation and schema enforcement"
+          }
+        ],
+        "_libraries_comment": "OPTIONAL: Array of key libraries/dependencies. Include name, version, and purpose for each."
+      },
+
+      "runtime": {
+        "_comment": "Runtime environment information - where and how this container runs",
+
+        "environment": "server",
+        "_environment_comment": "REQUIRED: Where it runs. Valid values: browser, server, cloud, edge, mobile",
+
+        "platform": "Node.js 18.x on Linux",
+        "_platform_comment": "REQUIRED: Execution platform details (e.g., 'Node.js 18.x on Linux', 'Python 3.11 on Docker', 'Browser (Chrome/Firefox/Safari)')",
+
+        "containerized": true,
+        "_containerized_comment": "REQUIRED: Boolean - is this deployed in containers (Docker/Kubernetes)?",
+
+        "container_technology": "Docker with Kubernetes orchestration",
+        "_container_technology_comment": "REQUIRED IF containerized=true: Container technology details (e.g., 'Docker', 'Docker with Kubernetes', 'Docker Compose')"
+      },
+
+      "observations": [
+        {
+          "_comment": "Example observation - Critical security finding",
+
+          "id": "obs-outdated-express",
+          "_id_comment": "REQUIRED: Unique observation identifier in kebab-case (pattern: ^obs-[a-z0-9-]+$)",
+
+          "title": "Outdated Express.js Version",
+          "_title_comment": "OPTIONAL: Short title for the observation",
+
+          "category": "technology",
+          "_category_comment": "REQUIRED: Observation category. Valid values: technology, runtime, communication, data-storage, authentication, deployment, scalability, performance, dependencies, configuration, monitoring, security",
+          "_category_options": [
+            "technology - Language, framework, library choices and patterns",
+            "runtime - Execution environment, platform, containerization",
+            "communication - How this container communicates (protocols, APIs)",
+            "data-storage - Database access, caching, file storage patterns",
+            "authentication - Authentication and authorization mechanisms",
+            "deployment - Deployment strategies, infrastructure, scaling",
+            "scalability - Horizontal/vertical scaling capabilities and patterns",
+            "performance - Performance characteristics, bottlenecks, optimizations",
+            "dependencies - External dependencies and library usage",
+            "configuration - Configuration management and environment variables",
+            "monitoring - Logging, metrics, and observability",
+            "security - Security vulnerabilities, authentication, authorization"
+          ],
+
+          "severity": "critical",
+          "_severity_comment": "REQUIRED: Severity level. Valid values: critical, warning, info",
+          "_severity_options": [
+            "critical - Security vulnerabilities, breaking issues, must fix",
+            "warning - Performance issues, technical debt, should fix",
+            "info - Informational findings, best practices, nice to have"
+          ],
+
+          "description": "Using outdated Express.js version with known security vulnerabilities",
+          "_description_comment": "REQUIRED: Clear description of the observation",
+
+          "impact": "Exposes application to known CVE vulnerabilities including remote code execution and denial of service attacks",
+          "_impact_comment": "OPTIONAL: Impact description for critical/warning observations",
+
+          "recommendation": "Upgrade to Express.js 4.18.2 or later to patch known security vulnerabilities",
+          "_recommendation_comment": "OPTIONAL: Recommended action for critical/warning observations",
+
+          "evidence": [
+            {
+              "location": "package.json:15",
+              "_location_comment": "REQUIRED: Where this was found (file:line or file path)",
+
+              "type": "config",
+              "_type_comment": "OPTIONAL: Evidence type (config, code, text, yaml, etc.)",
+
+              "snippet": "\"express\": \"^4.17.1\"",
+              "_snippet_comment": "OPTIONAL: Code snippet or relevant excerpt"
+            }
+          ],
+          "_evidence_comment": "OPTIONAL: Array of supporting evidence for this observation",
+
+          "tags": ["security", "dependency", "cve"],
+          "_tags_comment": "OPTIONAL: Array of tags for categorization and search"
+        },
+        {
+          "_comment": "Example observation - Performance warning",
+
+          "id": "obs-no-connection-pool",
+          "title": "Missing Database Connection Pool",
+          "category": "performance",
+          "severity": "warning",
+          "description": "No connection pooling detected for database connections",
+          "impact": "May lead to connection exhaustion under high load and degraded performance",
+          "recommendation": "Implement connection pooling using Sequelize pool configuration",
+          "evidence": [
+            {
+              "location": "src/db/connection.js:23-45",
+              "type": "code"
+            }
+          ],
+          "tags": ["performance", "database", "optimization"]
+        },
+        {
+          "_comment": "Example observation - Informational finding",
+
+          "id": "obs-openapi-spec",
+          "title": "OpenAPI Specification Available",
+          "category": "communication",
+          "severity": "info",
+          "description": "REST API follows OpenAPI 3.0 specification",
+          "evidence": [
+            {
+              "location": "docs/openapi.yaml",
+              "type": "config"
+            }
+          ],
+          "tags": ["api", "documentation", "best-practice"]
+        }
+      ],
+      "_observations_comment": "OPTIONAL: Array of observations about this container. Each observation documents findings, patterns, or notable characteristics.",
+
+      "relations": [
+        {
+          "_comment": "Example relation - Database connection",
+
+          "target": "postgres-database",
+          "_target_comment": "REQUIRED: Target container ID (must match another container's ID)",
+
+          "type": "database-connection",
+          "_type_comment": "REQUIRED: Relation type. Valid values: http-rest, http-graphql, grpc, websocket, database-connection, database-query, database-write, database-read-write, cache-access, cache-read, cache-write, cache-read-write, message-publish, message-subscribe, message-consumer, file-read, file-write, cdn-fetch, stream",
+          "_type_options": [
+            "http-rest - REST API calls over HTTP/HTTPS",
+            "http-graphql - GraphQL queries over HTTP/HTTPS",
+            "grpc - gRPC calls",
+            "websocket - WebSocket connections",
+            "database-connection - Direct database connections (SQL, NoSQL)",
+            "database-query - Database read queries (SELECT)",
+            "database-write - Database write operations (INSERT, UPDATE, DELETE)",
+            "database-read-write - Database read and write operations",
+            "cache-access - Cache read/write operations (generic)",
+            "cache-read - Cache read operations only",
+            "cache-write - Cache write operations only",
+            "cache-read-write - Cache read and write operations",
+            "message-publish - Publishes messages to queue/broker",
+            "message-subscribe - Subscribes to messages from queue/broker",
+            "message-consumer - Consumes messages from queue/broker",
+            "file-read - Reads from file/blob storage",
+            "file-write - Writes to file/blob storage",
+            "cdn-fetch - Fetches content from CDN",
+            "stream - Real-time data streaming"
+          ],
+
+          "description": "Connects to PostgreSQL for persistent data storage using connection pool",
+          "_description_comment": "REQUIRED: Description in active voice describing what this relation does"
+        },
+        {
+          "_comment": "Example relation - Cache access",
+
+          "target": "redis-cache",
+          "type": "cache-access",
+          "description": "Uses Redis for session storage and API response caching"
+        },
+        {
+          "_comment": "Example relation - Message consumer",
+
+          "target": "rabbitmq-broker",
+          "type": "message-consumer",
+          "description": "Consumes job tasks from the 'tasks' queue for background processing"
+        }
+      ],
+      "_relations_comment": "OPTIONAL: Array of relations to other containers. Documents how containers communicate and depend on each other."
+    }
+  ],
+
+  "_frontmatter_requirements": {
+    "_comment": "Markdown frontmatter generated from container JSON",
+    "id": "From container.id",
+    "title": "From container.name",
+    "level": "Always 'c2'",
+    "type": "From container.type",
+    "system": "From container.system_id",
+    "generated": "Always 'auto'"
+  },
+
+  "_validation_rules": {
+    "required_fields": {
+      "container": ["id", "name", "type", "system_id", "responsibility", "technology", "runtime"],
+      "technology": ["primary_language", "framework"],
+      "runtime": ["environment", "platform", "containerized"],
+      "observation": ["id", "category", "severity", "description"],
+      "relation": ["target", "type", "description"]
+    },
+    "valid_values": {
+      "type": ["web-server", "app-server", "database", "cache", "message-broker", "spa", "api", "worker", "file-storage"],
+      "environment": ["browser", "server", "cloud", "edge", "mobile"],
+      "observation_category": ["technology", "runtime", "communication", "data-storage", "authentication", "deployment", "scalability", "performance", "dependencies", "configuration", "monitoring", "security"],
+      "observation_severity": ["critical", "warning", "info"],
+      "relation_type": ["http-rest", "http-graphql", "grpc", "websocket", "database-connection", "database-query", "database-write", "database-read-write", "cache-access", "cache-read", "cache-write", "cache-read-write", "message-publish", "message-subscribe", "message-consumer", "file-read", "file-write", "cdn-fetch", "stream"]
+    },
+    "conditional_requirements": {
+      "runtime.containerized_true": "runtime.container_technology is required when containerized=true"
+    },
+    "id_format": {
+      "container_id": "kebab-case, unique across all containers",
+      "system_id": "Must match an ID from c1-systems.json",
+      "observation_id": "Pattern: ^obs-[a-z0-9-]+$, unique within the container"
+    },
+    "timestamp_rules": {
+      "metadata.timestamp": "ISO 8601 format, must be after parent.timestamp",
+      "parent.timestamp": "Must match timestamp in c1-systems.json"
+    }
+  },
+
+  "_markdown_structure": {
+    "_comment": "Structure of generated markdown files (from generate-c2-markdown.py)",
+    "sections": [
+      "1. Frontmatter (YAML)",
+      "2. Overview (name, type, system, responsibility)",
+      "3. Technology Stack (language, framework, libraries table)",
+      "4. Runtime Environment (environment, platform, containerization)",
+      "5. Observations (grouped by category, sorted by severity)",
+      "6. Relations (table: target, type, description)",
+      "7. Metadata (source file, level, ID, system)"
+    ],
+    "file_path": "knowledge-base/systems/{system_id}/c2/{container_id}.md"
+  },
+
+  "_usage_notes": {
+    "when_to_create": "After C1 systems are identified and documented",
+    "one_container_per": "Separately deployable/runnable unit (microservice, database, SPA, etc.)",
+    "technology_focus": "Document the tech stack, not implementation details",
+    "runtime_focus": "Document where and how it runs, containerization approach",
+    "observations_focus": "Key findings about technology choices, architecture, performance, security",
+    "relations_focus": "How containers communicate - protocols and patterns",
+    "cross_references": "system_id must reference C1 system, relation targets must reference other containers"
+  },
+
+  "_examples": {
+    "frontend_spa": {
+      "type": "spa",
+      "environment": "browser",
+      "primary_language": "TypeScript",
+      "framework": "React 18.2.0"
+    },
+    "backend_api": {
+      "type": "app-server",
+      "environment": "server",
+      "primary_language": "Python",
+      "framework": "FastAPI 0.104.1"
+    },
+    "database": {
+      "type": "database",
+      "environment": "server",
+      "primary_language": "SQL",
+      "framework": "PostgreSQL 15.4"
+    },
+    "cache": {
+      "type": "cache",
+      "environment": "server",
+      "primary_language": "N/A",
+      "framework": "Redis 7.2"
+    },
+    "message_broker": {
+      "type": "message-broker",
+      "environment": "server",
+      "primary_language": "N/A",
+      "framework": "RabbitMQ 3.12"
+    }
+  }
 }
