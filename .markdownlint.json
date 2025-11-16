@@ -42,7 +42,7 @@
     "question": true
   },
   "MD029": {
-    "style": "consistent"
+    "style": "ordered"
   },
   "MD030": {
     "ul_single": 1,
