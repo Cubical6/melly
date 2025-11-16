@@ -28,7 +28,8 @@ basic_memory_id: entity-def456
 ### Observations
 
 #### Concept: Route Model Binding
-**Category**: routing
+**Category**: Concept
+**Topic**: routing
 **Source**: ## Introduction
 **Confidence**: high
 
@@ -39,7 +40,8 @@ Route model binding automatically injects model instances based on route paramet
 ---
 
 #### Technique: Implicit Binding Convention
-**Category**: routing
+**Category**: Technique
+**Topic**: routing
 **Source**: ## Implicit Binding
 **Confidence**: high
 
@@ -50,7 +52,8 @@ Implicit binding works when the route parameter name matches the type-hinted par
 ---
 
 #### Example: Basic Implicit Binding
-**Category**: routing
+**Category**: Example
+**Topic**: routing
 **Source**: ## Implicit Binding Example
 **Confidence**: high
 
@@ -67,7 +70,8 @@ This automatically finds the User model by ID from the {user} parameter.
 ---
 
 #### Technique: Custom 404 Behavior
-**Category**: routing
+**Category**: Technique
+**Topic**: routing
 **Source**: ## Customizing Missing Model Behavior
 **Confidence**: high
 
@@ -86,7 +90,8 @@ Route::get('/users/{user}', function (User $user) {
 ---
 
 #### Technique: Custom Route Keys
-**Category**: routing
+**Category**: Technique
+**Topic**: routing
 **Source**: ## Customizing The Key
 **Confidence**: high
 
@@ -104,7 +109,8 @@ public function getRouteKeyName()
 ---
 
 #### Best Practice: Scoped Bindings
-**Category**: routing
+**Category**: Best Practice
+**Topic**: routing
 **Source**: ## Scoped Bindings
 **Confidence**: high
 

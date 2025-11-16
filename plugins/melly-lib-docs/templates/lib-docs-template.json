@@ -55,36 +55,36 @@
       "observations": [
         {
           "id": "obs-001",
-          "type": "fact",
-          "category": "routing",
-          "content": "Routes are defined in routes/web.php for web interfaces and routes/api.php for API endpoints",
+          "category": "fact",
+          "topic": "routing",
+          "description": "Routes are defined in routes/web.php for web interfaces and routes/api.php for API endpoints",
           "source": "## Route Files",
           "confidence": "high",
           "keywords": ["routes", "web.php", "api.php", "route-files"]
         },
         {
           "id": "obs-002",
-          "type": "technique",
-          "category": "routing",
-          "content": "Use Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete() for different HTTP methods",
+          "category": "technique",
+          "topic": "routing",
+          "description": "Use Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete() for different HTTP methods",
           "source": "## Available Router Methods",
           "confidence": "high",
           "keywords": ["route-methods", "HTTP", "REST"]
         },
         {
           "id": "obs-003",
-          "type": "best-practice",
-          "category": "routing",
-          "content": "Group related routes using Route::prefix() to avoid repetition",
+          "category": "best-practice",
+          "topic": "routing",
+          "description": "Group related routes using Route::prefix() to avoid repetition",
           "source": "## Route Groups",
           "confidence": "high",
           "keywords": ["route-groups", "prefix", "organization"]
         },
         {
           "id": "obs-004",
-          "type": "requirement",
-          "category": "routing",
-          "content": "Route parameters must be wrapped in curly braces {id} and will be injected into route callbacks",
+          "category": "requirement",
+          "topic": "routing",
+          "description": "Route parameters must be wrapped in curly braces {id} and will be injected into route callbacks",
           "source": "## Route Parameters",
           "confidence": "high",
           "keywords": ["route-parameters", "dependency-injection", "URL-segments"]
@@ -142,36 +142,36 @@
       "observations": [
         {
           "id": "obs-005",
-          "type": "concept",
-          "category": "routing",
-          "content": "Route model binding automatically injects model instances based on route parameters, eliminating manual database queries",
+          "category": "concept",
+          "topic": "routing",
+          "description": "Route model binding automatically injects model instances based on route parameters, eliminating manual database queries",
           "source": "## Introduction",
           "confidence": "high",
           "keywords": ["route-model-binding", "automatic-injection", "eloquent"]
         },
         {
           "id": "obs-006",
-          "type": "technique",
-          "category": "routing",
-          "content": "Implicit binding works when route parameter name matches controller method type-hinted parameter",
+          "category": "technique",
+          "topic": "routing",
+          "description": "Implicit binding works when route parameter name matches controller method type-hinted parameter",
           "source": "## Implicit Binding",
           "confidence": "high",
           "keywords": ["implicit-binding", "type-hinting", "convention"]
         },
         {
           "id": "obs-007",
-          "type": "example",
-          "category": "routing",
-          "content": "Route::get('/users/{user}', function (User $user) { return $user; }) automatically finds User by ID",
+          "category": "example",
+          "topic": "routing",
+          "description": "Route::get('/users/{user}', function (User $user) { return $user; }) automatically finds User by ID",
           "source": "## Implicit Binding Example",
           "confidence": "high",
           "keywords": ["example", "implicit-binding", "user-model"]
         },
         {
           "id": "obs-008",
-          "type": "technique",
-          "category": "routing",
-          "content": "Use ->missing() method to customize 404 behavior when model is not found",
+          "category": "technique",
+          "topic": "routing",
+          "description": "Use ->missing() method to customize 404 behavior when model is not found",
           "source": "## Customizing Missing Model Behavior",
           "confidence": "high",
           "keywords": ["missing", "404", "error-handling"]

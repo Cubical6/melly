@@ -26,7 +26,7 @@ from typing import Dict, List, Set, Tuple
 
 REQUIRED_ROOT_FIELDS = ['library', 'version', 'source_url', 'entities', 'metadata']
 REQUIRED_ENTITY_FIELDS = ['id', 'name', 'type', 'file_path', 'observations', 'tags']
-REQUIRED_OBSERVATION_FIELDS = ['category', 'content']
+REQUIRED_OBSERVATION_FIELDS = ['category', 'description']
 VALID_OBSERVATION_CATEGORIES = [
     'version', 'dependency', 'best_practice', 'technique',
     'example', 'warning', 'note', 'api', 'configuration'
@@ -126,8 +126,8 @@ def validate_metadata_json(json_file: Path) -> Tuple[int, List[str], List[str]]:
                             )
                     
                     # Check content not empty
-                    if 'content' in obs and not obs['content']:
-                        warnings.append(f"{obs_prefix}: Empty content")
+                    if 'description' in obs and not obs['description']:
+                        warnings.append(f"{obs_prefix}: Empty description")
         
         # Validate tags
         if 'tags' in entity:

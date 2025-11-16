@@ -57,7 +57,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
         for match in re.finditer(pattern, content):
             observations.append({
                 'category': 'version',
-                'content': match.group(0).strip(),
+                'description': match.group(0).strip(),
                 'source': 'text_pattern',
                 'metadata': {'version': match.group(1).strip()}
             })
@@ -74,7 +74,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
         for match in re.finditer(pattern, content):
             observations.append({
                 'category': 'dependency',
-                'content': match.group(0).strip(),
+                'description': match.group(0).strip(),
                 'source': 'text_pattern',
                 'metadata': {'dependency': match.group(1).strip()}
             })
@@ -92,7 +92,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
         for match in re.finditer(pattern, content):
             observations.append({
                 'category': 'best_practice',
-                'content': match.group(0).strip(),
+                'description': match.group(0).strip(),
                 'source': 'text_pattern'
             })
     
@@ -112,7 +112,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
                 if re.search(pattern, heading['text']):
                     observations.append({
                         'category': 'technique',
-                        'content': heading['text'],
+                        'description': heading['text'],
                         'source': 'heading',
                         'metadata': {'heading_level': heading['level']}
                     })
@@ -122,7 +122,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     for idx, code_block in enumerate(parsed['code_blocks']):
         observations.append({
             'category': 'example',
-            'content': code_block['code'],
+            'description': code_block['code'],
             'source': 'code_block',
             'metadata': {
                 'language': code_block['language'],
@@ -141,7 +141,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
         for match in re.finditer(pattern, content):
             observations.append({
                 'category': 'warning',
-                'content': match.group(0).strip(),
+                'description': match.group(0).strip(),
                 'source': 'text_pattern'
             })
     
@@ -156,7 +156,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
         
         observations.append({
             'category': category,
-            'content': blockquote,
+            'description': blockquote,
             'source': 'blockquote'
         })
     
