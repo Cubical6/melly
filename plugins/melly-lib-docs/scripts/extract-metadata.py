@@ -3,7 +3,7 @@
 Extract Observations and Relations from Parsed Markdown
 
 Extracts observations (facts, requirements, best practices, techniques,
-examples, problems, solutions, insights) and relations (links, cross-references) from markdown structure.
+examples, problems, solutions, insights, decisions, questions) and relations (links, cross-references) from markdown structure.
 
 Usage:
     python extract-metadata.py <markdown-file> <library-name> <entity-id>
@@ -27,13 +27,16 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     Extract observations using regex patterns.
     
     Patterns for:
-    - Facts: Version info like "Introduced in X", "Added in Y", "Requires X+"
-    - Requirements: Dependencies like "Requires X", "Depends on Y"
-    - Best practices: "Best practice", "Recommended", "Should"
-    - Techniques: H2/H3 headings with "How to", "Using", etc.
-    - Examples: Code blocks
-    - Problems: Warnings like "Note:", "Warning:", "Caution:"
-    - Insights: Blockquotes with tips, notes
+    - fact: Version info like "Introduced in X", "Added in Y", "Requires X+"
+    - requirement: Dependencies like "Requires X", "Depends on Y"
+    - best-practice: "Best practice", "Recommended", "Should"
+    - technique: H2/H3 headings with "How to", "Using", etc.
+    - example: Code blocks
+    - problem: Warnings like "Note:", "Warning:", "Caution:"
+    - solution: Solutions to problems
+    - insight: Blockquotes with tips, notes
+    - decision: Architectural decisions
+    - question: Open questions
     
     Args:
         parsed: Dictionary from parse_markdown_structure()

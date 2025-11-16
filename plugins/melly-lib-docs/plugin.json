@@ -4,7 +4,9 @@
   "description": "Universal library documentation analyzer with metadata extraction",
   "author": "Melly Team",
   "components": {
-    "agents": [],
+    "agents": [
+      "agents/lib-doc-analyzer.md"
+    ],
     "commands": [
       "commands/melly-analyze-lib-docs.md"
     ],

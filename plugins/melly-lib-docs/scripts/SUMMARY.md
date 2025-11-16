@@ -50,7 +50,7 @@
 **Exit Codes**: 0=success, 2=error
 
 **Observation Categories**:
-- `version`, `dependency`, `best_practice`, `technique`, `example`, `warning`, `note`
+- `fact`, `requirement`, `best-practice`, `technique`, `example`, `problem`, `solution`, `insight`, `decision`, `question`
 
 **Relation Types**:
 - `references`, `references_section`, `source_code`, `official_docs`, `related_docs`, `external_reference`, `related`, `mentions`

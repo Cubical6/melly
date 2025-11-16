@@ -52,6 +52,21 @@ def normalize_whitespace(text: str, strict: bool = False) -> str:
     return text
 
 
+def strip_all_whitespace(text: str) -> str:
+    """
+    Strip all whitespace characters for comparison.
+    
+    Used to detect if content is identical except for whitespace differences.
+    
+    Args:
+        text: Input text
+        
+    Returns:
+        Text with all whitespace removed
+    """
+    return text.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r', '')
+
+
 def extract_original_from_enhanced(enhanced_content: str) -> Optional[str]:
     """
     Extract original content from enhanced file.
@@ -148,8 +163,7 @@ def validate_content_preservation(
     diff_text = ''.join(diff)
     
     # Check if only whitespace differences
-    if original_content.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r', '') == \
-       extracted.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r', ''):
+    if strip_all_whitespace(original_content) == strip_all_whitespace(extracted):
         return True, f"Content preserved (minor whitespace differences):\n{diff_text}"
     
     return False, f"Content mismatch detected:\n{diff_text}"

@@ -57,13 +57,16 @@ Python validation scripts for the `melly-lib-docs` plugin.
 - `extract_relations(parsed: Dict, entity_id: str) -> List[Dict]`: Extract relations from links and cross-references
 
 **Observation Categories**:
-- `version` - Version information (e.g., "Introduced in X", "Requires Y+")
-- `dependency` - Dependencies (e.g., "Requires X", "Depends on Y")
-- `best_practice` - Best practices and recommendations
+- `fact` - Factual information (version info, "Introduced in X", "Requires Y+")
+- `requirement` - Dependencies and requirements (e.g., "Requires X", "Depends on Y")
+- `best-practice` - Best practices and recommendations
 - `technique` - How-to headings and techniques
 - `example` - Code examples
-- `warning` - Notes, warnings, cautions
-- `note` - General notes from blockquotes
+- `problem` - Warnings, cautions, issues (e.g., "Note:", "Warning:")
+- `solution` - Solutions to problems
+- `insight` - General insights and tips from blockquotes
+- `decision` - Architectural or design decisions
+- `question` - Open questions or discussion points
 
 **Relation Types**:
 - `references` - General references

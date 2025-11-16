@@ -32,12 +32,34 @@ Analyze markdown-based library documentation and extract observations and relati
 ### Phase 2: Analysis
 
 3. **Invoke lib-doc-analyzer agent**:
+   
+   Explicitly invoke the lib-doc-analyzer agent to perform the analysis:
+   
    ```
-   Use the Task tool to invoke the lib-doc-analyzer agent with:
+   Use the lib-doc-analyzer agent to analyze the $1 library documentation.
+   
+   Agent context:
    - Library name: $1
-   - Documentation path: $2 or knowledge-base/libraries/$1/
-   - Instructions: Analyze library documentation using the lib-doc-methodology skill
+   - Documentation path: $2 (or knowledge-base/libraries/$1/ if not specified)
+   - Task: Analyze all markdown files and extract observations and relations
+   - Skill: Use the lib-doc-methodology skill for guidance
    ```
+   
+   **Alternative invocation patterns:**
+   
+   ```
+   Have the lib-doc-analyzer agent process the library documentation at $2.
+   Extract metadata from $1 documentation using the lib-doc-analyzer agent.
+   Ask lib-doc-analyzer to analyze library docs for $1 at $2.
+   ```
+   
+   **What the agent will do:**
+   - Automatically follow the 5-phase workflow defined in its system prompt
+   - Use the lib-doc-methodology skill for extraction rules
+   - Generate enhanced markdown files with frontmatter
+   - Create lib-docs-$1.json metadata file
+   - Run validation scripts to verify quality
+
 
 4. **Agent performs 5-phase workflow**:
    - Discovery: Find all markdown files
