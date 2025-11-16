@@ -73,86 +73,118 @@
       "observations": [
         {
           "_comment": "Architectural observation example",
+          "id": "obs-arch-spa-react",
+          "title": "SPA architecture using React framework",
           "category": "architecture",
           "severity": "info",
           "description": "Single Page Application (SPA) architecture using React framework with client-side routing",
-          "evidence": {
-            "type": "file",
-            "location": "package.json",
-            "snippet": "\"react\": \"^18.2.0\", \"react-router-dom\": \"^6.8.0\""
-          },
+          "evidence": [
+            {
+              "type": "file",
+              "location": "package.json",
+              "snippet": "\"react\": \"^18.2.0\", \"react-router-dom\": \"^6.8.0\""
+            }
+          ],
           "tags": ["react", "spa", "frontend", "client-side-routing"]
         },
         {
           "_comment": "Integration observation example",
+          "id": "obs-int-rest-api",
+          "title": "Backend REST API integration with JWT",
           "category": "integration",
           "severity": "info",
           "description": "Communicates with backend REST API over HTTPS with JWT authentication",
-          "evidence": {
-            "type": "config",
-            "location": ".env.example",
-            "snippet": "REACT_APP_API_URL=https://api.example.com"
-          },
+          "evidence": [
+            {
+              "type": "config",
+              "location": ".env.example",
+              "snippet": "REACT_APP_API_URL=https://api.example.com"
+            }
+          ],
           "tags": ["rest-api", "https", "integration", "jwt"]
         },
         {
           "_comment": "Boundaries observation example",
+          "id": "obs-bound-api-gateway",
+          "title": "API gateway defines system boundary",
           "category": "boundaries",
           "severity": "info",
           "description": "System boundary defined by API gateway - all external communication routed through centralized entry point",
-          "evidence": {
-            "type": "pattern",
-            "location": "src/api/client.ts",
-            "snippet": "const apiClient = axios.create({ baseURL: API_URL })"
-          },
+          "evidence": [
+            {
+              "type": "pattern",
+              "location": "src/api/client.ts",
+              "snippet": "const apiClient = axios.create({ baseURL: API_URL })"
+            }
+          ],
           "tags": ["api-gateway", "boundary", "centralized"]
         },
         {
           "_comment": "Security observation with warning severity",
+          "id": "obs-sec-localstorage-xss",
+          "title": "Tokens in localStorage vulnerable to XSS",
           "category": "security",
           "severity": "warning",
           "description": "Authentication tokens stored in browser localStorage - vulnerable to XSS attacks",
-          "evidence": {
-            "type": "code",
-            "location": "src/auth/AuthService.ts",
-            "snippet": "localStorage.setItem('token', jwt)"
-          },
+          "impact": "If an XSS vulnerability exists elsewhere in the application, attackers can steal authentication tokens and impersonate users",
+          "recommendation": "Store tokens in httpOnly cookies or use a more secure authentication pattern like OAuth with PKCE",
+          "evidence": [
+            {
+              "type": "code",
+              "location": "src/auth/AuthService.ts",
+              "snippet": "localStorage.setItem('token', jwt)"
+            }
+          ],
           "tags": ["authentication", "jwt", "security", "xss-risk"]
         },
         {
           "_comment": "Scalability observation example",
+          "id": "obs-scale-cdn-assets",
+          "title": "CDN used for static asset delivery",
           "category": "scalability",
           "severity": "info",
           "description": "Static assets served via CDN for global scalability and performance",
-          "evidence": {
-            "type": "config",
-            "location": "public/index.html",
-            "snippet": "<link rel=\"preconnect\" href=\"https://cdn.example.com\">"
-          },
+          "evidence": [
+            {
+              "type": "config",
+              "location": "public/index.html",
+              "snippet": "<link rel=\"preconnect\" href=\"https://cdn.example.com\">"
+            }
+          ],
           "tags": ["cdn", "scalability", "performance", "static-assets"]
         },
         {
           "_comment": "Actors observation example",
+          "id": "obs-actor-user-roles",
+          "title": "Three primary user types identified",
           "category": "actors",
           "severity": "info",
           "description": "Three primary user types: anonymous visitors, registered customers, and administrators",
-          "evidence": {
-            "type": "pattern",
-            "location": "src/types/User.ts",
-            "snippet": "type UserRole = 'anonymous' | 'customer' | 'admin'"
-          },
+          "evidence": [
+            {
+              "type": "pattern",
+              "location": "src/types/User.ts",
+              "snippet": "type UserRole = 'anonymous' | 'customer' | 'admin'"
+            }
+          ],
           "tags": ["user-types", "roles", "actors"]
         },
         {
           "_comment": "Critical security finding",
+          "id": "obs-sec-no-csrf",
+          "title": "No CSRF protection on state-changing operations",
           "category": "security",
           "severity": "critical",
           "description": "No CSRF protection implemented on state-changing operations",
-          "evidence": {
-            "type": "file",
-            "location": "src/api/",
-            "snippet": "No CSRF token implementation found"
-          },
+          "impact": "Attackers can forge requests from authenticated users to perform unauthorized actions (e.g., transfer funds, change passwords, delete data)",
+          "recommendation": "Implement CSRF token validation for all state-changing operations (POST, PUT, DELETE). Use synchronizer token pattern or double-submit cookie pattern",
+          "evidence": [
+            {
+              "type": "file",
+              "location": "src/api/",
+              "snippet": "No CSRF token implementation found"
+            }
+          ],
           "tags": ["csrf", "security", "vulnerability", "critical"]
         }
       ],
@@ -163,7 +195,12 @@
         "boundaries - System boundary definitions and scope",
         "security - Security posture, authentication, authorization",
         "scalability - Scalability patterns and constraints",
-        "actors - User types and external actors"
+        "actors - User types and external actors",
+        "deployment - Deployment patterns, hosting, and infrastructure",
+        "users - User behavior, personas, and usage patterns",
+        "external-dependencies - Third-party services and dependencies",
+        "data-flow - Data movement and transformation patterns",
+        "technology-stack - Technologies, frameworks, and libraries used"
       ],
       "_observation_severities": [
         "info - Informational observation",
@@ -171,11 +208,14 @@
         "critical - Critical issue requiring immediate action"
       ],
       "_evidence_types": [
-        "file - Package manifest or configuration file",
-        "code - Source code snippet",
-        "config - Configuration file or settings",
+        "file - Package manifest or configuration file (alias: file-path)",
+        "code - Source code snippet (alias: code-snippet)",
+        "config - Configuration file or settings (alias: configuration)",
         "metric - Measured metric or statistic",
-        "pattern - Architectural or code pattern"
+        "pattern - Architectural or code pattern",
+        "dependency - Package dependency or library reference",
+        "log-output - Log file or command output",
+        "documentation - README, docs, or inline documentation"
       ],
 
       "relations": [
@@ -336,18 +376,28 @@
       "_relations_description": "Directional connections to other systems. Target is system-id, type defines communication pattern, description uses active voice.",
       "_relation_types": [
         "http - Generic HTTP communication",
+        "https - Secure HTTP communication",
         "http-rest - RESTful HTTP API",
         "http-graphql - GraphQL over HTTP",
+        "graphql - GraphQL API communication",
+        "websocket - WebSocket real-time bidirectional communication",
         "grpc - gRPC remote procedure calls",
+        "rpc - Generic RPC (Remote Procedure Call)",
         "message-queue - Asynchronous message queue (RabbitMQ, Kafka, etc.)",
+        "event-stream - Server-sent events or event streaming",
         "database-query - Database read/write operations",
+        "database-connection - Database connection and pooling",
         "file-transfer - File upload/download operations",
-        "authentication - Authentication and identity verification"
+        "authentication - Authentication and identity verification",
+        "soap - SOAP web service communication",
+        "smtp - Email communication via SMTP",
+        "external-api - Third-party API integration"
       ],
       "_relation_directions": [
         "outbound - This system initiates communication to target",
         "inbound - Target system initiates communication to this system",
-        "bidirectional - Communication flows both ways"
+        "bidirectional - Communication flows both ways",
+        "unidirectional - One-way communication (legacy/alias for outbound)"
       ]
     }
   ],

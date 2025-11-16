@@ -97,68 +97,86 @@
       "observations": [
         {
           "_comment": "Observations about design patterns",
+          "id": "obs-user-auth-design-patterns-01",
           "category": "design-patterns",
           "severity": "info",
           "description": "Well-structured use of Strategy pattern for authentication methods",
-          "evidence": {
-            "location": "src/services/auth/AuthService.ts:45-120",
-            "type": "code-structure"
-          },
+          "evidence": [
+            {
+              "location": "src/services/auth/AuthService.ts:45-120",
+              "type": "code"
+            }
+          ],
           "tags": ["pattern-implementation", "best-practice"]
         },
         {
           "_comment": "Observations about code quality",
+          "id": "obs-user-auth-code-quality-01",
           "category": "code-quality",
           "severity": "warning",
           "description": "High cyclomatic complexity in authenticate() method suggests need for refactoring",
-          "evidence": {
-            "location": "src/services/auth/AuthService.ts:78-145",
-            "type": "complexity-metric"
-          },
+          "evidence": [
+            {
+              "location": "src/services/auth/AuthService.ts:78-145",
+              "type": "metric"
+            }
+          ],
           "tags": ["refactoring-candidate", "complexity"]
         },
         {
           "_comment": "Observations about dependencies",
+          "id": "obs-user-auth-dependencies-01",
           "category": "dependencies",
           "severity": "critical",
           "description": "Direct dependency on deprecated bcrypt library version",
-          "evidence": {
-            "location": "package.json",
-            "type": "dependency-version"
-          },
+          "evidence": [
+            {
+              "location": "package.json",
+              "type": "dependency"
+            }
+          ],
           "tags": ["security", "deprecated-dependency"]
         },
         {
           "_comment": "Observations about testing",
+          "id": "obs-user-auth-testing-01",
           "category": "testing",
           "severity": "info",
           "description": "Comprehensive unit tests with good coverage of edge cases",
-          "evidence": {
-            "location": "src/services/auth/__tests__/",
-            "type": "test-suite"
-          },
+          "evidence": [
+            {
+              "location": "src/services/auth/__tests__/",
+              "type": "file"
+            }
+          ],
           "tags": ["test-quality", "well-tested"]
         },
         {
           "_comment": "Observations about complexity",
+          "id": "obs-user-auth-complexity-01",
           "category": "complexity",
           "severity": "warning",
           "description": "Token validation logic could be simplified using validator chain pattern",
-          "evidence": {
-            "location": "src/services/auth/TokenManager.ts:34-89",
-            "type": "code-structure"
-          },
+          "evidence": [
+            {
+              "location": "src/services/auth/TokenManager.ts:34-89",
+              "type": "code"
+            }
+          ],
           "tags": ["simplification-opportunity"]
         },
         {
           "_comment": "Observations about maintainability",
+          "id": "obs-user-auth-maintainability-01",
           "category": "maintainability",
           "severity": "info",
           "description": "Clear separation of concerns between authentication and session management",
-          "evidence": {
-            "location": "src/services/auth/",
-            "type": "architecture"
-          },
+          "evidence": [
+            {
+              "location": "src/services/auth/",
+              "type": "pattern"
+            }
+          ],
           "tags": ["clean-architecture", "separation-of-concerns"]
         }
       ],
@@ -168,7 +186,7 @@
           "_comment": "Dependency relation",
           "target": "user-repository",
           "type": "dependency",
-          "coupling": "moderate",
+          "coupling": "loose",
           "description": "Uses UserRepository to fetch and validate user credentials"
         },
         {
@@ -203,14 +221,14 @@
           "_comment": "Aggregation relation",
           "target": "session-store",
           "type": "aggregation",
-          "coupling": "moderate",
+          "coupling": "tight",
           "description": "References SessionStore for managing active user sessions"
         },
         {
           "_comment": "Inheritance relation",
           "target": "base-service",
           "type": "inheritance",
-          "coupling": "moderate",
+          "coupling": "loose",
           "description": "Extends BaseService for common service functionality"
         }
       ]
@@ -252,7 +270,7 @@
 
       "type": {
         "type": "string",
-        "enum": ["service", "controller", "repository", "model", "utility", "middleware"],
+        "enum": ["service", "controller", "repository", "model", "utility", "middleware", "view", "component", "config", "facade", "factory", "adapter"],
         "description": "Classification of the component's role in the architecture",
         "required": true,
         "definitions": {
@@ -261,7 +279,13 @@
           "repository": "Data access and persistence layer",
           "model": "Domain models and data structures",
           "utility": "Helper functions and shared utilities",
-          "middleware": "Request/response processing pipeline components"
+          "middleware": "Request/response processing pipeline components",
+          "view": "UI components and presentation layer",
+          "component": "Generic reusable component",
+          "config": "Configuration and settings management",
+          "facade": "Simplified interface to complex subsystems",
+          "factory": "Object creation and instantiation",
+          "adapter": "Interface translation and compatibility"
         }
       },
 
@@ -371,7 +395,14 @@
               "dependencies",
               "testing",
               "complexity",
-              "maintainability"
+              "maintainability",
+              "code-structure",
+              "error-handling",
+              "performance",
+              "security",
+              "documentation",
+              "coupling",
+              "cohesion"
             ],
             "description": "Observation category for grouping"
           },
@@ -390,11 +421,21 @@
             "description": "Clear description of what was observed"
           },
           "evidence": {
-            "type": "object",
+            "type": "array",
             "description": "Supporting evidence for the observation",
-            "properties": {
-              "location": "File path or code location",
-              "type": "Type of evidence (code-structure, metric, dependency, etc.)"
+            "items": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "File path or code location"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["code", "metric", "dependency", "file", "pattern", "config"],
+                  "description": "Type of evidence"
+                }
+              }
             }
           },
           "tags": {
@@ -426,7 +467,19 @@
               "aggregation",
               "interface-implementation",
               "event-publisher",
-              "event-subscriber"
+              "event-subscriber",
+              "uses",
+              "calls",
+              "imports",
+              "injects",
+              "observes",
+              "delegates",
+              "provides",
+              "consumes",
+              "inherits",
+              "implements",
+              "composes",
+              "aggregates"
             ],
             "description": "Type of relationship",
             "definitions": {
@@ -436,16 +489,27 @@
               "aggregation": "References another component (weak has-a)",
               "interface-implementation": "Implements a contract defined by another component",
               "event-publisher": "Publishes events consumed by other components",
-              "event-subscriber": "Subscribes to events from other components"
+              "event-subscriber": "Subscribes to events from other components",
+              "uses": "General usage relationship",
+              "calls": "Direct method/function invocation",
+              "imports": "Module or package import",
+              "injects": "Dependency injection relationship",
+              "observes": "Observer pattern relationship",
+              "delegates": "Delegation pattern relationship",
+              "provides": "Provides functionality or data",
+              "consumes": "Consumes functionality or data",
+              "inherits": "Verbose form of inheritance",
+              "implements": "Verbose form of interface-implementation",
+              "composes": "Verbose form of composition",
+              "aggregates": "Verbose form of aggregation"
             }
           },
           "coupling": {
             "type": "string",
-            "enum": ["loose", "moderate", "tight"],
+            "enum": ["loose", "tight"],
             "description": "Degree of coupling between components",
             "definitions": {
               "loose": "Minimal dependency, easy to change independently",
-              "moderate": "Some dependency, requires coordination for changes",
               "tight": "Strong dependency, difficult to change independently"
             }
           },
@@ -468,7 +532,7 @@
         "Each component must have unique id",
         "id must be kebab-case",
         "name must be human-readable",
-        "type must be one of: service, controller, repository, model, utility, middleware",
+        "type must be one of: service, controller, repository, model, utility, middleware, view, component, config, facade, factory, adapter",
         "container_id must reference existing container from c2-containers.json",
         "responsibility must be clear and concise",
         "structure.path must be valid relative path",
@@ -478,16 +542,18 @@
         "All relation targets must reference valid component IDs"
       ],
       "observations": [
-        "category must be one of defined categories",
+        "Each observation must have unique id in format obs-{component-id}-{category}-{number}",
+        "category must be one of defined categories (design-patterns, code-quality, dependencies, testing, complexity, maintainability, code-structure, error-handling, performance, security, documentation, coupling, cohesion)",
         "severity must be critical, warning, or info",
         "description must be clear and actionable",
-        "evidence should provide supporting details",
+        "evidence must be array of objects with location and type fields",
+        "evidence type must be one of: code, metric, dependency, file, pattern, config",
         "tags should be relevant and searchable"
       ],
       "relations": [
         "target must be valid component-id",
-        "type must be one of defined relation types",
-        "coupling must be loose, moderate, or tight",
+        "type must be one of defined relation types (dependency, inheritance, composition, aggregation, interface-implementation, event-publisher, event-subscriber, uses, calls, imports, injects, observes, delegates, provides, consumes, inherits, implements, composes, aggregates)",
+        "coupling must be loose or tight (moderate is not allowed)",
         "description must use active voice"
       ]
     },
@@ -535,9 +601,16 @@
         },
         "observations": [
           {
+            "id": "obs-minimal-code-quality-01",
             "category": "code-quality",
             "severity": "info",
-            "description": "Simple utility component with clear purpose"
+            "description": "Simple utility component with clear purpose",
+            "evidence": [
+              {
+                "location": "src/utils",
+                "type": "code"
+              }
+            ]
           }
         ],
         "relations": [

@@ -93,6 +93,12 @@
         {
           "_comment": "Example observation - Critical security finding",
 
+          "id": "obs-outdated-express",
+          "_id_comment": "REQUIRED: Unique observation identifier in kebab-case (pattern: ^obs-[a-z0-9-]+$)",
+
+          "title": "Outdated Express.js Version",
+          "_title_comment": "OPTIONAL: Short title for the observation",
+
           "category": "technology",
           "_category_comment": "REQUIRED: Observation category. Valid values: technology, runtime, deployment, communication, data-storage, performance, security",
           "_category_options": [
@@ -116,17 +122,25 @@
           "description": "Using outdated Express.js version with known security vulnerabilities",
           "_description_comment": "REQUIRED: Clear description of the observation",
 
-          "evidence": {
-            "location": "package.json:15",
-            "_location_comment": "REQUIRED: Where this was found (file:line or file path)",
+          "impact": "Exposes application to known CVE vulnerabilities including remote code execution and denial of service attacks",
+          "_impact_comment": "OPTIONAL: Impact description for critical/warning observations",
 
-            "type": "json",
-            "_type_comment": "OPTIONAL: Evidence type (json, javascript, python, yaml, text, etc.)",
+          "recommendation": "Upgrade to Express.js 4.18.2 or later to patch known security vulnerabilities",
+          "_recommendation_comment": "OPTIONAL: Recommended action for critical/warning observations",
 
-            "snippet": "\"express\": \"^4.17.1\"",
-            "_snippet_comment": "OPTIONAL: Code snippet or relevant excerpt"
-          },
-          "_evidence_comment": "OPTIONAL: Supporting evidence for this observation",
+          "evidence": [
+            {
+              "location": "package.json:15",
+              "_location_comment": "REQUIRED: Where this was found (file:line or file path)",
+
+              "type": "config",
+              "_type_comment": "OPTIONAL: Evidence type (config, code, text, yaml, etc.)",
+
+              "snippet": "\"express\": \"^4.17.1\"",
+              "_snippet_comment": "OPTIONAL: Code snippet or relevant excerpt"
+            }
+          ],
+          "_evidence_comment": "OPTIONAL: Array of supporting evidence for this observation",
 
           "tags": ["security", "dependency", "cve"],
           "_tags_comment": "OPTIONAL: Array of tags for categorization and search"
@@ -134,25 +148,35 @@
         {
           "_comment": "Example observation - Performance warning",
 
+          "id": "obs-no-connection-pool",
+          "title": "Missing Database Connection Pool",
           "category": "performance",
           "severity": "warning",
           "description": "No connection pooling detected for database connections",
-          "evidence": {
-            "location": "src/db/connection.js:23-45",
-            "type": "javascript"
-          },
+          "impact": "May lead to connection exhaustion under high load and degraded performance",
+          "recommendation": "Implement connection pooling using Sequelize pool configuration",
+          "evidence": [
+            {
+              "location": "src/db/connection.js:23-45",
+              "type": "code"
+            }
+          ],
           "tags": ["performance", "database", "optimization"]
         },
         {
           "_comment": "Example observation - Informational finding",
 
+          "id": "obs-openapi-spec",
+          "title": "OpenAPI Specification Available",
           "category": "communication",
           "severity": "info",
           "description": "REST API follows OpenAPI 3.0 specification",
-          "evidence": {
-            "location": "docs/openapi.yaml",
-            "type": "yaml"
-          },
+          "evidence": [
+            {
+              "location": "docs/openapi.yaml",
+              "type": "config"
+            }
+          ],
           "tags": ["api", "documentation", "best-practice"]
         }
       ],
@@ -166,7 +190,7 @@
           "_target_comment": "REQUIRED: Target container ID (must match another container's ID)",
 
           "type": "database-connection",
-          "_type_comment": "REQUIRED: Relation type. Valid values: http-rest, http-graphql, grpc, websocket, database-connection, cache-access, message-producer, message-consumer, file-storage-access",
+          "_type_comment": "REQUIRED: Relation type. Valid values: http-rest, http-graphql, grpc, websocket, database-connection, cache-access, message-publish, message-consumer, file-read, file-write",
           "_type_options": [
             "http-rest - REST API calls over HTTP/HTTPS",
             "http-graphql - GraphQL queries over HTTP/HTTPS",
@@ -174,9 +198,10 @@
             "websocket - WebSocket connections",
             "database-connection - Direct database connections (SQL, NoSQL)",
             "cache-access - Cache read/write operations",
-            "message-producer - Publishes messages to queue/broker",
+            "message-publish - Publishes messages to queue/broker",
             "message-consumer - Consumes messages from queue/broker",
-            "file-storage-access - Reads/writes to file/blob storage"
+            "file-read - Reads from file/blob storage",
+            "file-write - Writes to file/blob storage"
           ],
 
           "description": "Connects to PostgreSQL for persistent data storage using connection pool",
@@ -216,7 +241,7 @@
       "container": ["id", "name", "type", "system_id", "responsibility", "technology", "runtime"],
       "technology": ["primary_language", "framework"],
       "runtime": ["environment", "platform", "containerized"],
-      "observation": ["category", "severity", "description"],
+      "observation": ["id", "category", "severity", "description"],
       "relation": ["target", "type", "description"]
     },
     "valid_values": {
@@ -224,14 +249,15 @@
       "environment": ["browser", "server", "cloud", "edge", "mobile"],
       "observation_category": ["technology", "runtime", "deployment", "communication", "data-storage", "performance", "security"],
       "observation_severity": ["critical", "warning", "info"],
-      "relation_type": ["http-rest", "http-graphql", "grpc", "websocket", "database-connection", "cache-access", "message-producer", "message-consumer", "file-storage-access"]
+      "relation_type": ["http-rest", "http-graphql", "grpc", "websocket", "database-connection", "cache-access", "message-publish", "message-consumer", "file-read", "file-write"]
     },
     "conditional_requirements": {
       "runtime.containerized_true": "runtime.container_technology is required when containerized=true"
     },
     "id_format": {
       "container_id": "kebab-case, unique across all containers",
-      "system_id": "Must match an ID from c1-systems.json"
+      "system_id": "Must match an ID from c1-systems.json",
+      "observation_id": "Pattern: ^obs-[a-z0-9-]+$, unique within the container"
     },
     "timestamp_rules": {
       "metadata.timestamp": "ISO 8601 format, must be after parent.timestamp",

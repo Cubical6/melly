@@ -3,8 +3,9 @@
   "$id": "https://melly.dev/schemas/types-observations.json",
   "title": "Melly Observation Type Definitions",
   "description": "Comprehensive type definitions for observations across C1, C2, and C3 levels of the C4 model. Observations are key findings about systems, containers, and components documented during architecture analysis.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "lastUpdated": "2025-11-16",
+  "changelog": "Added support for both short and long form evidence types (file vs file-path, code vs code-snippet, config vs configuration) to match actual template usage patterns",
 
   "definitions": {
     "observationStructure": {
