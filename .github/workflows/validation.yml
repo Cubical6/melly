@@ -245,6 +245,7 @@ jobs:
             **/*.md
             !node_modules/**/*.md
             !.git/**/*.md
+          config: '.markdownlint.json'
           fix: false
 
       - name: Check markdown links

@@ -1,6 +1,5 @@
 {
   "default": true,
-  "extends": "default",
   "MD003": {
     "style": "consistent"
   },
