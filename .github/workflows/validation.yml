@@ -245,7 +245,6 @@ jobs:
             **/*.md
             !node_modules/**/*.md
             !.git/**/*.md
-          config: .markdownlint.json
           fix: false
 
       - name: Check markdown links
@@ -253,7 +252,7 @@ jobs:
         with:
           args: --verbose --no-progress --offline '**/*.md'
           fail: true
-          output: ./lychee/out.md
+          output: lychee/out.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -262,7 +261,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lychee-report
-          path: ./lychee/out.md
+          path: lychee/out.md
+          if-no-files-found: warn
           retention-days: 7
 
   # ============================================================================
