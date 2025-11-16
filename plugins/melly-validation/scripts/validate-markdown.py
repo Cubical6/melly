@@ -11,7 +11,7 @@ Exit codes:
 import sys
 import os
 import re
-from typing import List, Tuple, Dict, Any
+from typing import List, Tuple, Dict
 
 
 def error(message: str, location: str = "") -> None:
@@ -100,9 +100,18 @@ def validate_heading_hierarchy(content: str, file_path: str) -> Tuple[bool, List
     h1_count = 0
     h1_line = None
 
+    # Find frontmatter boundaries
+    frontmatter_end = 0
+    if lines and lines[0].strip() == "---":
+        # Find closing ---
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                frontmatter_end = i + 1
+                break
+
     for i, line in enumerate(lines):
-        # Skip frontmatter
-        if i < 10 and line.strip() == "---":
+        # Skip frontmatter block
+        if i < frontmatter_end:
             continue
 
         # Count H1

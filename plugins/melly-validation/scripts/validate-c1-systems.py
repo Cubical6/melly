@@ -376,7 +376,9 @@ def main() -> int:
             init_data = json.load(f)
             init_repos = [repo.get("name", repo.get("path", ""))
                          for repo in init_data.get("repositories", [])]
-    except:
+    except (OSError, json.JSONDecodeError):
+        # Silent failure is acceptable here - we already validated parent file exists above
+        # If we can't load it, validation will continue with empty repo list (may trigger warnings)
         pass
 
     # 2. Validate systems

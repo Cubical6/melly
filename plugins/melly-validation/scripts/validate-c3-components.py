@@ -242,8 +242,9 @@ def validate_relations(components: List[Dict[str, Any]]) -> Tuple[bool, List[str
     # Collect all component IDs
     component_ids = {c.get("id") for c in components if isinstance(c, dict) and "id" in c}
 
-    # Track tight coupling
+    # Track tight coupling and total relations
     tight_coupling_count = 0
+    total_relations = 0
 
     for component in components:
         if not isinstance(component, dict):
@@ -259,6 +260,8 @@ def validate_relations(components: List[Dict[str, Any]]) -> Tuple[bool, List[str
         seen_rel_ids = set()
 
         for idx, rel in enumerate(relations):
+            total_relations += 1
+
             if not isinstance(rel, dict):
                 errors.append(f"Component {component_id}: Relation at index {idx} is not an object")
                 continue
@@ -292,9 +295,9 @@ def validate_relations(components: List[Dict[str, Any]]) -> Tuple[bool, List[str
                 if len(rel["description"]) < 10:
                     warnings.append(f"Component {component_id}: Relation has short description")
 
-    # Warn about high tight coupling
-    if tight_coupling_count > len(component_ids) * 0.3:  # > 30% tight coupling
-        warnings.append(f"High tight coupling detected: {tight_coupling_count} tight relations (code smell)")
+    # Warn about high tight coupling (based on total relations, not component count)
+    if total_relations > 0 and tight_coupling_count > total_relations * 0.3:  # > 30% tight coupling
+        warnings.append(f"High tight coupling detected: {tight_coupling_count}/{total_relations} relations are tightly coupled (code smell)")
 
     return len(errors) == 0, errors, warnings
 
@@ -336,7 +339,9 @@ def main() -> int:
         with open(c2_file_path, 'r') as f:
             c2_data = json.load(f)
             c2_container_ids = {c.get("id") for c in c2_data.get("containers", []) if isinstance(c, dict) and "id" in c}
-    except:
+    except (OSError, json.JSONDecodeError):
+        # Silent failure is acceptable here - we already validated parent file exists above
+        # If we can't load it, validation will fail later when checking component references
         pass
 
     # 2. Validate components

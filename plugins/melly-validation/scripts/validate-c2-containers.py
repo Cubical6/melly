@@ -340,7 +340,9 @@ def main() -> int:
         with open(c1_file_path, 'r') as f:
             c1_data = json.load(f)
             c1_system_ids = {sys.get("id") for sys in c1_data.get("systems", []) if isinstance(sys, dict) and "id" in sys}
-    except:
+    except (OSError, json.JSONDecodeError):
+        # Silent failure is acceptable here - we already validated parent file exists above
+        # If we can't load it, validation will fail later when checking container references
         pass
 
     # 2. Validate containers

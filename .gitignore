@@ -3,4 +3,4 @@
 # Melly - Claude Code marketplace
 .claude/settings.local.json
 .claude/.cache/
-knowledge-base/systems/*/
+knowledge-base/systems/*/plugins/melly-validation/scripts/__pycache__/
