@@ -19,7 +19,7 @@
         },
         "title": {
           "type": "string",
-          "description": "Human-readable title (used by scripts, not 'name')",
+          "description": "Human-readable title. Field name 'title' is used instead of 'name' to avoid conflicts with Obsidian's built-in frontmatter properties and maintain consistency with basic-memory MCP note structure.",
           "examples": ["Web Application", "Backend API", "Authentication Component"]
         },
         "level": {

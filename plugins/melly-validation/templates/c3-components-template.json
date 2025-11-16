@@ -462,9 +462,6 @@
             "type": "string",
             "enum": [
               "dependency",
-              "inheritance",
-              "composition",
-              "aggregation",
               "interface-implementation",
               "event-publisher",
               "event-subscriber",
@@ -487,14 +484,11 @@
             "notes": [
               "Both concise and verbose forms are valid",
               "Concise forms (preferred): 'uses', 'calls', 'inherits', 'implements', 'composes', 'aggregates', 'observes', 'notifies'",
-              "Verbose forms (legacy): 'dependency', 'inheritance', 'composition', 'aggregation', 'interface-implementation', 'event-subscriber', 'event-publisher', 'extends'",
+              "Verbose forms (legacy): 'dependency', 'interface-implementation', 'event-subscriber', 'event-publisher', 'extends'",
               "Prefer concise forms for brevity unless verbose form adds clarity"
             ],
             "definitions": {
               "dependency": "Uses another component's functionality",
-              "inheritance": "Extends another component (is-a relationship)",
-              "composition": "Owns another component's lifecycle (strong has-a)",
-              "aggregation": "References another component (weak has-a)",
               "interface-implementation": "Implements a contract defined by another component",
               "event-publisher": "Publishes events consumed by other components",
               "event-subscriber": "Subscribes to events from other components",
@@ -562,7 +556,7 @@
       ],
       "relations": [
         "target must be valid component-id",
-        "type must be one of defined relation types (dependency, inheritance, composition, aggregation, interface-implementation, event-publisher, event-subscriber, uses, calls, imports, injects, observes, delegates, provides, consumes, inherits, implements, composes, aggregates)",
+        "type must be one of defined relation types (dependency, interface-implementation, event-publisher, event-subscriber, uses, calls, imports, injects, observes, delegates, provides, consumes, inherits, implements, composes, aggregates, notifies, extends)",
         "prefer concise forms over verbose forms for better readability",
         "coupling must be loose or tight",
         "description must use active voice"
