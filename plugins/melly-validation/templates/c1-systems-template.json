@@ -224,7 +224,7 @@
           "target": "api-backend",
           "type": "http-rest",
           "direction": "outbound",
-          "_direction_values": ["outbound", "inbound", "bidirectional"],
+          "_direction_values": ["outbound", "inbound", "bidirectional", "unidirectional"],
           "description": "Fetches product catalog, user data, and order information via REST API",
           "protocol": {
             "method": "GET, POST, PUT, DELETE",

@@ -100,14 +100,19 @@
           "_title_comment": "OPTIONAL: Short title for the observation",
 
           "category": "technology",
-          "_category_comment": "REQUIRED: Observation category. Valid values: technology, runtime, deployment, communication, data-storage, performance, security",
+          "_category_comment": "REQUIRED: Observation category. Valid values: technology, runtime, communication, data-storage, authentication, deployment, scalability, performance, dependencies, configuration, monitoring, security",
           "_category_options": [
             "technology - Language, framework, library choices and patterns",
             "runtime - Execution environment, platform, containerization",
-            "deployment - Deployment strategies, infrastructure, scaling",
             "communication - How this container communicates (protocols, APIs)",
             "data-storage - Database access, caching, file storage patterns",
+            "authentication - Authentication and authorization mechanisms",
+            "deployment - Deployment strategies, infrastructure, scaling",
+            "scalability - Horizontal/vertical scaling capabilities and patterns",
             "performance - Performance characteristics, bottlenecks, optimizations",
+            "dependencies - External dependencies and library usage",
+            "configuration - Configuration management and environment variables",
+            "monitoring - Logging, metrics, and observability",
             "security - Security vulnerabilities, authentication, authorization"
           ],
 
@@ -256,7 +261,7 @@
     "valid_values": {
       "type": ["web-server", "app-server", "database", "cache", "message-broker", "spa", "api", "worker", "file-storage"],
       "environment": ["browser", "server", "cloud", "edge", "mobile"],
-      "observation_category": ["technology", "runtime", "deployment", "communication", "data-storage", "performance", "security"],
+      "observation_category": ["technology", "runtime", "communication", "data-storage", "authentication", "deployment", "scalability", "performance", "dependencies", "configuration", "monitoring", "security"],
       "observation_severity": ["critical", "warning", "info"],
       "relation_type": ["http-rest", "http-graphql", "grpc", "websocket", "database-connection", "database-query", "database-write", "database-read-write", "cache-access", "cache-read", "cache-write", "cache-read-write", "message-publish", "message-subscribe", "message-consumer", "file-read", "file-write", "cdn-fetch", "stream"]
     },
