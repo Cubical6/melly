@@ -1,0 +1,82 @@
+# Lychee Link Checker Configuration for Melly
+# Fast, async link checker for the Melly project
+# See: https://github.com/lycheeverse/lychee
+
+# Cache configuration
+[cache]
+# Enable caching of link check results
+enabled = true
+# Cache timeout in seconds (24 hours = 86400 seconds)
+max_cache_age = 86400
+
+# Network configuration
+[network]
+# Request timeout in seconds
+timeout = 20
+# Maximum number of retries for failed requests
+max_retries = 3
+# User agent string
+user_agent = "Lychee/0.13 (+https://github.com/lycheeverse/lychee)"
+
+# Output configuration
+[output]
+# Output format: json, markdown, or compact
+format = "markdown"
+# Show statistics in output
+show_statistics = true
+
+# Exclude patterns for links and paths
+[exclude]
+# Exclude localhost and 127.0.0.1
+exclude_links = [
+  "^http://localhost",
+  "^http://127\\.0\\.0\\.1",
+  "^https://localhost",
+  "^https://127\\.0\\.0\\.1",
+  "^localhost:",
+  "^127\\.0\\.0\\.1:"
+]
+
+# Exclude mailto links (handled by lychee's built-in exclusions)
+exclude_mail = true
+
+# Exclude paths from being checked
+exclude_paths = [
+  ".git",
+  ".git/",
+  "node_modules",
+  "node_modules/",
+  ".claude",
+  ".claude/",
+  ".next",
+  ".cache",
+  "dist",
+  "build",
+  "coverage",
+  "target"
+]
+
+# Exclude specific file types
+exclude_file_types = [
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+  "webp",
+  "svg",
+  "mp4",
+  "mp3"
+]
+
+# Headers configuration
+[header]
+# Custom headers for requests (optional, useful for private APIs)
+# Add GitHub token if checking private repos
+# "Authorization" = "token YOUR_GITHUB_TOKEN"
+
+# Verbosity configuration
+[verbose]
+# Show detailed output for debugging
+verbose = false
+# Show all checked links, not just failures
+show_all_links = false

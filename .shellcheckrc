@@ -1,0 +1,34 @@
+# ShellCheck Configuration for Melly Project
+#
+# This configuration enables ShellCheck to lint shell scripts in the Melly project,
+# particularly focusing on validation scripts in plugins/melly-validation/scripts/
+
+# Enable checking of external sources (sourced files, etc.)
+external-sources=true
+
+# Set source path to Melly validation scripts directory
+# This allows ShellCheck to find and analyze sourced scripts
+source-path=./plugins/melly-validation/scripts:./scripts
+
+# Disable specific warnings:
+# SC1090 - Ignore "ShellCheck can't follow non-constant source" (external sourcing)
+# SC1091 - Ignore "Not following sourced file" (external file dependencies)
+disable=SC1090,SC1091
+
+# Set severity level to warning (catches more issues than error-only)
+# Levels: error, warning, info, style
+severity=warning
+
+# Enable color output for better readability in terminal
+color=always
+
+# Additional useful settings for production scripts:
+
+# Format output as gcc-style for IDE integration
+# format=gcc
+
+# Check all files recursively
+# recursive=true
+
+# Optional: List of directories to exclude from checking
+# exclude-dir=vendor,node_modules

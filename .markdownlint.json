@@ -1,0 +1,67 @@
+{
+  "default": true,
+  "extends": "default",
+  "MD003": {
+    "style": "consistent"
+  },
+  "MD004": {
+    "style": "consistent"
+  },
+  "MD007": {
+    "indent": 2,
+    "start_indented": false
+  },
+  "MD009": {
+    "br_spaces": 2,
+    "list_item_empty_lines": false
+  },
+  "MD013": {
+    "line_length": 120,
+    "heading_line_length": 120,
+    "header_line_length": 120,
+    "code_block_line_length": 120,
+    "code_blocks": true,
+    "headers": true,
+    "headers_only": false,
+    "allow_different_indents": true,
+    "tables": true
+  },
+  "MD024": {
+    "siblings_only": true
+  },
+  "MD025": {
+    "level": 1,
+    "front_matter_title": ""
+  },
+  "MD026": {
+    "punctuation": ".,;:!?",
+    "period": true,
+    "comma": true,
+    "semicolon": true,
+    "colon": true,
+    "exclamation": true,
+    "question": true
+  },
+  "MD029": {
+    "style": "consistent"
+  },
+  "MD030": {
+    "ul_single": 1,
+    "ol_single": 1,
+    "ul_multi": 1,
+    "ol_multi": 1
+  },
+  "MD033": false,
+  "MD034": true,
+  "MD035": {
+    "style": "consistent"
+  },
+  "MD040": false,
+  "MD041": false,
+  "MD046": {
+    "style": "consistent"
+  },
+  "MD050": {
+    "style": "consistent"
+  }
+}
