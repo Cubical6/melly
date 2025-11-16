@@ -185,51 +185,51 @@
         {
           "_comment": "Dependency relation",
           "target": "user-repository",
-          "type": "dependency",
+          "type": "uses",
           "coupling": "loose",
           "description": "Uses UserRepository to fetch and validate user credentials"
         },
         {
           "_comment": "Composition relation",
           "target": "token-manager",
-          "type": "composition",
+          "type": "composes",
           "coupling": "tight",
-          "description": "Owns and manages TokenManager lifecycle for JWT operations"
+          "description": "Composes TokenManager to manage lifecycle for JWT operations"
         },
         {
           "_comment": "Interface implementation",
           "target": "authentication-interface",
-          "type": "interface-implementation",
+          "type": "implements",
           "coupling": "loose",
           "description": "Implements IAuthenticationService interface contract"
         },
         {
           "_comment": "Event publishing",
           "target": "audit-logger",
-          "type": "event-publisher",
+          "type": "notifies",
           "coupling": "loose",
-          "description": "Publishes authentication events for audit logging"
+          "description": "Notifies audit logger of authentication events"
         },
         {
           "_comment": "Event subscription",
           "target": "user-service",
-          "type": "event-subscriber",
+          "type": "observes",
           "coupling": "loose",
-          "description": "Subscribes to user creation events to initialize authentication"
+          "description": "Observes user creation events to initialize authentication"
         },
         {
           "_comment": "Aggregation relation",
           "target": "session-store",
-          "type": "aggregation",
+          "type": "aggregates",
           "coupling": "tight",
-          "description": "References SessionStore for managing active user sessions"
+          "description": "Aggregates SessionStore for managing active user sessions"
         },
         {
           "_comment": "Inheritance relation",
           "target": "base-service",
-          "type": "inheritance",
+          "type": "inherits",
           "coupling": "loose",
-          "description": "Extends BaseService for common service functionality"
+          "description": "Inherits from BaseService for common service functionality"
         }
       ]
     }
