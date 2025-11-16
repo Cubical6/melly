@@ -44,12 +44,11 @@
   "MD035": {
     "style": "consistent"
   },
+  "MD036": false,
   "MD040": false,
   "MD041": false,
   "MD045": false,
-  "MD046": {
-    "style": "consistent"
-  },
+  "MD046": false,
   "MD050": {
     "style": "consistent"
   },
