@@ -4,3 +4,17 @@
 .claude/settings.local.json
 .claude/.cache/
 knowledge-base/systems/*/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
