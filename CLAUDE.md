@@ -665,10 +665,11 @@ Optional body with more context:
 
 #### PDF Processing Skill
 
-```yaml
+```markdown
 ---
 name: pdf-processing
-description: Extract text, fill forms, merge PDFs. Use when working with PDF files, forms, or document extraction. Requires pypdf and pdfplumber packages.
+description: Extract text, fill forms, merge PDFs. Use when working with PDF files, forms,
+  or document extraction. Requires pypdf and pdfplumber packages.
 allowed-tools: Bash, Read, Write
 ---
 
@@ -810,21 +811,23 @@ Claude automatically activates the skill if it matches.
    description: Helps with documents
 
    # Specific
-   description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when user mentions PDFs, forms, or document extraction.
+   description: Extract text and tables from PDF files, fill forms, merge documents.
+     Use when working with PDF files or when user mentions PDFs, forms,
+     or document extraction.
    ```
 
-2. **Verify path**:
+1. **Verify path**:
    ```bash
    ls ~/.claude/skills/my-skill/SKILL.md
    ls .claude/skills/my-skill/SKILL.md
    ```
 
-3. **Check YAML syntax**:
+1. **Check YAML syntax**:
    ```bash
    cat SKILL.md | head -n 10
    ```
 
-4. **View errors**:
+1. **View errors**:
    ```bash
    claude --debug
    ```
@@ -1321,7 +1324,7 @@ claude --debug
 
 A typical workflow combining all components:
 
-**1. Project Setup**
+#### 1. Project Setup
 
 ```bash
 # Project structure
@@ -1334,7 +1337,7 @@ cat > .gitignore << 'EOF'
 EOF
 ```
 
-**2. Agents for Team**
+#### 2. Agents for Team
 
 ```bash
 # Code reviewer
@@ -1358,7 +1361,7 @@ tools: Read, Edit, Bash
 EOF
 ```
 
-**3. Commands for Productivity**
+#### 3. Commands for Productivity
 
 ```bash
 # Commit
@@ -1380,7 +1383,7 @@ description: Create detailed PR
 EOF
 ```
 
-**4. Skills for Specialization**
+#### 4. Skills for Specialization
 
 ```bash
 # PDF processing skill
@@ -1394,7 +1397,7 @@ description: PDF operations - extract, merge, fill
 EOF
 ```
 
-**5. Hooks for Quality**
+#### 5. Hooks for Quality
 
 ```json
 {
