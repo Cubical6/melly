@@ -2,8 +2,8 @@
 """
 Extract Observations and Relations from Parsed Markdown
 
-Extracts observations (version info, dependencies, best practices, techniques,
-examples, warnings) and relations (links, cross-references) from markdown structure.
+Extracts observations (facts, requirements, best practices, techniques,
+examples, problems, solutions, insights) and relations (links, cross-references) from markdown structure.
 
 Usage:
     python extract-metadata.py <markdown-file> <library-name> <entity-id>
@@ -27,12 +27,13 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     Extract observations using regex patterns.
     
     Patterns for:
-    - Version info: "Introduced in X", "Added in Y", "Requires X+"
-    - Dependencies: "Requires X", "Depends on Y"
+    - Facts: Version info like "Introduced in X", "Added in Y", "Requires X+"
+    - Requirements: Dependencies like "Requires X", "Depends on Y"
     - Best practices: "Best practice", "Recommended", "Should"
     - Techniques: H2/H3 headings with "How to", "Using", etc.
     - Examples: Code blocks
-    - Warnings: "Note:", "Warning:", "Caution:"
+    - Problems: Warnings like "Note:", "Warning:", "Caution:"
+    - Insights: Blockquotes with tips, notes
     
     Args:
         parsed: Dictionary from parse_markdown_structure()
@@ -43,7 +44,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     """
     observations = []
     
-    # Version patterns
+    # Version patterns -> fact category
     version_patterns = [
         r'(?i)introduced in ([\w\s.]+)',
         r'(?i)added in ([\w\s.]+)',
@@ -56,13 +57,13 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     for pattern in version_patterns:
         for match in re.finditer(pattern, content):
             observations.append({
-                'category': 'version',
+                'category': 'fact',
                 'description': match.group(0).strip(),
                 'source': 'text_pattern',
                 'metadata': {'version': match.group(1).strip()}
             })
     
-    # Dependency patterns
+    # Dependency patterns -> requirement category
     dependency_patterns = [
         r'(?i)requires? ([\w\-]+(?:\s+[\w\-]+)*)',
         r'(?i)depends on ([\w\-]+(?:\s+[\w\-]+)*)',
@@ -73,13 +74,13 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     for pattern in dependency_patterns:
         for match in re.finditer(pattern, content):
             observations.append({
-                'category': 'dependency',
+                'category': 'requirement',
                 'description': match.group(0).strip(),
                 'source': 'text_pattern',
                 'metadata': {'dependency': match.group(1).strip()}
             })
     
-    # Best practices patterns
+    # Best practices patterns -> best-practice category (with hyphen)
     best_practice_patterns = [
         r'(?i)best practice[:\s]+([^.\n]+)',
         r'(?i)recommended[:\s]+([^.\n]+)',
@@ -91,7 +92,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     for pattern in best_practice_patterns:
         for match in re.finditer(pattern, content):
             observations.append({
-                'category': 'best_practice',
+                'category': 'best-practice',
                 'description': match.group(0).strip(),
                 'source': 'text_pattern'
             })
@@ -130,7 +131,7 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
             }
         })
     
-    # Warning patterns
+    # Warning patterns -> problem category
     warning_patterns = [
         r'(?i)(?:^|\n)(?:note|warning|caution|important):\s*([^\n]+)',
         r'(?i)⚠️\s*([^\n]+)',
@@ -140,19 +141,19 @@ def extract_observations(parsed: Dict, library: str) -> List[Dict]:
     for pattern in warning_patterns:
         for match in re.finditer(pattern, content):
             observations.append({
-                'category': 'warning',
+                'category': 'problem',
                 'description': match.group(0).strip(),
                 'source': 'text_pattern'
             })
     
-    # Extract from blockquotes (often contain notes/tips)
+    # Extract from blockquotes (often contain notes/tips) -> insight category
     for blockquote in parsed['blockquotes']:
         # Determine category based on content
-        category = 'note'
+        category = 'insight'
         if re.search(r'(?i)(warning|caution|danger)', blockquote):
-            category = 'warning'
-        elif re.search(r'(?i)(tip|hint|pro tip)', blockquote):
-            category = 'best_practice'
+            category = 'problem'
+        elif re.search(r'(?i)(tip|hint|pro tip|best practice)', blockquote):
+            category = 'best-practice'
         
         observations.append({
             'category': category,

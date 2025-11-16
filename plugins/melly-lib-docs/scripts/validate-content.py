@@ -21,7 +21,6 @@ Exit codes:
 
 import argparse
 import difflib
-import re
 import sys
 from pathlib import Path
 from typing import Tuple, Optional

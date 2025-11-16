@@ -28,8 +28,8 @@ REQUIRED_ROOT_FIELDS = ['library', 'version', 'source_url', 'entities', 'metadat
 REQUIRED_ENTITY_FIELDS = ['id', 'name', 'type', 'file_path', 'observations', 'tags']
 REQUIRED_OBSERVATION_FIELDS = ['category', 'description']
 VALID_OBSERVATION_CATEGORIES = [
-    'version', 'dependency', 'best_practice', 'technique',
-    'example', 'warning', 'note', 'api', 'configuration'
+    'fact', 'technique', 'best-practice', 'requirement',
+    'example', 'problem', 'solution', 'insight', 'decision', 'question'
 ]
 REQUIRED_RELATION_FIELDS = ['source', 'target', 'type']
 
@@ -274,8 +274,8 @@ def main():
             print(f"  Entities: {entity_count}")
             print(f"  Observations: {obs_count}")
             print(f"  Relations: {relation_count}")
-        except:
-            pass
+        except Exception as e:
+            print(f"Warning: Could not generate summary: {e}", file=sys.stderr)
     
     return exit_code
 

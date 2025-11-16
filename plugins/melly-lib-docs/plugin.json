@@ -11,13 +11,25 @@
     "skills": [
       "skills/lib-doc-methodology"
     ],
-    "scripts": []
+    "scripts": [
+      "scripts/validate-lib-docs.py",
+      "scripts/validate-content.py",
+      "scripts/parse-markdown.py",
+      "scripts/extract-metadata.py"
+    ]
   },
   "metadata": {
     "category": "knowledge-extraction",
-    "tags": ["documentation", "library-analysis", "metadata", "c4-model"],
+    "tags": [
+      "documentation",
+      "library-analysis",
+      "metadata",
+      "c4-model"
+    ],
     "requires": {
-      "mcp-servers": ["basic-memory"]
+      "mcp-servers": [
+        "basic-memory"
+      ]
     }
   }
 }
