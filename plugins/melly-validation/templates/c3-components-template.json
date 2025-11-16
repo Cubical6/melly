@@ -486,9 +486,9 @@
             "description": "Type of relationship",
             "notes": [
               "Both concise and verbose forms are valid",
-              "Concise forms (preferred): 'implements', 'observes', 'notifies', 'inherits'",
-              "Verbose forms (also valid): 'interface-implementation', 'event-subscriber', 'event-publisher', 'extends'",
-              "Use whichever form makes the description clearer"
+              "Concise forms (preferred): 'uses', 'calls', 'inherits', 'implements', 'composes', 'aggregates', 'observes', 'notifies'",
+              "Verbose forms (legacy): 'dependency', 'inheritance', 'composition', 'aggregation', 'interface-implementation', 'event-subscriber', 'event-publisher', 'extends'",
+              "Prefer concise forms for brevity unless verbose form adds clarity"
             ],
             "definitions": {
               "dependency": "Uses another component's functionality",
@@ -502,16 +502,16 @@
               "calls": "Direct method/function invocation",
               "imports": "Module or package import",
               "injects": "Dependency injection relationship",
-              "observes": "Observer pattern relationship",
+              "observes": "Concise form - subscribes to events from other components (observer pattern)",
               "delegates": "Delegation pattern relationship",
               "provides": "Provides functionality or data",
               "consumes": "Consumes functionality or data",
-              "inherits": "Verbose form of inheritance",
-              "implements": "Verbose form of interface-implementation",
-              "composes": "Verbose form of composition",
-              "aggregates": "Verbose form of aggregation",
-              "notifies": "Publishes events or notifications",
-              "extends": "Verbose form of inheritance"
+              "inherits": "Concise form - extends another component (is-a relationship)",
+              "implements": "Concise form - implements an interface contract",
+              "composes": "Concise form - owns component lifecycle (composition)",
+              "aggregates": "Concise form - references component (aggregation)",
+              "notifies": "Concise form - publishes events or notifications to other components",
+              "extends": "Verbose form - same as inherits (inheritance relationship)"
             }
           },
           "coupling": {
@@ -563,6 +563,7 @@
       "relations": [
         "target must be valid component-id",
         "type must be one of defined relation types (dependency, inheritance, composition, aggregation, interface-implementation, event-publisher, event-subscriber, uses, calls, imports, injects, observes, delegates, provides, consumes, inherits, implements, composes, aggregates)",
+        "prefer concise forms over verbose forms for better readability",
         "coupling must be loose or tight",
         "description must use active voice"
       ]

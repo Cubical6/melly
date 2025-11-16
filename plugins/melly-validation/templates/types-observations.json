@@ -101,7 +101,7 @@
             "code-snippet",
             "configuration"
           ],
-          "description": "Type of evidence. Short forms (file, code, config, pattern) are preferred; long forms (file-path, code-snippet, configuration) are also accepted for backwards compatibility."
+          "description": "Type of evidence. Use short forms (file, code, config, pattern) for all new observations. Long forms (file-path, code-snippet, configuration) are DEPRECATED - supported only for backwards compatibility with existing data."
         },
         "location": {
           "type": "string",
