@@ -15,15 +15,12 @@
     "list_item_empty_lines": false
   },
   "MD013": {
-    "line_length": 120,
-    "heading_line_length": 120,
-    "header_line_length": 120,
-    "code_block_line_length": 120,
-    "code_blocks": true,
-    "headers": true,
-    "headers_only": false,
-    "allow_different_indents": true,
-    "tables": true
+    "line_length": 200,
+    "heading_line_length": 150,
+    "code_block_line_length": 200,
+    "code_blocks": false,
+    "tables": false,
+    "strict": false
   },
   "MD024": {
     "siblings_only": true
