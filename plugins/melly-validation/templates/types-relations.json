@@ -1,0 +1,631 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://melly.dev/schemas/types-relations.json",
+  "title": "Melly Relation Type Definitions",
+  "description": "Comprehensive type definitions for relations across C1, C2, and C3 levels of the C4 model. Relations document dependencies and interactions between systems, containers, and components.",
+  "version": "1.1.0",
+  "lastUpdated": "2025-11-16",
+  "changelog": "Added support for both generic/specific and concise/verbose relation type forms to match actual template usage patterns",
+
+  "definitions": {
+    "relationStructure": {
+      "description": "Standard structure for a relation entry",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this relation",
+          "pattern": "^rel-[a-z0-9-]+$",
+          "examples": ["rel-frontend-to-api", "rel-api-to-database"]
+        },
+        "source": {
+          "type": "string",
+          "description": "ID of source entity (implied by context, optional in JSON)",
+          "examples": ["web-application", "frontend-spa", "auth-component"]
+        },
+        "target": {
+          "type": "string",
+          "description": "ID of target entity (required)",
+          "examples": ["backend-api", "database", "user-service"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of relation (level-specific, see types below)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the relation in active voice",
+          "examples": [
+            "Sends HTTP requests to fetch user data",
+            "Reads and writes customer records",
+            "Depends on for authentication logic"
+          ]
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Communication protocol (optional, typically for C1/C2)",
+          "examples": ["HTTP/REST", "gRPC", "AMQP", "WebSocket", "GraphQL"]
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["unidirectional", "bidirectional", "outbound", "inbound"],
+          "description": "Direction of communication (C1 only). Supports both flow-based (outbound/inbound) and directional (unidirectional/bidirectional) terminology."
+        },
+        "coupling": {
+          "type": "string",
+          "enum": ["loose", "tight"],
+          "description": "Coupling strength (C3 only)"
+        },
+        "isAsync": {
+          "type": "boolean",
+          "description": "Whether communication is asynchronous",
+          "default": false
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for categorization",
+          "examples": [["api", "rest"], ["database", "read-write"]]
+        }
+      },
+      "required": ["target", "type", "description"]
+    },
+
+    "c1RelationTypes": {
+      "description": "Relation types for C1 System Context level. Supports both generic and specific forms.",
+      "type": "string",
+      "enum": [
+        "http",
+        "https",
+        "http-rest",
+        "http-graphql",
+        "grpc",
+        "graphql",
+        "websocket",
+        "message-queue",
+        "event-stream",
+        "file-transfer",
+        "database-connection",
+        "database-query",
+        "authentication",
+        "rpc",
+        "soap",
+        "smtp",
+        "external-api"
+      ],
+      "notes": [
+        "Prefer specific types (http-rest, http-graphql) over generic (http, https)",
+        "Use 'authentication' for auth-specific relations",
+        "Use 'database-query' for read-only database access at system level"
+      ],
+      "examples": [
+        {
+          "type": "http",
+          "description": "HTTP/HTTPS communication",
+          "usage": "REST APIs, web requests",
+          "protocols": ["HTTP/1.1", "HTTP/2", "HTTP/3"]
+        },
+        {
+          "type": "grpc",
+          "description": "gRPC communication",
+          "usage": "High-performance RPC between services",
+          "protocols": ["gRPC"]
+        },
+        {
+          "type": "message-queue",
+          "description": "Asynchronous messaging via queue",
+          "usage": "Event-driven architectures, async processing",
+          "protocols": ["AMQP", "Kafka", "RabbitMQ", "SQS"]
+        },
+        {
+          "type": "database-connection",
+          "description": "Direct database access",
+          "usage": "System to database communication",
+          "protocols": ["PostgreSQL", "MySQL", "MongoDB"]
+        },
+        {
+          "type": "external-api",
+          "description": "Third-party API integration",
+          "usage": "Payment gateways, SaaS services",
+          "protocols": ["REST", "SOAP", "GraphQL"]
+        }
+      ]
+    },
+
+    "c2RelationTypes": {
+      "description": "Relation types for C2 Container level. Supports both specific and generic forms.",
+      "type": "string",
+      "enum": [
+        "http-rest",
+        "http-graphql",
+        "grpc",
+        "websocket",
+        "database-query",
+        "database-write",
+        "database-read-write",
+        "database-connection",
+        "cache-read",
+        "cache-write",
+        "cache-read-write",
+        "cache-access",
+        "message-publish",
+        "message-subscribe",
+        "message-consumer",
+        "file-read",
+        "file-write",
+        "cdn-fetch",
+        "stream"
+      ],
+      "notes": [
+        "Prefer specific types (database-query, database-write, database-read-write) over generic (database-connection)",
+        "Prefer specific cache types (cache-read, cache-write, cache-read-write) over generic (cache-access)",
+        "'message-consumer' is an alias for 'message-subscribe' (both valid)",
+        "Generic forms provided for template compatibility"
+      ],
+      "examples": [
+        {
+          "type": "http-rest",
+          "description": "RESTful HTTP API calls",
+          "usage": "Frontend to backend, service-to-service",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+        },
+        {
+          "type": "database-read-write",
+          "description": "Full database access (read and write)",
+          "usage": "API servers to databases",
+          "operations": ["SELECT", "INSERT", "UPDATE", "DELETE"]
+        },
+        {
+          "type": "cache-read-write",
+          "description": "Cache access for performance",
+          "usage": "API servers to Redis/Memcached",
+          "operations": ["GET", "SET", "DEL"]
+        },
+        {
+          "type": "message-publish",
+          "description": "Publishes messages to queue/topic",
+          "usage": "Event producers, async job creators",
+          "patterns": ["pub-sub", "work-queue"]
+        },
+        {
+          "type": "message-subscribe",
+          "description": "Consumes messages from queue/topic",
+          "usage": "Event consumers, workers",
+          "patterns": ["pub-sub", "work-queue"]
+        }
+      ]
+    },
+
+    "c3RelationTypes": {
+      "description": "Relation types for C3 Component level. Supports both concise and verbose forms.",
+      "type": "string",
+      "enum": [
+        "dependency",
+        "uses",
+        "calls",
+        "inherits",
+        "implements",
+        "interface-implementation",
+        "composes",
+        "aggregates",
+        "imports",
+        "injects",
+        "observes",
+        "event-subscriber",
+        "notifies",
+        "event-publisher",
+        "delegates",
+        "extends",
+        "provides",
+        "consumes"
+      ],
+      "notes": [
+        "Both concise and verbose forms are valid",
+        "Concise (preferred): 'implements', 'observes', 'notifies'",
+        "Verbose (also valid): 'interface-implementation', 'event-subscriber', 'event-publisher'",
+        "Use whichever form makes the description clearer"
+      ],
+      "examples": [
+        {
+          "type": "dependency",
+          "description": "General dependency relationship",
+          "usage": "Component depends on another for functionality",
+          "coupling": "varies"
+        },
+        {
+          "type": "uses",
+          "description": "Uses another component's functionality",
+          "usage": "Service uses repository, controller uses service",
+          "coupling": "loose to moderate"
+        },
+        {
+          "type": "calls",
+          "description": "Invokes methods on another component",
+          "usage": "Direct method calls, function invocation",
+          "coupling": "tight"
+        },
+        {
+          "type": "inherits",
+          "description": "Class inheritance",
+          "usage": "OOP inheritance hierarchies",
+          "coupling": "tight"
+        },
+        {
+          "type": "implements",
+          "description": "Implements an interface",
+          "usage": "Interface implementation, contract fulfillment",
+          "coupling": "loose"
+        },
+        {
+          "type": "composes",
+          "description": "Composition relationship",
+          "usage": "Component contains another as part",
+          "coupling": "tight"
+        },
+        {
+          "type": "injects",
+          "description": "Dependency injection",
+          "usage": "DI frameworks, constructor injection",
+          "coupling": "loose"
+        },
+        {
+          "type": "observes",
+          "description": "Observer pattern - listens to events",
+          "usage": "Event listeners, subscribers",
+          "coupling": "loose"
+        },
+        {
+          "type": "notifies",
+          "description": "Publishes events or notifications",
+          "usage": "Event emitters, publishers",
+          "coupling": "loose"
+        }
+      ]
+    },
+
+    "directionValues": {
+      "description": "Direction values for C1 relations. Supports both flow-based and directional terminology.",
+      "type": "string",
+      "enum": ["unidirectional", "bidirectional", "outbound", "inbound"],
+      "notes": [
+        "Flow-based (preferred): 'outbound', 'inbound', 'bidirectional'",
+        "Directional (legacy): 'unidirectional', 'bidirectional'",
+        "'outbound' = source initiates (equivalent to 'unidirectional' from source perspective)",
+        "'inbound' = target initiates (equivalent to 'unidirectional' from target perspective)",
+        "'bidirectional' = both directions (same in both terminologies)"
+      ],
+      "examples": [
+        {
+          "direction": "outbound",
+          "description": "Source initiates communication",
+          "usage": "Frontend makes requests to API",
+          "legacy": "unidirectional"
+        },
+        {
+          "direction": "inbound",
+          "description": "Target initiates communication",
+          "usage": "API pushes notifications to frontend via webhook",
+          "legacy": "unidirectional (from target's perspective)"
+        },
+        {
+          "direction": "bidirectional",
+          "description": "Two-way communication",
+          "usage": "WebSocket connections, peer-to-peer",
+          "legacy": "bidirectional"
+        }
+      ]
+    },
+
+    "couplingValues": {
+      "description": "Coupling strength values for C3 relations",
+      "type": "string",
+      "enum": ["loose", "tight"],
+      "examples": [
+        {
+          "coupling": "loose",
+          "description": "Minimal dependency, easily replaceable",
+          "usage": "Interface-based dependencies, dependency injection",
+          "characteristics": ["Flexible", "Testable", "Maintainable"]
+        },
+        {
+          "coupling": "tight",
+          "description": "Strong dependency, hard to replace",
+          "usage": "Direct class references, inheritance",
+          "characteristics": ["Rigid", "Harder to test", "Harder to change"]
+        }
+      ]
+    }
+  },
+
+  "examples": {
+    "c1Relations": [
+      {
+        "id": "rel-webapp-to-api",
+        "target": "backend-api",
+        "type": "http-rest",
+        "description": "Sends HTTP requests to fetch and update data",
+        "protocol": "HTTP/REST",
+        "direction": "outbound",
+        "isAsync": false,
+        "tags": ["api", "rest"]
+      },
+      {
+        "id": "rel-api-to-payment",
+        "target": "payment-gateway",
+        "type": "external-api",
+        "description": "Processes payments via Stripe API",
+        "protocol": "HTTPS/REST",
+        "direction": "bidirectional",
+        "isAsync": true,
+        "tags": ["payment", "external", "stripe"]
+      },
+      {
+        "id": "rel-worker-to-queue",
+        "target": "message-queue",
+        "type": "message-queue",
+        "description": "Consumes background job messages",
+        "protocol": "AMQP",
+        "direction": "inbound",
+        "isAsync": true,
+        "tags": ["async", "queue", "rabbitmq"]
+      },
+      {
+        "id": "rel-app-to-auth",
+        "target": "auth-system",
+        "type": "authentication",
+        "description": "Authenticates users via OAuth 2.0",
+        "protocol": "OAuth 2.0",
+        "direction": "outbound",
+        "isAsync": false,
+        "tags": ["auth", "oauth", "security"]
+      }
+    ],
+
+    "c2Relations": [
+      {
+        "id": "rel-spa-to-api",
+        "target": "backend-api",
+        "type": "http-rest",
+        "description": "Fetches user data and submits forms",
+        "protocol": "HTTP/REST",
+        "isAsync": true,
+        "tags": ["rest", "ajax", "fetch"]
+      },
+      {
+        "id": "rel-api-to-postgres",
+        "target": "postgres-db",
+        "type": "database-read-write",
+        "description": "Reads and writes application data",
+        "protocol": "PostgreSQL Wire Protocol",
+        "isAsync": false,
+        "tags": ["database", "postgres", "sql"]
+      },
+      {
+        "id": "rel-api-to-redis",
+        "target": "redis-cache",
+        "type": "cache-read-write",
+        "description": "Caches frequently accessed data",
+        "protocol": "Redis Protocol",
+        "isAsync": false,
+        "tags": ["cache", "redis", "performance"]
+      },
+      {
+        "id": "rel-worker-to-queue",
+        "target": "rabbitmq",
+        "type": "message-consumer",
+        "description": "Consumes email notification jobs",
+        "protocol": "AMQP",
+        "isAsync": true,
+        "tags": ["queue", "worker", "email"]
+      },
+      {
+        "id": "rel-service-to-db",
+        "target": "mysql-db",
+        "type": "database-connection",
+        "description": "Connects to database for general operations",
+        "protocol": "MySQL Wire Protocol",
+        "isAsync": false,
+        "tags": ["database", "mysql", "generic"]
+      },
+      {
+        "id": "rel-auth-to-cache",
+        "target": "redis-cache",
+        "type": "cache-access",
+        "description": "Accesses session cache",
+        "protocol": "Redis Protocol",
+        "isAsync": false,
+        "tags": ["cache", "session", "generic"]
+      }
+    ],
+
+    "c3Relations": [
+      {
+        "id": "rel-controller-to-service",
+        "target": "user-service",
+        "type": "uses",
+        "description": "Delegates business logic operations",
+        "coupling": "loose",
+        "tags": ["service-layer", "delegation"]
+      },
+      {
+        "id": "rel-service-to-repo",
+        "target": "user-repository",
+        "type": "injects",
+        "description": "Injects repository via dependency injection",
+        "coupling": "loose",
+        "tags": ["di", "repository-pattern"]
+      },
+      {
+        "id": "rel-auth-to-user",
+        "target": "user-component",
+        "type": "provides",
+        "description": "Provides authenticated user information",
+        "coupling": "loose",
+        "tags": ["auth", "context"]
+      },
+      {
+        "id": "rel-validator-extends-base",
+        "target": "base-validator",
+        "type": "inherits",
+        "description": "Extends base validation logic",
+        "coupling": "tight",
+        "tags": ["inheritance", "validation"]
+      },
+      {
+        "id": "rel-payment-observes-order",
+        "target": "order-component",
+        "type": "observes",
+        "description": "Listens to order completion events",
+        "coupling": "loose",
+        "tags": ["event", "observer-pattern"]
+      },
+      {
+        "id": "rel-order-notifies-payment",
+        "target": "payment-component",
+        "type": "event-publisher",
+        "description": "Emits order completion events",
+        "coupling": "loose",
+        "tags": ["event", "publisher"]
+      },
+      {
+        "id": "rel-service-implements-interface",
+        "target": "repository-interface",
+        "type": "interface-implementation",
+        "description": "Implements repository contract",
+        "coupling": "loose",
+        "tags": ["interface", "contract", "di"]
+      },
+      {
+        "id": "rel-logger-subscribes-errors",
+        "target": "error-handler",
+        "type": "event-subscriber",
+        "description": "Subscribes to error events for logging",
+        "coupling": "loose",
+        "tags": ["event", "logging", "observer"]
+      }
+    ]
+  },
+
+  "descriptionPatterns": {
+    "description": "Guidelines for writing relation descriptions",
+    "rules": [
+      "Use active voice (subject performs action)",
+      "Start with a verb (Sends, Fetches, Reads, Writes, Depends on, etc.)",
+      "Be specific about what is communicated",
+      "Include the purpose when relevant",
+      "Keep it concise (1-2 sentences max)"
+    ],
+    "goodExamples": [
+      "Sends HTTP requests to fetch user data",
+      "Reads customer records for order processing",
+      "Publishes order completion events to notification queue",
+      "Injects repository via dependency injection for data access",
+      "Extends base authentication logic with OAuth support"
+    ],
+    "badExamples": [
+      "Talks to the API",
+      "Data is sent",
+      "Connection",
+      "Uses it",
+      "Dependency"
+    ]
+  },
+
+  "usage": {
+    "description": "How to use relation types in the Melly workflow",
+    "guidelines": [
+      "Each relation should have a unique ID starting with 'rel-'",
+      "Source is implied by context (the entity containing this relation)",
+      "Target must be a valid ID of another entity at the same or different level",
+      "Choose type based on C4 level and communication mechanism",
+      "Write descriptions in active voice starting with a verb",
+      "Include direction for C1 relations (unidirectional/bidirectional)",
+      "Include coupling for C3 relations (loose/tight)",
+      "Use protocol field for C1/C2 to specify exact protocol",
+      "Set isAsync=true for asynchronous communication",
+      "Use tags for cross-referencing and filtering"
+    ],
+    "validationRules": [
+      "ID must match pattern: ^rel-[a-z0-9-]+$",
+      "Target must not be empty",
+      "Type must match the appropriate C4 level types (see enums above)",
+      "Both generic and specific type forms are valid (e.g., 'http' vs 'http-rest')",
+      "Both concise and verbose forms are valid for C3 (e.g., 'implements' vs 'interface-implementation')",
+      "Description must be in active voice with a verb",
+      "Direction only applies to C1 relations (supports both 'outbound/inbound' and 'unidirectional/bidirectional')",
+      "Coupling only applies to C3 relations",
+      "Protocol should be specified for network communication",
+      "Target entity must exist in the appropriate JSON file"
+    ],
+    "integrationPoints": [
+      "Used by c1-abstractor, c2-abstractor, c3-abstractor agents",
+      "Stored in JSON files (c1-systems.json, c2-containers.json, c3-components.json)",
+      "Converted to markdown tables by c4model-writer agent",
+      "Validated by validate-*.py scripts",
+      "Visualized in diagrams by c4model-drawer agent",
+      "Searchable via basic-memory MCP"
+    ]
+  },
+
+  "levelSpecificRules": {
+    "c1": {
+      "description": "C1 System Context relations",
+      "rules": [
+        "Relations between systems (software or external)",
+        "Focus on communication protocols and patterns",
+        "Include direction (unidirectional/bidirectional)",
+        "Specify protocol (HTTP, gRPC, AMQP, etc.)",
+        "Document async vs sync nature"
+      ],
+      "commonPatterns": [
+        "Frontend system calls backend API (unidirectional)",
+        "Microservices communicate via message queue (async)",
+        "System integrates with external SaaS (bidirectional)",
+        "Data flows from source system to analytics"
+      ]
+    },
+    "c2": {
+      "description": "C2 Container relations",
+      "rules": [
+        "Relations between containers (deployable units)",
+        "Be specific about API style (REST, GraphQL, etc.)",
+        "Differentiate read vs write for databases",
+        "Document cache patterns",
+        "Show message patterns (publish/subscribe)"
+      ],
+      "commonPatterns": [
+        "SPA makes REST calls to backend API",
+        "API reads/writes to PostgreSQL database",
+        "API caches data in Redis",
+        "Worker subscribes to message queue",
+        "API publishes events to message broker"
+      ]
+    },
+    "c3": {
+      "description": "C3 Component relations",
+      "rules": [
+        "Relations between components (code modules)",
+        "Include coupling assessment (loose/tight)",
+        "Show design patterns (DI, observer, etc.)",
+        "Document inheritance and composition",
+        "Highlight interface implementations"
+      ],
+      "commonPatterns": [
+        "Controller uses service (loose coupling)",
+        "Service injects repository (DI pattern)",
+        "Component implements interface (loose coupling)",
+        "Class inherits from base (tight coupling)",
+        "Component observes events (loose coupling)"
+      ]
+    }
+  },
+
+  "references": [
+    "C4 Methodology: /home/user/melly/docs/c4model-methodology.md",
+    "Validation Scripts: /home/user/melly/plugins/melly-validation/scripts/",
+    "Agent Prompts: /home/user/melly/plugins/*/agents/*.md",
+    "JSON Schema: http://json-schema.org/"
+  ]
+}
