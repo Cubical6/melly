@@ -1,0 +1,233 @@
+{
+  "library": {
+    "name": "Laravel",
+    "version": "11.x",
+    "url": "https://laravel.com/docs/11.x",
+    "language": "PHP",
+    "type": "framework",
+    "analyzed_at": "2025-11-16T12:00:00Z",
+    "stats": {
+      "total_files": 42,
+      "total_observations": 287,
+      "total_relations": 156,
+      "total_chunks": 42,
+      "avg_chunk_size_words": 1800,
+      "observation_categories": {
+        "fact": 95,
+        "technique": 78,
+        "best-practice": 45,
+        "requirement": 32,
+        "example": 25,
+        "warning": 8,
+        "concept": 4
+      },
+      "relation_types": {
+        "requires": 42,
+        "part_of": 38,
+        "extends": 28,
+        "uses": 24,
+        "similar_to": 14,
+        "alternative_to": 10
+      }
+    }
+  },
+  "entities": [
+    {
+      "id": "laravel-routing-basics",
+      "file_path": "knowledge-base/libraries/laravel-11/routing/basics.md",
+      "title": "Routing Basics",
+      "hierarchy": {
+        "category": "Routing",
+        "topic": "Route Definition",
+        "concepts": [
+          "Basic Routes",
+          "Route Parameters",
+          "Route Methods"
+        ]
+      },
+      "metadata": {
+        "word_count": 1850,
+        "code_blocks": 12,
+        "headings": 8,
+        "external_links": 3,
+        "internal_references": 5
+      },
+      "observations": [
+        {
+          "id": "obs-001",
+          "type": "fact",
+          "category": "routing",
+          "content": "Routes are defined in routes/web.php for web interfaces and routes/api.php for API endpoints",
+          "source": "## Route Files",
+          "confidence": "high",
+          "keywords": ["routes", "web.php", "api.php", "route-files"]
+        },
+        {
+          "id": "obs-002",
+          "type": "technique",
+          "category": "routing",
+          "content": "Use Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete() for different HTTP methods",
+          "source": "## Available Router Methods",
+          "confidence": "high",
+          "keywords": ["route-methods", "HTTP", "REST"]
+        },
+        {
+          "id": "obs-003",
+          "type": "best-practice",
+          "category": "routing",
+          "content": "Group related routes using Route::prefix() to avoid repetition",
+          "source": "## Route Groups",
+          "confidence": "high",
+          "keywords": ["route-groups", "prefix", "organization"]
+        },
+        {
+          "id": "obs-004",
+          "type": "requirement",
+          "category": "routing",
+          "content": "Route parameters must be wrapped in curly braces {id} and will be injected into route callbacks",
+          "source": "## Route Parameters",
+          "confidence": "high",
+          "keywords": ["route-parameters", "dependency-injection", "URL-segments"]
+        }
+      ],
+      "relations": [
+        {
+          "id": "rel-001",
+          "type": "requires",
+          "target": "laravel-controllers",
+          "description": "Routes typically point to controller methods for complex logic",
+          "source": "## Route to Controller",
+          "confidence": "high"
+        },
+        {
+          "id": "rel-002",
+          "type": "part_of",
+          "target": "laravel-routing",
+          "description": "Route basics are fundamental to Laravel's routing system",
+          "source": "implicit",
+          "confidence": "high"
+        },
+        {
+          "id": "rel-003",
+          "type": "uses",
+          "target": "laravel-middleware",
+          "description": "Routes can apply middleware for authentication, logging, etc.",
+          "source": "## Route Middleware",
+          "confidence": "high"
+        }
+      ],
+      "basic_memory_id": "entity-abc123",
+      "created_at": "2025-11-16T12:00:00Z"
+    },
+    {
+      "id": "laravel-route-model-binding",
+      "file_path": "knowledge-base/libraries/laravel-11/routing/route-model-binding.md",
+      "title": "Route Model Binding",
+      "hierarchy": {
+        "category": "Routing",
+        "topic": "Advanced Routing",
+        "concepts": [
+          "Implicit Binding",
+          "Explicit Binding",
+          "Custom Keys"
+        ]
+      },
+      "metadata": {
+        "word_count": 1650,
+        "code_blocks": 10,
+        "headings": 7,
+        "external_links": 2,
+        "internal_references": 4
+      },
+      "observations": [
+        {
+          "id": "obs-005",
+          "type": "concept",
+          "category": "routing",
+          "content": "Route model binding automatically injects model instances based on route parameters, eliminating manual database queries",
+          "source": "## Introduction",
+          "confidence": "high",
+          "keywords": ["route-model-binding", "automatic-injection", "eloquent"]
+        },
+        {
+          "id": "obs-006",
+          "type": "technique",
+          "category": "routing",
+          "content": "Implicit binding works when route parameter name matches controller method type-hinted parameter",
+          "source": "## Implicit Binding",
+          "confidence": "high",
+          "keywords": ["implicit-binding", "type-hinting", "convention"]
+        },
+        {
+          "id": "obs-007",
+          "type": "example",
+          "category": "routing",
+          "content": "Route::get('/users/{user}', function (User $user) { return $user; }) automatically finds User by ID",
+          "source": "## Implicit Binding Example",
+          "confidence": "high",
+          "keywords": ["example", "implicit-binding", "user-model"]
+        },
+        {
+          "id": "obs-008",
+          "type": "technique",
+          "category": "routing",
+          "content": "Use ->missing() method to customize 404 behavior when model is not found",
+          "source": "## Customizing Missing Model Behavior",
+          "confidence": "high",
+          "keywords": ["missing", "404", "error-handling"]
+        }
+      ],
+      "relations": [
+        {
+          "id": "rel-004",
+          "type": "extends",
+          "target": "laravel-routing-basics",
+          "description": "Route model binding builds on basic routing concepts",
+          "source": "implicit",
+          "confidence": "high"
+        },
+        {
+          "id": "rel-005",
+          "type": "requires",
+          "target": "laravel-eloquent-models",
+          "description": "Model binding requires Eloquent models to be defined",
+          "source": "## Model Requirements",
+          "confidence": "high"
+        },
+        {
+          "id": "rel-006",
+          "type": "alternative_to",
+          "target": "laravel-route-parameters",
+          "description": "Model binding is a more elegant alternative to manual parameter handling",
+          "source": "## Benefits",
+          "confidence": "medium"
+        }
+      ],
+      "basic_memory_id": "entity-def456",
+      "created_at": "2025-11-16T12:05:00Z"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "laravel-route-model-binding",
+      "to": "laravel-routing-basics",
+      "type": "extends",
+      "description": "Advanced routing feature building on basic routes",
+      "weight": 0.9
+    },
+    {
+      "from": "laravel-route-model-binding",
+      "to": "laravel-eloquent-models",
+      "type": "requires",
+      "description": "Depends on Eloquent ORM for model instances",
+      "weight": 1.0
+    },
+    {
+      "from": "laravel-routing-basics",
+      "to": "laravel-controllers",
+      "type": "uses",
+      "description": "Routes typically delegate to controllers",
+      "weight": 0.8
+    }
+  ]
+}

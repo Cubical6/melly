@@ -1,0 +1,23 @@
+{
+  "name": "melly-lib-docs",
+  "version": "1.0.0",
+  "description": "Universal library documentation analyzer with metadata extraction",
+  "author": "Melly Team",
+  "components": {
+    "agents": [],
+    "commands": [
+      "commands/melly-analyze-lib-docs.md"
+    ],
+    "skills": [
+      "skills/lib-doc-methodology"
+    ],
+    "scripts": []
+  },
+  "metadata": {
+    "category": "knowledge-extraction",
+    "tags": ["documentation", "library-analysis", "metadata", "c4-model"],
+    "requires": {
+      "mcp-servers": ["basic-memory"]
+    }
+  }
+}
