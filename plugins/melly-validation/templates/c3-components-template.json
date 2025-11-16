@@ -479,9 +479,17 @@
               "inherits",
               "implements",
               "composes",
-              "aggregates"
+              "aggregates",
+              "notifies",
+              "extends"
             ],
             "description": "Type of relationship",
+            "notes": [
+              "Both concise and verbose forms are valid",
+              "Concise forms (preferred): 'implements', 'observes', 'notifies', 'inherits'",
+              "Verbose forms (also valid): 'interface-implementation', 'event-subscriber', 'event-publisher', 'extends'",
+              "Use whichever form makes the description clearer"
+            ],
             "definitions": {
               "dependency": "Uses another component's functionality",
               "inheritance": "Extends another component (is-a relationship)",
@@ -501,7 +509,9 @@
               "inherits": "Verbose form of inheritance",
               "implements": "Verbose form of interface-implementation",
               "composes": "Verbose form of composition",
-              "aggregates": "Verbose form of aggregation"
+              "aggregates": "Verbose form of aggregation",
+              "notifies": "Publishes events or notifications",
+              "extends": "Verbose form of inheritance"
             }
           },
           "coupling": {
@@ -553,7 +563,7 @@
       "relations": [
         "target must be valid component-id",
         "type must be one of defined relation types (dependency, inheritance, composition, aggregation, interface-implementation, event-publisher, event-subscriber, uses, calls, imports, injects, observes, delegates, provides, consumes, inherits, implements, composes, aggregates)",
-        "coupling must be loose or tight (moderate is not allowed)",
+        "coupling must be loose or tight",
         "description must use active voice"
       ]
     },

@@ -374,6 +374,13 @@
         }
       ],
       "_relations_description": "Directional connections to other systems. Target is system-id, type defines communication pattern, description uses active voice.",
+      "_relation_type_guidelines": [
+        "Prefer specific types over generic types:",
+        "  - Use 'http-rest' instead of 'http' for REST APIs",
+        "  - Use 'http-graphql' instead of 'https' for GraphQL APIs",
+        "  - Use 'database-query' for read-only database access",
+        "Generic types (http, https) are provided for flexibility but less descriptive"
+      ],
       "_relation_types": [
         "http - Generic HTTP communication",
         "https - Secure HTTP communication",
@@ -394,10 +401,10 @@
         "external-api - Third-party API integration"
       ],
       "_relation_directions": [
-        "outbound - This system initiates communication to target",
-        "inbound - Target system initiates communication to this system",
+        "outbound - This system initiates communication to target (PREFERRED)",
+        "inbound - Target system initiates communication to this system (PREFERRED)",
         "bidirectional - Communication flows both ways",
-        "unidirectional - One-way communication (legacy/alias for outbound)"
+        "unidirectional - Legacy term for one-way communication (use 'outbound' or 'inbound' instead for clarity)"
       ]
     }
   ],

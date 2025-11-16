@@ -190,18 +190,27 @@
           "_target_comment": "REQUIRED: Target container ID (must match another container's ID)",
 
           "type": "database-connection",
-          "_type_comment": "REQUIRED: Relation type. Valid values: http-rest, http-graphql, grpc, websocket, database-connection, cache-access, message-publish, message-consumer, file-read, file-write",
+          "_type_comment": "REQUIRED: Relation type. Valid values: http-rest, http-graphql, grpc, websocket, database-connection, database-query, database-write, database-read-write, cache-access, cache-read, cache-write, cache-read-write, message-publish, message-subscribe, message-consumer, file-read, file-write, cdn-fetch, stream",
           "_type_options": [
             "http-rest - REST API calls over HTTP/HTTPS",
             "http-graphql - GraphQL queries over HTTP/HTTPS",
             "grpc - gRPC calls",
             "websocket - WebSocket connections",
             "database-connection - Direct database connections (SQL, NoSQL)",
-            "cache-access - Cache read/write operations",
+            "database-query - Database read queries (SELECT)",
+            "database-write - Database write operations (INSERT, UPDATE, DELETE)",
+            "database-read-write - Database read and write operations",
+            "cache-access - Cache read/write operations (generic)",
+            "cache-read - Cache read operations only",
+            "cache-write - Cache write operations only",
+            "cache-read-write - Cache read and write operations",
             "message-publish - Publishes messages to queue/broker",
+            "message-subscribe - Subscribes to messages from queue/broker",
             "message-consumer - Consumes messages from queue/broker",
             "file-read - Reads from file/blob storage",
-            "file-write - Writes to file/blob storage"
+            "file-write - Writes to file/blob storage",
+            "cdn-fetch - Fetches content from CDN",
+            "stream - Real-time data streaming"
           ],
 
           "description": "Connects to PostgreSQL for persistent data storage using connection pool",
@@ -249,7 +258,7 @@
       "environment": ["browser", "server", "cloud", "edge", "mobile"],
       "observation_category": ["technology", "runtime", "deployment", "communication", "data-storage", "performance", "security"],
       "observation_severity": ["critical", "warning", "info"],
-      "relation_type": ["http-rest", "http-graphql", "grpc", "websocket", "database-connection", "cache-access", "message-publish", "message-consumer", "file-read", "file-write"]
+      "relation_type": ["http-rest", "http-graphql", "grpc", "websocket", "database-connection", "database-query", "database-write", "database-read-write", "cache-access", "cache-read", "cache-write", "cache-read-write", "message-publish", "message-subscribe", "message-consumer", "file-read", "file-write", "cdn-fetch", "stream"]
     },
     "conditional_requirements": {
       "runtime.containerized_true": "runtime.container_technology is required when containerized=true"
