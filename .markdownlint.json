@@ -1,5 +1,6 @@
 {
   "default": true,
+  "MD001": false,
   "MD003": {
     "style": "consistent"
   },
@@ -18,10 +19,7 @@
   "MD024": {
     "siblings_only": true
   },
-  "MD025": {
-    "level": 1,
-    "front_matter_title": ""
-  },
+  "MD025": false,
   "MD026": {
     "punctuation": ".,;:!?",
     "period": true,
@@ -31,6 +29,7 @@
     "exclamation": true,
     "question": true
   },
+  "MD028": false,
   "MD029": {
     "style": "ordered"
   },
@@ -47,10 +46,14 @@
   },
   "MD040": false,
   "MD041": false,
+  "MD045": false,
   "MD046": {
     "style": "consistent"
   },
   "MD050": {
     "style": "consistent"
-  }
+  },
+  "MD051": false,
+  "MD055": false,
+  "MD056": false
 }
