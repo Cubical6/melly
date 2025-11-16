@@ -133,12 +133,12 @@ plugins/melly-validation/
 ### 2.1 JSON Schemas ✅ DESIGN COMPLETE
 
 **Status**: Schema architecture designed and documented
-**Reference**: See **[docs/json-schemas-design.md](../docs/json-schemas-design.md)** for complete specification
+**Reference**: See **[docs/json-schemas-design.md](docs/json-schemas-design.md)** for complete specification
 
 **Summary**:
 The JSON schema architecture supports progressive abstraction from repositories → systems → containers → components with:
 - **Timestamp-based incremental updates** via parent references
-- **Structured observations & relations** (not free-text) - see [docs/observations-relations-schema.md](../docs/observations-relations-schema.md)
+- **Structured observations & relations** (not free-text) - see [docs/observations-relations-schema.md](docs/observations-relations-schema.md)
 - **Kebab-case ID conventions** for filesystem safety
 - **Flexible schema** with required and optional fields
 
@@ -180,7 +180,7 @@ The JSON schema architecture supports progressive abstraction from repositories 
 
 **Status**: Validation requirements documented
 **Location**: `plugins/melly-validation/scripts/`
-**Reference**: See **[docs/validation-requirements.md](../docs/validation-requirements.md)** for complete specification
+**Reference**: See **[docs/validation-requirements.md](docs/validation-requirements.md)** for complete specification
 
 **Summary**:
 All validation scripts use exit code convention:
@@ -232,7 +232,7 @@ All validation scripts use exit code convention:
 
 **Status**: Template structure and usage documented
 **Location**: `plugins/melly-validation/templates/`
-**Reference**: See **[docs/c4model-writer-workflow.md](../docs/c4model-writer-workflow.md)** Section 5 for template usage
+**Reference**: See **[docs/c4model-writer-workflow.md](docs/c4model-writer-workflow.md)** Section 5 for template usage
 
 **Summary**:
 Templates define the structure of generated JSON and Markdown files. The c4model-writer agent processes templates with placeholder variables to generate documentation.
@@ -495,7 +495,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 ### 8.2 Sub-agent: c4model-writer ✅ DESIGN COMPLETE
 
 **Status**: Workflow designed and documented
-**Reference**: See **[docs/c4model-writer-workflow.md](../docs/c4model-writer-workflow.md)** for complete specification
+**Reference**: See **[docs/c4model-writer-workflow.md](docs/c4model-writer-workflow.md)** for complete specification
 
 **Summary**:
 The c4model-writer agent converts JSON files to structured markdown documentation with support for incremental updates, parallel processing, and basic-memory MCP integration.

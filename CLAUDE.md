@@ -614,7 +614,7 @@ pip install package1 package2
 
 ## Advanced
 
-See [reference.md](reference.md) for detailed documentation.
+See `reference.md` for detailed documentation.
 ```
 
 ### Practical Examples
@@ -684,7 +684,7 @@ with pdfplumber.open("doc.pdf") as pdf:
 
 ### Fill Forms
 
-See [FORMS.md](FORMS.md) for form filling examples.
+See `FORMS.md` for form filling examples.
 
 ### Merge PDFs
 
@@ -709,7 +709,7 @@ pip install pypdf pdfplumber
 - `scripts/fill_form.py`: Automated form filling
 - `scripts/validate.py`: PDF validation
 
-See [REFERENCE.md](REFERENCE.md) for complete API reference.
+See `REFERENCE.md` for complete API reference.
 ```
 
 #### Code Quality Checker Skill
