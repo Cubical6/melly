@@ -94,10 +94,10 @@ jobs:
       - name: Validate JSON syntax with jq
         run: |
           echo "🔍 Checking JSON syntax..."
-          find . -name "*.json" -type f ! -path "./node_modules/*" ! -path "./.git/*" | while read -r file; do
+          while read -r file; do
             echo "  ✓ Checking: $file"
             jq empty "$file" || exit 1
-          done
+          done < <(find . -name "*.json" -type f ! -path "./node_modules/*" ! -path "./.git/*")
           echo "✅ All JSON files have valid syntax"
 
       - name: Validate against schemas
@@ -113,28 +113,28 @@ jobs:
           # Validate C1 systems
           if find knowledge-base/systems -name "c1-systems.json" -type f 2>/dev/null | grep -q .; then
             echo "  ✓ Validating C1 systems..."
-            find knowledge-base/systems -name "c1-systems.json" -type f 2>/dev/null | while read -r file; do
+            while read -r file; do
               echo "    - $file"
               check-jsonschema --schemafile .schemas/c1-systems-schema.json "$file" --verbose || exit 1
-            done
+            done < <(find knowledge-base/systems -name "c1-systems.json" -type f 2>/dev/null)
           fi
 
           # Validate C2 containers
           if find knowledge-base/systems -name "c2-containers.json" -type f 2>/dev/null | grep -q .; then
             echo "  ✓ Validating C2 containers..."
-            find knowledge-base/systems -name "c2-containers.json" -type f 2>/dev/null | while read -r file; do
+            while read -r file; do
               echo "    - $file"
               check-jsonschema --schemafile .schemas/c2-containers-schema.json "$file" --verbose || exit 1
-            done
+            done < <(find knowledge-base/systems -name "c2-containers.json" -type f 2>/dev/null)
           fi
 
           # Validate C3 components
           if find knowledge-base/systems -name "c3-components.json" -type f 2>/dev/null | grep -q .; then
             echo "  ✓ Validating C3 components..."
-            find knowledge-base/systems -name "c3-components.json" -type f 2>/dev/null | while read -r file; do
+            while read -r file; do
               echo "    - $file"
               check-jsonschema --schemafile .schemas/c3-components-schema.json "$file" --verbose || exit 1
-            done
+            done < <(find knowledge-base/systems -name "c3-components.json" -type f 2>/dev/null)
           fi
 
           echo "✅ All JSON files validated successfully"
@@ -185,9 +185,9 @@ jobs:
       - name: List shell scripts
         run: |
           echo "🔍 Shell scripts to validate:"
-          find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*" | sort | while read -r file; do
+          while read -r file; do
             echo "  - $file"
-          done
+          done < <(find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*" | sort)
 
       - name: Run ShellCheck
         run: |
@@ -199,10 +199,10 @@ jobs:
       - name: Validate Bash syntax
         run: |
           echo "🔍 Checking Bash syntax..."
-          find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*" | while read -r script; do
+          while read -r script; do
             echo "  ✓ Checking: $script"
             bash -n "$script" || exit 1
-          done
+          done < <(find . -type f -name "*.sh" ! -path "./node_modules/*" ! -path "./.git/*")
           echo "✅ All shell scripts have valid syntax"
 
       - name: Run BATS tests (if available)
@@ -300,16 +300,16 @@ jobs:
       - name: Check Python syntax
         run: |
           echo "🔍 Checking Python syntax..."
-          find . -type f -name "*.py" ! -path "./node_modules/*" ! -path "./.git/*" ! -path "./.venv/*" | while read -r file; do
+          while read -r file; do
             echo "  ✓ Checking: $file"
             python -m py_compile "$file" || exit 1
-          done
+          done < <(find . -type f -name "*.py" ! -path "./node_modules/*" ! -path "./.git/*" ! -path "./.venv/*")
           echo "✅ All Python files have valid syntax"
 
       - name: Run Ruff linter
         run: |
           echo "🔍 Running Ruff linter..."
-          ruff check . --output-format=github || true
+          ruff check . --output-format=github
           echo "✅ Ruff linting complete"
 
       - name: Validate imports
@@ -322,11 +322,11 @@ jobs:
             exit 0
           fi
 
-          # Simple import check: try importing each Python file
+          # Simple import check: use AST parsing for safer validation
           for pyfile in plugins/melly-validation/scripts/*.py; do
             if [ -f "$pyfile" ]; then
               echo "  ✓ Checking imports in: $(basename $pyfile)"
-              python -c "import sys; sys.path.insert(0, 'plugins/melly-validation/scripts'); exec(open('$pyfile').read())" 2>/dev/null || echo "    ⚠️  Warning: Could not validate imports (non-blocking)"
+              python -c "import ast; ast.parse(open('$pyfile').read())" 2>/dev/null || echo "    ⚠️  Warning: Could not validate imports (non-blocking)"
             fi
           done
 
