@@ -592,7 +592,7 @@ skill-name/
 
 ### SKILL.md Format
 
-```yaml
+```markdown
 ---
 name: skill-name
 description: What this skill does and when Claude should use it. Very important for discovery!

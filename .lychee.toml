@@ -9,7 +9,7 @@ max_cache_age = "24h"
 # Network configuration
 timeout = 20
 max_retries = 3
-user_agent = "Lychee/0.13 (+https://github.com/lycheeverse/lychee)"
+user_agent = "lychee"
 
 # Output configuration
 format = "markdown"
