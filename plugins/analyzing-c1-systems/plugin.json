@@ -1,11 +1,11 @@
 {
-  "name": "c4model-c1",
+  "name": "analyzing-c1-systems",
   "version": "1.0.0",
   "description": "C4 Model Level 1 (System Context) methodology skill for identifying systems, actors, and boundaries in software architecture",
   "author": "Melly Team",
   "type": "skill",
   "category": "architecture",
-  "skills": ["c4model-c1"],
+  "skills": ["analyzing-c1-systems"],
   "dependencies": [],
   "tags": [
     "c4-model",
