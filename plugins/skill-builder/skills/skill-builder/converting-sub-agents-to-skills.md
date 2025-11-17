@@ -509,25 +509,29 @@ Use this checklist when converting any sub-agent to a skill:
 
 After conversion, verify:
 
-1. **Structure Validation**
+<!-- markdownlint-disable MD029 -->
+1. **Structure Validation** - Run these commands:
    ```bash
    ls -la ~/.claude/skills/skill-name/
    # Should show SKILL.md and any supporting files
    ```
 
 2. **YAML Syntax**
+
    - No `model` or `tools` fields
    - Description under 1024 characters
    - Name in gerund form, max 64 characters
    - No tabs (use spaces)
 
 3. **Invocation Testing**
+
    - Ask Claude queries that should trigger the skill
    - Verify skill is invoked appropriately
    - Check that instructions are followed
    - Confirm CLI/Python approaches are present
 
 4. **Content Comparison**
+
    - Did we preserve core sub-agent expertise?
    - Are examples still present and useful?
    - Is domain knowledge intact?
