@@ -58,7 +58,7 @@ Major refactoring of the C4 Model Level 1 skill to align with official Claude Co
 
 ### 6. ✅ Version Bump to 2.0.0
 - Major refactoring warrants version bump
-- Updated in `plugin.json` and `marketplace.json`
+- Updated in `marketplace.json` (not in `plugin.json`)
 
 ### 7. ✅ Updated Marketplace Entry
 - Reflects new plugin name and source path
