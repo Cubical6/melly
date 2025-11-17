@@ -531,10 +531,10 @@ Use metrics to identify significant components:
 #### Metric 1: Lines of Code (LOC)
 ```bash
 # Count lines per file
-find src -name "*.ts" -print0 | xargs -0 wc -l | sort -rn
+find src -name "*.ts" -print0 | xargs -0 -r wc -l | sort -rn
 
 # Components with > 200 LOC are significant
-find src -name "*.ts" -print0 | xargs -0 wc -l | awk '$1 > 200 { print $2, $1 }'
+find src -name "*.ts" -print0 | xargs -0 -r wc -l | awk '$1 > 200 { print $2, $1 }'
 ```
 
 **Guidelines:**
@@ -546,7 +546,7 @@ find src -name "*.ts" -print0 | xargs -0 wc -l | awk '$1 > 200 { print $2, $1 }'
 #### Metric 2: Cyclomatic Complexity
 ```bash
 # Use complexity tools
-find src -name "*.ts" -print0 | xargs -0 npx ts-complexity
+find src -name "*.ts" -print0 | xargs -0 -r npx ts-complexity
 
 # High complexity (>10) indicates important component
 ```
@@ -554,7 +554,7 @@ find src -name "*.ts" -print0 | xargs -0 npx ts-complexity
 #### Metric 3: Dependency Count
 ```bash
 # Count imports per file
-find src -name "*.ts" -print0 | xargs -0 grep -c "^import" 2>/dev/null
+find src -name "*.ts" -print0 | xargs -0 -r grep -cH "^import" 2>/dev/null | sort -t: -k2 -rn
 
 # Files with many imports are often important orchestrators (Services)
 ```
@@ -562,7 +562,7 @@ find src -name "*.ts" -print0 | xargs -0 grep -c "^import" 2>/dev/null
 #### Metric 4: Export Count
 ```bash
 # Count exports per file
-find src -name "*.ts" -print0 | xargs -0 grep -c "^export" 2>/dev/null
+find src -name "*.ts" -print0 | xargs -0 -r grep -cH "^export" 2>/dev/null | sort -t: -k2 -rn
 
 # Files with many exports are often facades or utility modules
 ```
@@ -697,13 +697,13 @@ export class UserService {
 **Detection:**
 ```bash
 # Find components with many imports (high efferent coupling)
-find src -name "*.ts" -print0 | while IFS= read -r -d '' file; do
-  count=$(grep -c '^import' "$file" || echo 0)
+while IFS= read -r -d '' file; do
+  count=$(grep -c '^import' "$file" 2>/dev/null || echo 0)
   printf "%d %s\n" "$count" "$file"
-done | sort -rn | head -20
+done < <(find src -name "*.ts" -print0) | sort -rn | head -20
 
 # Find components imported by many others (high afferent coupling)
-grep -r "from '\.\./\.\./.*'" src/ | cut -d"'" -f2 | sort | uniq -c | sort -rn
+grep -rE "from ['\"](\.\./)+[^'\"]+['\"]" src/ | cut -d: -f2 | cut -d"'" -d'"' -f2 | sort | uniq -c | sort -rn
 ```
 
 ### Circular Dependency Detection
@@ -818,7 +818,7 @@ export class UserRepository {
 **Grep detection:**
 ```bash
 grep -r "Repository" src/
-grep -r "findById\|findAll\|save.*Promise" src/
+grep -rE "findById|findAll|save.*Promise" src/
 ```
 
 #### Pattern 4: Dependency Injection
@@ -851,10 +851,10 @@ public class UserService {
 **Grep detection:**
 ```bash
 # NestJS
-grep -r "@Injectable\|@Inject" src/
+grep -rE "@Injectable|@Inject" src/
 
 # Spring
-grep -r "@Service\|@Autowired\|@Component" src/
+grep -rE "@Service|@Autowired|@Component" src/
 
 # Constructor injection
 grep -r "constructor(" src/ | grep "private"
@@ -889,7 +889,7 @@ export class EmailService {
 
 **Grep detection:**
 ```bash
-grep -r "\.emit\|\.on\|@OnEvent\|subscribe\|publish" src/
+grep -rE "\.emit|\.on|@OnEvent|subscribe|publish" src/
 ```
 
 #### Pattern 6: Strategy Pattern
@@ -922,7 +922,7 @@ class PaymentContext {
 
 **Grep detection:**
 ```bash
-grep -r "implements.*Strategy\|Strategy.*interface" src/
+grep -rE "implements.*Strategy|Strategy.*interface" src/
 ```
 
 #### Pattern 7: Decorator Pattern
@@ -944,7 +944,7 @@ export class UserController {
 
 **Grep detection:**
 ```bash
-grep -r "^@\w\+(" src/
+grep -rE "^@\w+\(" src/
 ```
 
 #### Pattern 8: Adapter Pattern
@@ -1284,9 +1284,9 @@ src/
 
 **Detection:**
 ```bash
-grep -r "Command\|Handler" src/
-grep -r "Query\|Handler" src/
-grep -r "@CommandHandler\|@QueryHandler" src/  # NestJS CQRS
+grep -rE "Command|Handler" src/
+grep -rE "Query|Handler" src/
+grep -rE "@CommandHandler|@QueryHandler" src/  # NestJS CQRS
 ```
 
 ---
@@ -1365,8 +1365,8 @@ AnalyticsSubscriber receives event → tracks user registration
 
 **Detection:**
 ```bash
-grep -r "Event\|emit\|publish\|subscribe" src/
-grep -r "@OnEvent\|@Subscribe" src/  # Framework decorators
+grep -rE "Event|emit|publish|subscribe" src/
+grep -rE "@OnEvent|@Subscribe" src/  # Framework decorators
 ```
 
 ---
