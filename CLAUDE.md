@@ -1735,11 +1735,12 @@ This section provides specific guidance for implementing the Melly workflow comp
 
 Each slash command is implemented as a separate plugin in `plugins/{command-name}/`:
 
-- **`/melly-init`** - Initialize C4 exploration
+- **`/melly-init`** - Initialize C4 exploration ✅ **IMPLEMENTED**
   - Plugin: `plugins/melly-init/`
-  - Location: `plugins/melly-init/commands/melly-init.md`
-  - Invokes: `c4model-explorer` agent
+  - Location: `plugins/melly-init/commands/melly-init.md` (33 lines)
+  - Invokes: `c4model-explorer` agent (70 lines)
   - Output: `init.json`
+  - Status: Follows Claude Code best practices (simple, focused, minimal dependencies)
 
 - **`/melly-c1-systems`** - Identify C1 systems
   - Plugin: `plugins/melly-c1-systems/`
@@ -1773,14 +1774,15 @@ Each slash command is implemented as a separate plugin in `plugins/{command-name
 
 #### 2. Sub-agents (6 Plugins)
 
-Each agent is implemented as a separate plugin in `plugins/{agent-name}/`:
+Each agent is implemented as part of workflow plugins in `plugins/{plugin-name}/agents/`:
 
-- **`c4model-explorer`** - Repository exploration
-  - Plugin: `plugins/c4model-explorer/`
-  - Location: `plugins/c4model-explorer/agents/c4model-explorer.md`
+- **`c4model-explorer`** - Repository exploration ✅ **IMPLEMENTED**
+  - Plugin: `plugins/melly-init/`
+  - Location: `plugins/melly-init/agents/c4model-explorer.md` (70 lines)
   - Scans code repositories
   - Identifies package manifests
   - Generates `init.json`
+  - Status: Simple 5-step workflow, uses built-in tools only
 
 - **`c1-abstractor`** - System identification
   - Plugin: `plugins/c1-abstractor/`

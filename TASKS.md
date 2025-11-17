@@ -1021,32 +1021,33 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ## 5. Phase 1: Initialization (`/melly-init`)
 
-### 5.1 Slash Command
+### 5.1 Slash Command ✅ COMPLETED
 
-- [ ] Create `.claude/commands/melly-init.md`
+- [x] Create `plugins/melly-init/commands/melly-init.md` ✅ IMPLEMENTED (33 lines)
   - Description: Initialize C4 model exploration
   - Argument hint: [repository-path]
   - Allowed tools: Task, Read, Write, Bash
   - Command logic:
     - Invoke c4model-explorer agent
     - Validate init.json output
-    - Commit init.json to repository
+    - Suggest next steps
+  - **Implementation**: Following Claude Code best practices (simple, focused, 33 lines)
+  - **Location**: Plugin-based structure (not .claude/commands)
 
-### 5.2 Sub-agent: c4model-explorer
+### 5.2 Sub-agent: c4model-explorer ✅ COMPLETED
 
-- [ ] Create `.claude/agents/c4model-explorer.md`
+- [x] Create `plugins/melly-init/agents/c4model-explorer.md` ✅ IMPLEMENTED (70 lines)
   - Name: c4model-explorer
   - Description: Explore code repositories and create init.json
   - Tools: Read, Glob, Grep, Bash, Write
   - Workflow:
-    1. Prompt user for repository location
-    2. Scan all repositories in location
-    3. Analyze structure and key files
-    4. Identify package manifests (package.json, composer.json, etc.)
-    5. Map directory structure
-    6. Generate init.json
-    7. Validate with `.claude/scripts/validate-init.py`
-    8. Return results
+    1. Validate input (repository path)
+    2. Scan repository structure
+    3. Extract metadata (manifests, tech stack)
+    4. Generate init.json (following schema from docs/json-schemas-design.md)
+    5. Output summary and next steps
+  - **Implementation**: Simple 5-step workflow (70 lines), uses built-in tools only
+  - **Location**: Plugin-based structure (not .claude/agents)
 
 - [ ] Add reusability to c4model-explorer:
   - Accept incremental updates
@@ -1408,8 +1409,8 @@ graph TD
 4. ✅ **JSON Schemas (Section 3.1)** - DESIGN COMPLETE
 5. ✅ Validation Script Implementation (Section 3.3) - COMPLETED
 6. ✅ Template File Implementation (Section 3.4) - COMPLETED
-7. 🚧 C4 Model Skills - C1 ✅, C2 ✅, C3 🔴 (Section 4.1)
-8. Phase 1: Initialization (Section 5) - Use simplified patterns
+7. ✅ C4 Model Skills - C1 ✅, C2 ✅, C3 ✅ (Section 4.1) - COMPLETED
+8. ✅ Phase 1: Initialization (Section 5.1, 5.2) - COMPLETED (simplified patterns, 33+70 lines)
 9. Phase 2: C1 Systems (Section 6) - Use simplified patterns
 
 #### P1 Tasks
@@ -1466,7 +1467,12 @@ graph TD
 - 🔴 **P0 PRIORITY**: Component Refactoring (Section 1) - IN PROGRESS
 - Skills Development (Section 4.1): c4model-c1 ✅, c4model-c2 ✅, c4model-c3 ✅ COMPLETED & REFACTORED
 - Infrastructure: melly-validation ✅ COMPLETED
+- Phase 1 Initialization (Section 5.1, 5.2): ✅ COMPLETED
 
-**Recent Completion**: c4model-c3 skill refactored following Claude Code best practices (231 lines, progressive disclosure, 6 reference files)
+**Recent Completion**: Phase 1 (/melly-init) implemented following Claude Code best practices
+- Slash command: 33 lines (target: 10-50)
+- Agent: 70 lines (target: 30-100)
+- Simple, focused, minimal dependencies
+- Plugin-based structure (plugins/melly-init/)
 
-**Last Updated**: 2025-11-17 (c4model-c3 refactoring completed)
+**Last Updated**: 2025-11-17 (Phase 1 initialization completed)
