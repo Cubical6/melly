@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "schema_version": "1.0.0",
+    "generator": "melly-workflow",
+    "generated_by": "c3-abstractor",
+    "timestamp": "2025-11-17T10:30:00.000Z",
+    "melly_version": "1.0.0",
+    "parent_timestamp": "2025-11-17T10:20:00.000Z"
+  },
+  "components": [
+    {
+      "id": "user-controller",
+      "name": "User Controller",
+      "type": "controller",
+      "container_id": "backend-api",
+      "path": "src/users/user.controller.ts",
+      "description": "Handles HTTP requests for user management operations",
+      "responsibilities": [
+        "Validate incoming HTTP requests",
+        "Route requests to UserService",
+        "Transform service responses to HTTP responses",
+        "Handle authentication and authorization"
+      ],
+      "layer": "presentation",
+      "dependencies": [
+        {
+          "target": "user-service",
+          "type": "internal",
+          "purpose": "Delegates business logic to UserService"
+        }
+      ],
+      "observations": [
+        {
+          "id": "obs-controller-rest-api",
+          "title": "RESTful API design for user endpoints",
+          "category": "design-patterns",
+          "severity": "info",
+          "description": "UserController follows RESTful conventions with standard HTTP methods (GET, POST, PUT, DELETE) for CRUD operations",
+          "evidence": [
+            {
+              "type": "code",
+              "location": "src/users/user.controller.ts",
+              "snippet": "@Get() findAll() { ... }\n@Post() create(@Body() dto: CreateUserDto) { ... }"
+            }
+          ],
+          "impact": {
+            "maintainability": "high",
+            "testability": "high",
+            "scalability": "medium"
+          },
+          "tags": ["rest-api", "http", "design-pattern"]
+        }
+      ],
+      "relations": [
+        {
+          "id": "rel-controller-to-service",
+          "source_id": "user-controller",
+          "target_id": "user-service",
+          "type": "depends-on",
+          "protocol": "method-call",
+          "description": "UserController delegates business logic to UserService",
+          "bidirectional": false
+        }
+      ],
+      "metrics": {
+        "lines_of_code": 150,
+        "cyclomatic_complexity": 6,
+        "public_methods": 5,
+        "dependencies_count": 2
+      }
+    },
+    {
+      "id": "user-service",
+      "name": "User Service",
+      "type": "service",
+      "container_id": "backend-api",
+      "path": "src/users/user.service.ts",
+      "description": "Manages user lifecycle operations including registration, updates, and deletion",
+      "responsibilities": [
+        "Validate user business rules",
+        "Orchestrate user operations",
+        "Coordinate between repositories and external services",
+        "Implement user domain logic"
+      ],
+      "layer": "business",
+      "dependencies": [
+        {
+          "target": "user-repository",
+          "type": "internal",
+          "purpose": "Persists user data to database"
+        },
+        {
+          "target": "email-service",
+          "type": "internal",
+          "purpose": "Sends user-related email notifications"
+        }
+      ],
+      "observations": [
+        {
+          "id": "obs-service-dependency-injection",
+          "title": "Dependency injection pattern for loose coupling",
+          "category": "design-patterns",
+          "severity": "info",
+          "description": "UserService uses constructor-based dependency injection for all dependencies, enabling loose coupling and easy testing",
+          "evidence": [
+            {
+              "type": "code",
+              "location": "src/users/user.service.ts",
+              "snippet": "constructor(private userRepo: UserRepository, private emailService: EmailService) {}"
+            }
+          ],
+          "impact": {
+            "maintainability": "high",
+            "testability": "high",
+            "scalability": "high"
+          },
+          "tags": ["dependency-injection", "loose-coupling", "testability"]
+        }
+      ],
+      "relations": [
+        {
+          "id": "rel-service-to-repository",
+          "source_id": "user-service",
+          "target_id": "user-repository",
+          "type": "depends-on",
+          "protocol": "method-call",
+          "description": "UserService delegates data persistence to UserRepository",
+          "bidirectional": false
+        }
+      ],
+      "metrics": {
+        "lines_of_code": 280,
+        "cyclomatic_complexity": 12,
+        "public_methods": 8,
+        "dependencies_count": 3
+      }
+    },
+    {
+      "id": "user-repository",
+      "name": "User Repository",
+      "type": "repository",
+      "container_id": "backend-api",
+      "path": "src/users/user.repository.ts",
+      "description": "Abstracts data access operations for User entity",
+      "responsibilities": [
+        "Execute database queries for user data",
+        "Map database rows to User entities",
+        "Handle database transaction management",
+        "Provide query abstraction layer"
+      ],
+      "layer": "data",
+      "dependencies": [
+        {
+          "target": "user-model",
+          "type": "internal",
+          "purpose": "Defines the User entity structure"
+        }
+      ],
+      "observations": [
+        {
+          "id": "obs-repository-pattern",
+          "title": "Repository pattern for data access abstraction",
+          "category": "design-patterns",
+          "severity": "info",
+          "description": "UserRepository implements the Repository pattern, providing standard methods (findById, findAll, save, delete) to abstract database operations",
+          "evidence": [
+            {
+              "type": "pattern",
+              "location": "src/users/user.repository.ts",
+              "snippet": "async findById(id: string): Promise<User>\nasync findAll(): Promise<User[]>\nasync save(user: User): Promise<User>\nasync delete(id: string): Promise<void>"
+            }
+          ],
+          "impact": {
+            "maintainability": "high",
+            "testability": "high",
+            "scalability": "medium"
+          },
+          "tags": ["repository-pattern", "data-access", "abstraction"]
+        }
+      ],
+      "relations": [
+        {
+          "id": "rel-repository-to-model",
+          "source_id": "user-repository",
+          "target_id": "user-model",
+          "type": "uses",
+          "protocol": "type-reference",
+          "description": "UserRepository uses User model for entity definition",
+          "bidirectional": false
+        }
+      ],
+      "metrics": {
+        "lines_of_code": 120,
+        "cyclomatic_complexity": 4,
+        "public_methods": 6,
+        "dependencies_count": 1
+      }
+    }
+  ],
+  "summary": {
+    "total_components": 3,
+    "by_type": {
+      "controller": 1,
+      "service": 1,
+      "repository": 1,
+      "model": 0,
+      "middleware": 0,
+      "utility": 0,
+      "dto": 0,
+      "adapter": 0,
+      "factory": 0,
+      "validator": 0,
+      "facade": 0,
+      "guard": 0
+    },
+    "by_layer": {
+      "presentation": 1,
+      "business": 1,
+      "data": 1,
+      "integration": 0
+    },
+    "patterns_detected": [
+      "repository-pattern",
+      "dependency-injection",
+      "layered-architecture"
+    ],
+    "observations_summary": {
+      "total": 3,
+      "by_category": {
+        "design-patterns": 3,
+        "code-structure": 0,
+        "dependencies": 0,
+        "complexity": 0,
+        "coupling": 0,
+        "cohesion": 0,
+        "testing": 0,
+        "documentation": 0
+      },
+      "by_severity": {
+        "info": 3,
+        "warning": 0,
+        "critical": 0
+      }
+    }
+  }
+}
