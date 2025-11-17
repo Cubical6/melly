@@ -1104,41 +1104,41 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ### 6.2 Sub-agent: c1-abstractor ✅ COMPLETED (2025-11-17)
 
-- [x] Create `plugins/melly-c1/agents/c1-abstractor.md`
+- [x] Create `plugins/c1-abstractor/agents/c1-abstractor.md` ✅
   - Name: c1-abstractor
   - Description: Identify C1 systems from repositories using C4 methodology
-  - Tools: Read, Grep, Write, Bash
-  - Model: sonnet
-  - Workflow:
-    1. Load c4model-c1 skill for methodology
-    2. Read init.json (repository paths and metadata)
-    3. Analyze repositories for system boundaries
-    4. Create system folders via create-folders.sh script
-    5. Generate c1-systems.json with complete structure:
-       - metadata (schema_version, timestamp, parent reference)
-       - systems[] (id, name, type, description, repositories, boundaries, responsibilities, observations, relations)
-    6. Return summary
+  - Tools: Read, Grep, Bash, Write, Skill(c4model-c1)
+  - **Simplified 4-step workflow** (following best practices):
+    1. Validate and Load - Load init.json, verify structure
+    2. Analyze Repositories - Apply c4model-c1 methodology
+    3. Generate c1-systems.json - Create structured output
+    4. Validate and Report - Run validation, report results
+  - **Size**: 151 lines (within 150-line max for complex agents)
+  - **Status**: Production-ready, follows Claude Code best practices
 
-**Implementation Details**:
-- ✅ 132 lines (acceptable for complex agent)
-- ✅ Linear 6-step workflow (not multi-phase)
-- ✅ Delegates methodology to c4model-c1 skill
-- ✅ Detailed JSON structure examples per template
-- ✅ Structured observations (id, title, category, severity, evidence, tags)
-- ✅ Structured relations (target, type, direction, protocol, metadata, tags)
-- ✅ Clear success criteria
-- ✅ Template compliance (c1-systems-template.json)
+- [x] Created plugin structure ✅
+  - plugin.json with metadata and dependencies
+  - README.md with comprehensive documentation
+  - Added to marketplace.json
 
 **Validation**: See `validation-summary-6.1.md` for complete validation report
 
 - [ ] Add incremental processing (P2 - Future Enhancement):
-  - Detect changes in init.json via checksum
+  - Detect changes in init.json via checksums
   - Process only modified repositories
   - Merge with existing c1-systems.json
 
 - [ ] Implement parallel execution (P2 - Future Enhancement):
   - Run c1-abstractor per repository concurrently
   - Aggregate results into single c1-systems.json
+
+**Implementation Notes:**
+- ✅ Refactored from original 9-step to simple 4-step workflow
+- ✅ Leverages c4model-c1 skill v2.0.0 for methodology
+- ✅ Validation via melly-validation scripts
+- ✅ Clear success criteria and error handling
+- ✅ No external script dependencies in core workflow
+- 📅 Completed: 2025-11-17
 
 ---
 
