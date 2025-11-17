@@ -23,26 +23,26 @@ melly/
 │   ├── skill-builder/       # Meta-skill development
 │   ├── basic-memory/        # MCP knowledge base
 │   │
-│   ├── Agents (6): 🔴 IN DEVELOPMENT
+│   ├── Agents (6): 🟡 1/6 IMPLEMENTED
 │   ├── c4model-explorer/    # Repository exploration
 │   ├── c1-abstractor/       # C1 System analyzer
 │   ├── c2-abstractor/       # C2 Container analyzer
-│   ├── c3-abstractor/       # C3 Component analyzer
+│   ├── c3-abstractor/       # ✅ C3 Component analyzer (146 lines)
 │   ├── c4model-writer/      # Documentation generator
 │   ├── c4model-drawer/      # C4 diagram drawer
 │   │
-│   ├── Commands (6): 🔴 IN DEVELOPMENT
+│   ├── Commands (6): 🟡 1/6 IMPLEMENTED
 │   ├── melly-init/          # /melly-init
 │   ├── melly-c1-systems/    # /melly-c1-systems
 │   ├── melly-c2-containers/ # /melly-c2-containers
-│   ├── melly-c3-components/ # /melly-c3-components
+│   ├── melly-c3-components/ # ✅ /melly-c3-components (44 lines)
 │   ├── melly-doc-c4model/   # /melly-doc-c4model
 │   ├── melly-draw-c4model/  # /melly-draw-c4model
 │   │
-│   ├── Skills (5): 1/5 IMPLEMENTED
-│   ├── c4model-c1/          # ✅ C1 methodology (1,558 lines)
-│   ├── c4model-c2/          # 🔴 C2 methodology
-│   ├── c4model-c3/          # 🔴 C3 methodology
+│   ├── Skills (5): 3/5 IMPLEMENTED
+│   ├── c4model-c1/          # ✅ C1 methodology (562 lines + 5 refs)
+│   ├── c4model-c2/          # ✅ C2 methodology (2,318 lines)
+│   ├── c4model-c3/          # ✅ C3 methodology (231 lines + 6 refs)
 │   ├── c4model-observations/  # 🔴 Observation docs
 │   ├── c4model-relations/   # 🔴 Relation docs
 │   │
@@ -1754,10 +1754,11 @@ Each slash command is implemented as a separate plugin in `plugins/{command-name
   - Output: `c2-containers.json`
 
 - **`/melly-c3-components`** - Identify C3 components
-  - Plugin: `plugins/melly-c3-components/`
-  - Location: `plugins/melly-c3-components/commands/melly-c3-components.md`
-  - Invokes: `c3-abstractor` agent per container
+  - Plugin: `plugins/melly-c3/`
+  - Location: `plugins/melly-c3/commands/melly-c3-components.md`
+  - Invokes: `c3-abstractor` agent
   - Output: `c3-components.json`
+  - Status: ✅ Implemented (2025-11-17)
 
 - **`/melly-doc-c4model`** - Generate documentation
   - Plugin: `plugins/melly-doc-c4model/`
@@ -1797,11 +1798,13 @@ Each agent is implemented as a separate plugin in `plugins/{agent-name}/`:
   - Generates `c2-containers.json`
 
 - **`c3-abstractor`** - Component identification
-  - Plugin: `plugins/c3-abstractor/`
-  - Location: `plugins/c3-abstractor/agents/c3-abstractor.md`
+  - Plugin: `plugins/melly-c3/`
+  - Location: `plugins/melly-c3/agents/c3-abstractor.md`
   - Uses `c4model-c3` skill
-  - Analyzes code structure
+  - Analyzes code structure and dependencies
+  - Detects design patterns
   - Generates `c3-components.json`
+  - Status: ✅ Implemented (2025-11-17)
 
 - **`c4model-writer`** - Documentation generator
   - Converts JSON to markdown
