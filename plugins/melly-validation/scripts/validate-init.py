@@ -184,7 +184,7 @@ def validate_package_manifests(repositories: List[Dict[str, Any]]) -> Tuple[bool
             # Validate data field
             if "data" in manifest:
                 if not isinstance(manifest["data"], dict):
-                    errors.append(f"Manifest 'data' field must be an object")
+                    errors.append("Manifest 'data' field must be an object")
                 else:
                     # Manifest-specific validation
                     manifest_type = manifest.get("type", "")
@@ -192,13 +192,13 @@ def validate_package_manifests(repositories: List[Dict[str, Any]]) -> Tuple[bool
 
                     if manifest_type == "npm":
                         if "name" not in data:
-                            warnings.append(f"NPM manifest missing 'name' field in data")
+                            warnings.append("NPM manifest missing 'name' field in data")
                     elif manifest_type == "composer":
                         if "name" not in data:
-                            warnings.append(f"Composer manifest missing 'name' field in data")
+                            warnings.append("Composer manifest missing 'name' field in data")
                     elif manifest_type == "cargo":
                         if "package" in data and "name" not in data["package"]:
-                            warnings.append(f"Cargo manifest missing 'package.name' field in data")
+                            warnings.append("Cargo manifest missing 'package.name' field in data")
 
     return len(errors) == 0, errors, warnings
 
@@ -229,7 +229,7 @@ def validate_timestamps(metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
             except (ValueError, AttributeError):
                 warnings.append(f"Invalid generated_at format: {metadata.get('generated_at')}")
 
-    except (ValueError, AttributeError) as e:
+    except (ValueError, AttributeError):
         # Already caught in schema validation
         pass
 
@@ -301,7 +301,7 @@ def main() -> int:
         print("[VALIDATE-INIT] FAILED with errors", file=sys.stderr)
         return 2
     elif has_warnings:
-        print(f"[VALIDATE-INIT] PASSED with warnings", file=sys.stderr)
+        print("[VALIDATE-INIT] PASSED with warnings", file=sys.stderr)
         return 1
     else:
         print("[VALIDATE-INIT] PASSED", file=sys.stderr)

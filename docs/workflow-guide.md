@@ -603,7 +603,7 @@ Melly currently provides the following production-ready components:
 
 #### Validation & Templates (1)
 
-4. **melly-validation** ✅
+1. **melly-validation** ✅
    - Centralized validation scripts (7 validators)
    - Markdown generators (3 generators)
    - JSON templates for all C4 levels
@@ -611,7 +611,7 @@ Melly currently provides the following production-ready components:
 
 #### C4 Methodology Skills (1/5)
 
-5. **c4model-c1** ✅
+1. **c4model-c1** ✅
    - **C1 (System Context) methodology skill**
    - Comprehensive guidance for system identification
    - System identification rules and criteria

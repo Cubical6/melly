@@ -67,6 +67,7 @@ Successfully implemented the **c4model-c2 skill plugin** following the comprehen
 - **Relation Types**: 13
 
 ### Comparison with c4model-c1
+
 | Metric | c4model-c1 | c4model-c2 | Ratio |
 |--------|------------|------------|-------|
 | Total Lines | 1,158 | 2,318 | 2.0x |
