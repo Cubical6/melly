@@ -11,6 +11,7 @@ Exit codes:
 import sys
 import os
 import re
+import glob
 from typing import List, Tuple, Dict
 
 
@@ -249,7 +250,6 @@ def main() -> int:
     """Main validation function."""
     if len(sys.argv) < 2:
         # No arguments provided - find all generated markdown files to validate
-        import glob
         file_paths = list(glob.glob("knowledge-base/systems/**/*.md", recursive=True))
         if not file_paths:
             # No markdown files found - skip validation

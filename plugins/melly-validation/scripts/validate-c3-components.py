@@ -12,6 +12,7 @@ import sys
 import json
 import os
 import re
+import glob
 from datetime import datetime
 from typing import Dict, List, Tuple, Any, Set
 
@@ -303,7 +304,6 @@ def validate_relations(components: List[Dict[str, Any]]) -> Tuple[bool, List[str
 def main() -> int:
     """Main validation function."""
     # Check if there are any c3-components.json files to validate
-    import glob
     c3_files = list(glob.glob("knowledge-base/systems/*/c3-components.json"))
     
     if not c3_files:
