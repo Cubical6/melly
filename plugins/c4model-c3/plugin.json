@@ -6,7 +6,7 @@
   "type": "skill",
   "category": "architecture",
   "skills": ["c4model-c3"],
-  "dependencies": [],
+  "dependencies": ["c4model-c2"],
   "tags": [
     "c4-model",
     "component-level",

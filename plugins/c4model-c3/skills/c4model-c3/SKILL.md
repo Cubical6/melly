@@ -192,7 +192,7 @@ find src -type d -not -path "*/node_modules/*" -not -path "*/.git/*"
 ls -la src/*/
 
 # Count files per directory
-find src -type f -name "*.ts" -o -name "*.js" | xargs dirname | sort | uniq -c
+find src -type f \( -name "*.ts" -o -name "*.js" \) | xargs dirname | sort | uniq -c
 ```
 
 ### Step 4: Detect Component Types
@@ -408,7 +408,7 @@ src/
 ls -d src/*/
 
 # Count components per feature
-find src -name "*.service.ts" -o -name "*.controller.ts" -o -name "*.repository.ts" | xargs dirname | sort | uniq -c
+find src \( -name "*.service.ts" -o -name "*.controller.ts" -o -name "*.repository.ts" \) | xargs dirname | sort | uniq -c
 ```
 
 #### Pattern 2: Layer-based Structure
@@ -1641,7 +1641,7 @@ npx ts-complexity src/users/user.service.ts
 grep -c "^import" src/users/user.service.ts
 
 # Public methods count
-grep -c "^\s\+\(public\|async\)" src/users/user.service.ts
+grep -cE '^\s+(public|async)' src/users/user.service.ts
 ```
 
 #### Step 8: Validate Output
@@ -1807,7 +1807,7 @@ Before finalizing:
 
 **Solution:**
 - Use simple LOC counting: `wc -l file.ts`
-- Count methods manually: `grep -c "^\s\+\(public\|async\)" file.ts`
+- Count methods manually: `grep -cE '^\s+(public|async)' file.ts`
 - Count dependencies: `grep -c "^import" file.ts`
 - Document what you can measure
 
