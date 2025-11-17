@@ -238,14 +238,25 @@ def validate_timestamps(metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
 
 def main() -> int:
     """Main validation function."""
+    # Check if init.json file exists
+    init_file = "knowledge-base/init.json"
+    if not os.path.exists(init_file):
+        # Try alternative path
+        init_file = os.path.join(os.getcwd(), "knowledge-base", "init.json")
+        if not os.path.exists(init_file):
+            # No init.json file found - skip validation
+            print("[VALIDATE-INIT] No init.json file found - skipping validation", file=sys.stderr)
+            return 0
+
+    # Load and validate the init.json file
     try:
-        # Read JSON from stdin
-        data = json.load(sys.stdin)
+        with open(init_file, 'r') as f:
+            data = json.load(f)
     except json.JSONDecodeError as e:
-        error("Invalid JSON", actual=str(e))
+        error(f"Invalid JSON in {init_file}", actual=str(e))
         return 2
     except Exception as e:
-        error(f"Failed to read input: {str(e)}")
+        error(f"Failed to read {init_file}: {str(e)}")
         return 2
 
     has_errors = False

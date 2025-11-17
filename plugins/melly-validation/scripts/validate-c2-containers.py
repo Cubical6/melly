@@ -303,16 +303,41 @@ def validate_relations(containers: List[Dict[str, Any]]) -> Tuple[bool, List[str
 
 def main() -> int:
     """Main validation function."""
-    try:
-        # Read JSON from stdin
-        data = json.load(sys.stdin)
-    except json.JSONDecodeError as e:
-        error("Invalid JSON", actual=str(e))
-        return 2
-    except Exception as e:
-        error(f"Failed to read input: {str(e)}")
-        return 2
+    # Check if there are any c2-containers.json files to validate
+    import glob
+    c2_files = list(glob.glob("knowledge-base/systems/*/c2-containers.json"))
+    
+    if not c2_files:
+        # No c2-containers.json files found - skip validation
+        print("[VALIDATE-C2] No c2-containers.json files found - skipping validation", file=sys.stderr)
+        return 0
+    
+    # Validate each found file
+    all_valid = True
+    for filepath in c2_files:
+        print(f"[VALIDATE-C2] Validating {filepath}...", file=sys.stderr)
+        try:
+            with open(filepath, 'r') as f:
+                data = json.load(f)
+        except json.JSONDecodeError as e:
+            error(f"Invalid JSON in {filepath}", actual=str(e))
+            return 2
+        except Exception as e:
+            error(f"Failed to read {filepath}: {str(e)}")
+            return 2
 
+        # Validate this file
+        result = validate_file(data, filepath)
+        if result != 0:
+            all_valid = False
+            if result == 2:
+                return 2  # Blocking error
+
+    return 0 if all_valid else 1
+
+
+def validate_file(data, filepath: str) -> int:
+    """Validate a single c2-containers.json file."""
     has_errors = False
     has_warnings = False
 

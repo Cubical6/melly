@@ -89,8 +89,9 @@ fi
 # Helper function to convert ISO 8601 to epoch (portable across GNU/BSD)
 iso_to_epoch() {
     local ts="$1"
+    local epoch
     # Try GNU date first (Linux)
-    local epoch=$(date -d "$ts" +%s 2>/dev/null)
+    epoch=$(date -d "$ts" +%s 2>/dev/null)
     if [ $? -eq 0 ]; then
         echo "$epoch"
         return 0
