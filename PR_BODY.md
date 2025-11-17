@@ -1,11 +1,11 @@
 ## Summary
 
-Major refactoring of the C4 Model Level 1 skill to align with official Claude Code Skills best practices. The skill has been renamed from `c4model-c1` to `c4model-c1` and restructured using progressive disclosure.
+Major refactoring of the C4 Model Level 1 skill to align with official Claude Code Skills best practices. The skill has been renamed from `analyzing-c1-systems` to `c4model-c1` and restructured using progressive disclosure.
 
 ## Critical Fixes
 
 ### 1. ✅ Renamed Back to Original Form
-- **Before:** `c4model-c1` (gerund form)
+- **Before:** `analyzing-c1-systems` (gerund form)
 - **After:** `c4model-c1` (original form)
 - **Why:** Aligning with project naming conventions and consistency across all C4 model plugins
 - **Impact:** Better consistency with c4model-c2, c4model-c3, and other C4 plugins
@@ -72,11 +72,11 @@ Major refactoring of the C4 Model Level 1 skill to align with official Claude Co
 ## File Structure
 
 ```
-plugins/c4model-c1/              # ← Renamed from c4model-c1
+plugins/c4model-c1/              # ← Renamed from analyzing-c1-systems
 ├── plugin.json                            # ✏️ Updated: name, version 2.0.0
 ├── README.md
 └── skills/
-    └── c4model-c1/              # ← Renamed from c4model-c1
+    └── c4model-c1/              # ← Renamed from analyzing-c1-systems
         ├── SKILL.md                       # ✏️ 561 lines (core, refactored)
         ├── actor-identification.md        # ✨ 116 lines (new)
         ├── relationship-mapping.md        # ✨ 142 lines (new)
