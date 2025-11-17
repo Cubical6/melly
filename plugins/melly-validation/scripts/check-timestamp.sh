@@ -86,13 +86,33 @@ if ! echo "$CHILD_TS" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:
     exit 2
 fi
 
+# Helper function to convert ISO 8601 to epoch (portable across GNU/BSD)
+iso_to_epoch() {
+    local ts="$1"
+    # Try GNU date first (Linux)
+    local epoch=$(date -d "$ts" +%s 2>/dev/null)
+    if [ $? -eq 0 ]; then
+        echo "$epoch"
+        return 0
+    fi
+    # Try BSD date (macOS)
+    epoch=$(date -j -f "%Y-%m-%dT%H:%M:%S" "${ts%.*}" +%s 2>/dev/null)
+    if [ $? -eq 0 ]; then
+        echo "$epoch"
+        return 0
+    fi
+    # Fallback
+    echo "0"
+    return 1
+}
+
 # Compare timestamps (lexicographic comparison works for ISO 8601)
 if [[ "$CHILD_TS" > "$PARENT_TS" ]]; then
     # Calculate difference (approximate)
     if command -v date &> /dev/null; then
         # Try to calculate time difference
-        PARENT_EPOCH=$(date -d "$PARENT_TS" +%s 2>/dev/null || echo "0")
-        CHILD_EPOCH=$(date -d "$CHILD_TS" +%s 2>/dev/null || echo "0")
+        PARENT_EPOCH=$(iso_to_epoch "$PARENT_TS")
+        CHILD_EPOCH=$(iso_to_epoch "$CHILD_TS")
 
         if [ "$PARENT_EPOCH" != "0" ] && [ "$CHILD_EPOCH" != "0" ]; then
             DIFF=$((CHILD_EPOCH - PARENT_EPOCH))
@@ -126,8 +146,8 @@ elif [ "$CHILD_TS" = "$PARENT_TS" ]; then
 else
     # Calculate how far in the past
     if command -v date &> /dev/null; then
-        PARENT_EPOCH=$(date -d "$PARENT_TS" +%s 2>/dev/null || echo "0")
-        CHILD_EPOCH=$(date -d "$CHILD_TS" +%s 2>/dev/null || echo "0")
+        PARENT_EPOCH=$(iso_to_epoch "$PARENT_TS")
+        CHILD_EPOCH=$(iso_to_epoch "$CHILD_TS")
 
         if [ "$PARENT_EPOCH" != "0" ] && [ "$CHILD_EPOCH" != "0" ]; then
             DIFF=$((PARENT_EPOCH - CHILD_EPOCH))

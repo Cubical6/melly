@@ -225,7 +225,7 @@ def validate_timestamps(metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
                 generated_at = datetime.fromisoformat(metadata["generated_at"].replace('Z', '+00:00'))
                 diff = abs((timestamp - generated_at).total_seconds())
                 if diff > 3600:  # 1 hour
-                    warnings.append(f"Timestamp and generated_at differ by more than 1 hour ({diff/3600:.2f} hours)")
+                    warnings.append("Timestamp and generated_at differ by more than 1 hour")
             except (ValueError, AttributeError):
                 warnings.append(f"Invalid generated_at format: {metadata.get('generated_at')}")
 
