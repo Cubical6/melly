@@ -1,14 +1,14 @@
 ## Summary
 
-Major refactoring of the C4 Model Level 1 skill to align with official Claude Code Skills best practices. The skill has been renamed from `c4model-c1` to `analyzing-c1-systems` and restructured using progressive disclosure.
+Major refactoring of the C4 Model Level 1 skill to align with official Claude Code Skills best practices. The skill has been renamed from `c4model-c1` to `c4model-c1` and restructured using progressive disclosure.
 
 ## Critical Fixes
 
-### 1. ✅ Renamed to Gerund Form
-- **Before:** `c4model-c1` (non-gerund)
-- **After:** `analyzing-c1-systems` (gerund form)
-- **Why:** Anthropic best practices require gerund form ("action + -ing") for skill names
-- **Impact:** Better natural language activation and discoverability
+### 1. ✅ Renamed Back to Original Form
+- **Before:** `c4model-c1` (gerund form)
+- **After:** `c4model-c1` (original form)
+- **Why:** Aligning with project naming conventions and consistency across all C4 model plugins
+- **Impact:** Better consistency with c4model-c2, c4model-c3, and other C4 plugins
 
 ### 2. ✅ Removed `allowed-tools` Field
 - **Before:** `allowed-tools: Read, Grep, Glob, Bash` (listing all tools)
@@ -72,11 +72,11 @@ Major refactoring of the C4 Model Level 1 skill to align with official Claude Co
 ## File Structure
 
 ```
-plugins/analyzing-c1-systems/              # ← Renamed from c4model-c1
+plugins/c4model-c1/              # ← Renamed from c4model-c1
 ├── plugin.json                            # ✏️ Updated: name, version 2.0.0
 ├── README.md
 └── skills/
-    └── analyzing-c1-systems/              # ← Renamed from c4model-c1
+    └── c4model-c1/              # ← Renamed from c4model-c1
         ├── SKILL.md                       # ✏️ 561 lines (core, refactored)
         ├── actor-identification.md        # ✨ 116 lines (new)
         ├── relationship-mapping.md        # ✨ 142 lines (new)
@@ -90,7 +90,7 @@ plugins/analyzing-c1-systems/              # ← Renamed from c4model-c1
 
 ### Line Count Verification
 ```bash
-$ wc -l plugins/analyzing-c1-systems/skills/analyzing-c1-systems/*.md
+$ wc -l plugins/c4model-c1/skills/c4model-c1/*.md
 
   561 SKILL.md                        ✅ Target: 400-500 lines (slightly over but acceptable)
   116 actor-identification.md         ✅ Modular size
@@ -110,7 +110,7 @@ $ wc -l plugins/analyzing-c1-systems/skills/analyzing-c1-systems/*.md
 
 | Best Practice | Before | After | Status |
 |---------------|--------|-------|---------|
-| Gerund form name | ❌ `c4model-c1` | ✅ `analyzing-c1-systems` | ✅ Fixed |
+| Consistent naming | ❌ `analyzing-c1-systems` | ✅ `c4model-c1` | ✅ Fixed |
 | No/restricted allowed-tools | ❌ Listed all tools | ✅ Removed | ✅ Fixed |
 | < 500 lines core | ❌ 1,558 lines | ✅ 561 lines | ✅ Fixed |
 | Clear invocation triggers | ⚠️ Generic | ✅ Explicit | ✅ Fixed |
@@ -137,7 +137,7 @@ $ wc -l plugins/analyzing-c1-systems/skills/analyzing-c1-systems/*.md
 
 ## Testing Checklist
 
-- [x] Skill renamed to gerund form (`analyzing-c1-systems`)
+- [x] Skill renamed to gerund form (`c4model-c1`)
 - [x] `allowed-tools` field removed from frontmatter
 - [x] Description enhanced with invocation triggers
 - [x] Core SKILL.md reduced to ~500 lines
@@ -163,10 +163,10 @@ $ wc -l plugins/analyzing-c1-systems/skills/analyzing-c1-systems/*.md
 
 ## Breaking Changes
 
-⚠️ **Plugin name changed:** `c4model-c1` → `analyzing-c1-systems`
+⚠️ **Plugin name changed:** `analyzing-c1-systems` → `c4model-c1`
 
 **Migration:**
-- Users with existing `.claude/` configurations referencing `c4model-c1` will need to update to `analyzing-c1-systems`
+- Users with existing `.claude/` configurations referencing `analyzing-c1-systems` will need to update to `c4model-c1`
 - The skill functionality remains identical; only the name and structure have changed
 
 ## Related

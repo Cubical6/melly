@@ -1,5 +1,5 @@
 ---
-name: analyzing-c1-systems
+name: c4model-c1
 description: Use when performing C4 Model Level 1 (System Context) analysis to identify software systems, actors, and boundaries in a codebase. Invoke during architecture reverse engineering, system mapping, or when users mention "system context", "C1 level", "identify systems", "system boundaries", "architecture analysis", or "what systems exist". Essential for the /melly-c1-systems command workflow and understanding high-level architecture.
 ---
 
