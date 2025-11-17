@@ -414,7 +414,7 @@ Before creating ANY component, verify:
 
 2. **melly-analyze-lib-docs command** (275 lines)
    - ❌ Problem: Over-documented, implementation details
-   - ✅ Solution: 30-line orchestration command, link to docs
+   - ✅ Solution: 30-40 lines with links to docs
 
 3. **6+ separate workflow plugins** (melly-init, melly-c1, etc.)
    - ❌ Problem: Over-fragmentation
