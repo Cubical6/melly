@@ -157,7 +157,7 @@ cat .env.example | grep -E "SECRET|KEY|TOKEN"
 
 **Find scalability indicators:**
 ```bash
-grep -r "load.?balanc\|cluster\|replica" .
+grep -r "load.?balance\|cluster\|replica" .
 grep -r "cache\|Cache\|redis\|Redis" .
 ```
 
