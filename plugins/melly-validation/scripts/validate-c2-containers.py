@@ -271,8 +271,6 @@ def validate_relations(containers: List[Dict[str, Any]]) -> Tuple[bool, List[str
             errors.append(f"Container {container_id}: 'relations' must be an array")
             continue
 
-        seen_rel_ids = set()
-
         for idx, rel in enumerate(relations):
             if not isinstance(rel, dict):
                 errors.append(f"Container {container_id}: Relation at index {idx} is not an object")

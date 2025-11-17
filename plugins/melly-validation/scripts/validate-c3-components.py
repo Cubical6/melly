@@ -257,14 +257,12 @@ def validate_relations(components: List[Dict[str, Any]]) -> Tuple[bool, List[str
             errors.append(f"Component {component_id}: 'relations' must be an array")
             continue
 
-        seen_rel_ids = set()
-
         for idx, rel in enumerate(relations):
-            total_relations += 1
-
             if not isinstance(rel, dict):
                 errors.append(f"Component {component_id}: Relation at index {idx} is not an object")
                 continue
+
+            total_relations += 1
 
             # Validate required fields
             required_fields = ["target", "type", "coupling", "description"]
@@ -325,7 +323,6 @@ def main() -> int:
     # 1. Validate parent reference
     valid, errors = validate_parent_reference(data, c2_file_path)
     if not valid:
-        has_errors = True
         for err in errors:
             if err.startswith("RECOMMENDATION:"):
                 warning(err.replace("RECOMMENDATION: ", ""))

@@ -98,13 +98,13 @@ plugins/melly-validation/
 ├── README.md                      # Usage documentation ✅
 ├── requirements.txt               # Python dependencies ✅
 ├── scripts/                       # Validation & Generation scripts
-│   ├── validate-init.py          # Validate init.json ⚠️ STUB
-│   ├── validate-c1-systems.py    # Validate c1-systems.json ⚠️ STUB
-│   ├── validate-c2-containers.py # Validate c2-containers.json ⚠️ STUB
-│   ├── validate-c3-components.py # Validate c3-components.json ⚠️ STUB
-│   ├── validate-markdown.py      # Validate generated markdown ⚠️ STUB
-│   ├── create-folders.sh         # Create system folder structure ⚠️ STUB
-│   ├── check-timestamp.sh        # Timestamp ordering validation ⚠️ STUB
+│   ├── validate-init.py          # Validate init.json ✅ IMPLEMENTED
+│   ├── validate-c1-systems.py    # Validate c1-systems.json ✅ IMPLEMENTED
+│   ├── validate-c2-containers.py # Validate c2-containers.json ✅ IMPLEMENTED
+│   ├── validate-c3-components.py # Validate c3-components.json ✅ IMPLEMENTED
+│   ├── validate-markdown.py      # Validate generated markdown ✅ IMPLEMENTED
+│   ├── create-folders.sh         # Create system folder structure ✅ IMPLEMENTED
+│   ├── check-timestamp.sh        # Timestamp ordering validation ✅ IMPLEMENTED
 │   ├── generate-c1-markdown.py   # C1 JSON → Markdown ✅ IMPLEMENTED
 │   ├── generate-c2-markdown.py   # C2 JSON → Markdown ✅ IMPLEMENTED
 │   └── generate-c3-markdown.py   # C3 JSON → Markdown ✅ IMPLEMENTED

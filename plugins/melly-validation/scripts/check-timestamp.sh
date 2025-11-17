@@ -87,7 +87,7 @@ if ! echo "$CHILD_TS" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:
 fi
 
 # Compare timestamps (lexicographic comparison works for ISO 8601)
-if [ "$CHILD_TS" \> "$PARENT_TS" ]; then
+if [[ "$CHILD_TS" > "$PARENT_TS" ]]; then
     # Calculate difference (approximate)
     if command -v date &> /dev/null; then
         # Try to calculate time difference

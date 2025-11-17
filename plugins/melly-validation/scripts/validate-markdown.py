@@ -38,13 +38,13 @@ def validate_frontmatter(content: str, file_path: str) -> Tuple[bool, List[str],
 
     # Check if starts with ---
     if not content.startswith("---"):
-        errors.append(f"Missing YAML frontmatter (must start with ---)")
+        errors.append(f"{file_path}: Missing YAML frontmatter (must start with ---)")
         return False, errors, warnings, frontmatter
 
     # Extract frontmatter
     lines = content.split('\n')
     if len(lines) < 3:
-        errors.append("Invalid frontmatter structure")
+        errors.append(f"{file_path}: Invalid frontmatter structure")
         return False, errors, warnings, frontmatter
 
     # Find end of frontmatter
@@ -55,7 +55,7 @@ def validate_frontmatter(content: str, file_path: str) -> Tuple[bool, List[str],
             break
 
     if end_idx is None:
-        errors.append("Frontmatter not properly closed (missing closing ---)")
+        errors.append(f"{file_path}: Frontmatter not properly closed (missing closing ---)")
         return False, errors, warnings, frontmatter
 
     # Parse frontmatter
@@ -71,22 +71,22 @@ def validate_frontmatter(content: str, file_path: str) -> Tuple[bool, List[str],
     required_fields = ["id", "title", "level", "type", "generated"]
     for field in required_fields:
         if field not in frontmatter:
-            errors.append(f"Missing required frontmatter field: {field}")
+            errors.append(f"{file_path}: Missing required frontmatter field: {field}")
 
     # Validate level
     if "level" in frontmatter:
         if frontmatter["level"] not in ["c1", "c2", "c3"]:
-            errors.append(f"Invalid level: {frontmatter['level']} (must be c1, c2, or c3)")
+            errors.append(f"{file_path}: Invalid level: {frontmatter['level']} (must be c1, c2, or c3)")
 
     # Validate generated
     if "generated" in frontmatter:
         if frontmatter["generated"] != "auto":
-            warnings.append("generated field should be 'auto' for automated generation")
+            warnings.append(f"{file_path}: generated field should be 'auto' for automated generation")
 
     # Warn if parent missing for c2/c3
     if "level" in frontmatter and frontmatter["level"] in ["c2", "c3"]:
         if "parent" not in frontmatter and "container" not in frontmatter and "system" not in frontmatter:
-            warnings.append(f"C{frontmatter['level'][1]} file missing parent reference")
+            warnings.append(f"{file_path}: C{frontmatter['level'][1]} file missing parent reference")
 
     return len(errors) == 0, errors, warnings, frontmatter
 
@@ -121,15 +121,15 @@ def validate_heading_hierarchy(content: str, file_path: str) -> Tuple[bool, List
 
     # Check exactly one H1
     if h1_count == 0:
-        errors.append("Missing H1 heading")
+        errors.append(f"{file_path}: Missing H1 heading")
     elif h1_count > 1:
-        errors.append(f"Multiple H1 headings found ({h1_count})")
+        errors.append(f"{file_path}: Multiple H1 headings found ({h1_count})")
 
     # Validate H1 pattern (optional)
     if h1_line:
         # Should contain level indicator like (C1, C2, C3)
         if not re.search(r'\(C[123]', h1_line):
-            warnings.append("H1 should follow pattern: # {name} (C1|C2|C3 - ...)")
+            warnings.append(f"{file_path}: H1 should follow pattern: # {{name}} (C1|C2|C3 - ...)")
 
     return len(errors) == 0, errors, warnings
 
