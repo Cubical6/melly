@@ -1057,40 +1057,61 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ## 6. Phase 2: C1 Systems (`/melly-c1-systems`)
 
-### 6.1 Slash Command
+### 6.1 Slash Command ✅ COMPLETED (2025-11-17)
 
-- [ ] Create `.claude/commands/melly-c1-systems.md`
+- [x] Create `plugins/melly-c1/commands/melly-c1-systems.md`
   - Description: Identify C1-level systems
-  - Allowed tools: Task, Read, Write, Bash
+  - Allowed tools: Task, Read, Bash
   - Command logic:
-    1. Run c4model-explorer for validation
-    2. Invoke c1-abstractor per repository
-    3. Validate c1-systems.json
-    4. Commit results
+    1. Validate init.json exists (runtime check)
+    2. Invoke c1-abstractor agent via Task tool
+    3. Agent generates c1-systems.json
+    4. Validate c1-systems.json with validation script
+    5. Report results and suggest next step
 
-### 6.2 Sub-agent: c1-abstractor
+**Implementation Details**:
+- ✅ 43 lines (within 10-50 line target)
+- ✅ Follows Section 0 best practices
+- ✅ Uses Task tool for natural delegation
+- ✅ Runtime context checks with !`command`
+- ✅ Links to documentation
+- ✅ Template compliance (c1-systems-template.json)
 
-- [ ] Create `.claude/agents/c1-abstractor.md`
+### 6.2 Sub-agent: c1-abstractor ✅ COMPLETED (2025-11-17)
+
+- [x] Create `plugins/melly-c1/agents/c1-abstractor.md`
   - Name: c1-abstractor
-  - Description: Identify C1 systems from repositories
-  - Tools: Read, Grep, Bash, Write, Skill(c4model-c1)
+  - Description: Identify C1 systems from repositories using C4 methodology
+  - Tools: Read, Grep, Write, Bash
+  - Model: sonnet
   - Workflow:
-    1. Validate init.json exists
-    2. Load c4model-c1 skill
-    3. Scan repository paths from init.json
-    4. Identify systems per C4 C1 methodology
-    5. Execute `.claude/scripts/create-folders.sh` for each system
-    6. Validate folders created
-    7. Generate c1-systems.json with observations and relations
-    8. Validate with `.claude/scripts/validate-c1-systems.py`
-    9. Return results
+    1. Load c4model-c1 skill for methodology
+    2. Read init.json (repository paths and metadata)
+    3. Analyze repositories for system boundaries
+    4. Create system folders via create-folders.sh script
+    5. Generate c1-systems.json with complete structure:
+       - metadata (schema_version, timestamp, parent reference)
+       - systems[] (id, name, type, description, repositories, boundaries, responsibilities, observations, relations)
+    6. Return summary
 
-- [ ] Add incremental processing:
-  - Detect changes in init.json
+**Implementation Details**:
+- ✅ 132 lines (acceptable for complex agent)
+- ✅ Linear 6-step workflow (not multi-phase)
+- ✅ Delegates methodology to c4model-c1 skill
+- ✅ Detailed JSON structure examples per template
+- ✅ Structured observations (id, title, category, severity, evidence, tags)
+- ✅ Structured relations (target, type, direction, protocol, metadata, tags)
+- ✅ Clear success criteria
+- ✅ Template compliance (c1-systems-template.json)
+
+**Validation**: See `validation-summary-6.1.md` for complete validation report
+
+- [ ] Add incremental processing (P2 - Future Enhancement):
+  - Detect changes in init.json via checksum
   - Process only modified repositories
   - Merge with existing c1-systems.json
 
-- [ ] Implement parallel execution:
+- [ ] Implement parallel execution (P2 - Future Enhancement):
   - Run c1-abstractor per repository concurrently
   - Aggregate results into single c1-systems.json
 
@@ -1466,7 +1487,8 @@ graph TD
 - 🔴 **P0 PRIORITY**: Component Refactoring (Section 1) - IN PROGRESS
 - Skills Development (Section 4.1): c4model-c1 ✅, c4model-c2 ✅, c4model-c3 ✅ COMPLETED & REFACTORED
 - Infrastructure: melly-validation ✅ COMPLETED
+- **Phase 2 (Section 6)**: ✅ COMPLETED (6.1 Command + 6.2 Agent)
 
-**Recent Completion**: c4model-c3 skill refactored following Claude Code best practices (231 lines, progressive disclosure, 6 reference files)
+**Recent Completion**: Section 6.1 & 6.2 - /melly-c1-systems command and c1-abstractor agent implemented following best practices (43 + 132 lines, validation-summary-6.1.md)
 
-**Last Updated**: 2025-11-17 (c4model-c3 refactoring completed)
+**Last Updated**: 2025-11-17 (Section 6.1 & 6.2 completed)
