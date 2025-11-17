@@ -1747,11 +1747,12 @@ Each slash command is implemented as a separate plugin in `plugins/{command-name
   - Invokes: `c1-abstractor` agent per repository
   - Output: `c1-systems.json`
 
-- **`/melly-c2-containers`** - Identify C2 containers
-  - Plugin: `plugins/melly-c2-containers/`
-  - Location: `plugins/melly-c2-containers/commands/melly-c2-containers.md`
+- **`/melly-c2-containers`** - Identify C2 containers ✅ **IMPLEMENTED**
+  - Current Location: `.claude/commands/melly-c2-containers.md` (43 lines, follows best practices)
+  - Future Plugin: `plugins/melly-core/` (will be migrated during refactoring - Section 1)
   - Invokes: `c2-abstractor` agent per system
   - Output: `c2-containers.json`
+  - Status: Production-ready, includes runtime validation and error handling
 
 - **`/melly-c3-components`** - Identify C3 components
   - Plugin: `plugins/melly-c3-components/`
