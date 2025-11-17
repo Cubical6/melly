@@ -198,20 +198,30 @@ melly/
 
 ### Plugin Categories
 
-**Total: 9 plugins** (3 existing + 6 new workflow plugins)
+**Total: 5 plugins** (3 existing + 1 validation + 1 skill) | **In Development: 11 workflow plugins**
 
-**Workflow Plugins (6 consolidated):**
-- **melly-init**: Explorer agent, init command, validation scripts & templates
-- **melly-c1**: C1 abstractor agent, c1-systems command, C1 methodology skill, validation & templates
-- **melly-c2**: C2 abstractor agent, c2-containers command, C2 methodology skill, validation & templates
-- **melly-c3**: C3 abstractor agent, c3-components command, C3 methodology skill, validation & templates
-- **melly-doc**: Writer agent, doc-c4model command, methodology skills (observations/relations), markdown validation & templates
-- **melly-draw**: Drawer agent, draw-c4model command
+**Implemented Plugins (5):**
+- **abstractor-agent**: ✅ System archaeologist for codebase exploration
+- **skill-builder**: ✅ Create and manage skills
+- **basic-memory**: ✅ Knowledge management via MCP
+- **melly-validation**: ✅ Centralized validation scripts & templates (7 validators, 3 generators)
+- **c4model-c1**: ✅ C1 System Context methodology skill (1,558 lines of documentation)
 
-**Existing Plugins (3):**
-- **abstractor-agent**: System archaeologist for codebase exploration
-- **skill-builder**: Create and manage skills
-- **basic-memory**: Knowledge management via MCP
+**Workflow Plugins (In Development):**
+- **melly-init**: 🔴 Explorer agent, init command
+- **melly-c1**: 🔴 C1 abstractor agent, c1-systems command
+- **melly-c2**: 🔴 C2 abstractor agent, c2-containers command, C2 methodology skill
+- **melly-c3**: 🔴 C3 abstractor agent, c3-components command, C3 methodology skill
+- **melly-doc**: 🔴 Writer agent, doc-c4model command, observations/relations skills
+- **melly-draw**: 🔴 Drawer agent, draw-c4model command
+
+**Skills (In Development):**
+- **c4model-c2**: 🔴 C2 Container methodology skill
+- **c4model-c3**: 🔴 C3 Component methodology skill
+- **c4model-observations**: 🔴 Observation documentation skill
+- **c4model-relations**: 🔴 Relation documentation skill
+
+**Legend:** ✅ Completed | 🔴 In Development
 
 ## 🤝 Contributing
 
