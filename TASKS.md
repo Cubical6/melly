@@ -410,7 +410,7 @@ Before creating ANY component, verify:
 
 1. **lib-doc-analyzer agent** (100 lines, 5 phases, 5+ scripts)
    - ❌ Problem: Too complex, script-heavy
-   - ✅ Solution: Simplify to 40-line agent using built-in tools
+   - ✅ Solution: Simplify to 40-60 line agent using built-in tools
 
 2. **melly-analyze-lib-docs command** (275 lines)
    - ❌ Problem: Over-documented, implementation details
