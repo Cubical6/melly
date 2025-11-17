@@ -303,25 +303,27 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ### 3.1 C4 Model Skills
 
-- [ ] Create `.claude/skills/c4model-c1/SKILL.md`
+- [x] Create `plugins/c4model-c1/` skill plugin ✅ COMPLETED
   - C1 (System Context) methodology
   - System identification rules
   - Examples from common architectures
   - Integration with basic-memory
+  - Added to marketplace.json
+  - 1,558 lines of comprehensive documentation
 
-- [ ] Create `.claude/skills/c4model-c2/SKILL.md`
+- [ ] Create `plugins/c4model-c2/` skill plugin
   - C2 (Container) methodology
   - Container identification rules
   - Technology detection patterns
   - Integration with basic-memory
 
-- [ ] Create `.claude/skills/c4model-c3/SKILL.md`
+- [ ] Create `plugins/c4model-c3/` skill plugin
   - C3 (Component) methodology
   - Component identification rules
   - Code structure analysis
   - Integration with basic-memory
 
-- [ ] Create `.claude/skills/c4model-c4/SKILL.md`
+- [ ] Create `plugins/c4model-c4/` skill plugin (P3 - Future)
   - C4 (Code) methodology
   - Code-level analysis
   - Class/function mapping
@@ -329,13 +331,13 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ### 3.2 Documentation Skills
 
-- [ ] Create `.claude/skills/c4model-observations/SKILL.md`
+- [ ] Create `plugins/c4model-observations/` skill plugin
   - Observation section format
   - Key findings documentation
   - Pattern recognition
   - Template structure
 
-- [ ] Create `.claude/skills/c4model-relations/SKILL.md`
+- [ ] Create `plugins/c4model-relations/` skill plugin
   - Relations section format
   - Dependency mapping
   - Relationship types
