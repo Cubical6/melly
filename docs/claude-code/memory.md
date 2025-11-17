@@ -90,9 +90,9 @@ To set up organization-level memory management:
 
 1. Create the enterprise memory file in the appropriate location for your operating system:
 
-* macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`
-* Linux/WSL: `/etc/claude-code/CLAUDE.md`
-* Windows: `C:\ProgramData\ClaudeCode\CLAUDE.md`
+   * macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md`
+   * Linux/WSL: `/etc/claude-code/CLAUDE.md`
+   * Windows: `C:\ProgramData\ClaudeCode\CLAUDE.md`
 
 2. Deploy via your configuration management system (MDM, Group Policy, Ansible, etc.) to ensure consistent distribution across all developer machines.
 

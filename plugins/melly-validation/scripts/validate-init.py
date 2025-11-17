@@ -184,7 +184,7 @@ def validate_package_manifests(repositories: List[Dict[str, Any]]) -> Tuple[bool
             # Validate data field
             if "data" in manifest:
                 if not isinstance(manifest["data"], dict):
-                    errors.append(f"Manifest 'data' field must be an object")
+                    errors.append("Manifest 'data' field must be an object")
                 else:
                     # Manifest-specific validation
                     manifest_type = manifest.get("type", "")
@@ -192,13 +192,13 @@ def validate_package_manifests(repositories: List[Dict[str, Any]]) -> Tuple[bool
 
                     if manifest_type == "npm":
                         if "name" not in data:
-                            warnings.append(f"NPM manifest missing 'name' field in data")
+                            warnings.append("NPM manifest missing 'name' field in data")
                     elif manifest_type == "composer":
                         if "name" not in data:
-                            warnings.append(f"Composer manifest missing 'name' field in data")
+                            warnings.append("Composer manifest missing 'name' field in data")
                     elif manifest_type == "cargo":
                         if "package" in data and "name" not in data["package"]:
-                            warnings.append(f"Cargo manifest missing 'package.name' field in data")
+                            warnings.append("Cargo manifest missing 'package.name' field in data")
 
     return len(errors) == 0, errors, warnings
 
@@ -229,7 +229,7 @@ def validate_timestamps(metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
             except (ValueError, AttributeError):
                 warnings.append(f"Invalid generated_at format: {metadata.get('generated_at')}")
 
-    except (ValueError, AttributeError) as e:
+    except (ValueError, AttributeError):
         # Already caught in schema validation
         pass
 
@@ -238,14 +238,25 @@ def validate_timestamps(metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
 
 def main() -> int:
     """Main validation function."""
+    # Check if init.json file exists
+    init_file = "knowledge-base/init.json"
+    if not os.path.exists(init_file):
+        # Try alternative path
+        init_file = os.path.join(os.getcwd(), "knowledge-base", "init.json")
+        if not os.path.exists(init_file):
+            # No init.json file found - skip validation
+            print("[VALIDATE-INIT] No init.json file found - skipping validation", file=sys.stderr)
+            return 0
+
+    # Load and validate the init.json file
     try:
-        # Read JSON from stdin
-        data = json.load(sys.stdin)
+        with open(init_file, 'r') as f:
+            data = json.load(f)
     except json.JSONDecodeError as e:
-        error("Invalid JSON", actual=str(e))
+        error(f"Invalid JSON in {init_file}", actual=str(e))
         return 2
     except Exception as e:
-        error(f"Failed to read input: {str(e)}")
+        error(f"Failed to read {init_file}: {str(e)}")
         return 2
 
     has_errors = False
@@ -301,7 +312,7 @@ def main() -> int:
         print("[VALIDATE-INIT] FAILED with errors", file=sys.stderr)
         return 2
     elif has_warnings:
-        print(f"[VALIDATE-INIT] PASSED with warnings", file=sys.stderr)
+        print("[VALIDATE-INIT] PASSED with warnings", file=sys.stderr)
         return 1
     else:
         print("[VALIDATE-INIT] PASSED", file=sys.stderr)

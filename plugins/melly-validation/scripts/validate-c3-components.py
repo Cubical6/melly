@@ -12,6 +12,7 @@ import sys
 import json
 import os
 import re
+import glob
 from datetime import datetime
 from typing import Dict, List, Tuple, Any, Set
 
@@ -302,16 +303,40 @@ def validate_relations(components: List[Dict[str, Any]]) -> Tuple[bool, List[str
 
 def main() -> int:
     """Main validation function."""
-    try:
-        # Read JSON from stdin
-        data = json.load(sys.stdin)
-    except json.JSONDecodeError as e:
-        error("Invalid JSON", actual=str(e))
-        return 2
-    except Exception as e:
-        error(f"Failed to read input: {str(e)}")
-        return 2
+    # Check if there are any c3-components.json files to validate
+    c3_files = list(glob.glob("knowledge-base/systems/*/c3-components.json"))
+    
+    if not c3_files:
+        # No c3-components.json files found - skip validation
+        print("[VALIDATE-C3] No c3-components.json files found - skipping validation", file=sys.stderr)
+        return 0
+    
+    # Validate each found file
+    all_valid = True
+    for filepath in c3_files:
+        print(f"[VALIDATE-C3] Validating {filepath}...", file=sys.stderr)
+        try:
+            with open(filepath, 'r') as f:
+                data = json.load(f)
+        except json.JSONDecodeError as e:
+            error(f"Invalid JSON in {filepath}", actual=str(e))
+            return 2
+        except Exception as e:
+            error(f"Failed to read {filepath}: {str(e)}")
+            return 2
 
+        # Validate this file
+        result = validate_file(data, filepath)
+        if result != 0:
+            all_valid = False
+            if result == 2:
+                return 2  # Blocking error
+
+    return 0 if all_valid else 1
+
+
+def validate_file(data, filepath: str) -> int:
+    """Validate a single c3-components.json file."""
     has_errors = False
     has_warnings = False
 

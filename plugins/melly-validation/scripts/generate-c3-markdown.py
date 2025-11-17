@@ -254,7 +254,7 @@ def main():
         container_id = component.get('container_id')
 
         if not component_id or not container_id:
-            print(f"Warning: Component without ID or container_id, skipping")
+            print("Warning: Component without ID or container_id, skipping")
             continue
 
         # Note: We need to know system_id to create correct path

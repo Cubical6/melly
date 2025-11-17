@@ -223,7 +223,7 @@ def main():
         system_id = container.get('system_id')
 
         if not container_id or not system_id:
-            print(f"Warning: Container without ID or system_id, skipping")
+            print("Warning: Container without ID or system_id, skipping")
             continue
 
         # Generate markdown

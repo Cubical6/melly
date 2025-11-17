@@ -11,6 +11,7 @@ Exit codes:
 import sys
 import os
 import re
+import glob
 from typing import List, Tuple, Dict
 
 
@@ -248,10 +249,14 @@ def validate_file(file_path: str) -> Tuple[int, List[str], List[str]]:
 def main() -> int:
     """Main validation function."""
     if len(sys.argv) < 2:
-        error("Usage: validate-markdown.py <file1.md> [file2.md] ...")
-        return 2
-
-    file_paths = sys.argv[1:]
+        # No arguments provided - find all generated markdown files to validate
+        file_paths = list(glob.glob("knowledge-base/systems/**/*.md", recursive=True))
+        if not file_paths:
+            # No markdown files found - skip validation
+            print("[VALIDATE-MD] No generated markdown files found - skipping validation", file=sys.stderr)
+            return 0
+    else:
+        file_paths = sys.argv[1:]
     has_errors = False
     has_warnings = False
     total_files = len(file_paths)

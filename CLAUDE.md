@@ -4,9 +4,12 @@
 
 ## Overview
 
-Melly is a marketplace consisting of Claude Code components for contextual retrieval from a knowledge base that Claude Code can use.
+Melly is a marketplace consisting of Claude Code components for contextual retrieval from a knowledge base
+that Claude Code can use.
 
-**This document serves as an implementation guide** to help build and configure production-ready agents, hooks, slash commands, and skills that enable intelligent knowledge retrieval and workflow automation for the Melly marketplace.
+**This document serves as an implementation guide** to help build and configure production-ready agents,
+hooks, slash commands, and skills that enable intelligent knowledge retrieval and workflow automation
+for the Melly marketplace.
 
 ## Repository Structure
 
@@ -225,7 +228,8 @@ Always report:
 ```markdown
 ---
 name: debugger
-description: Debugging specialist for errors, test failures, and unexpected behavior. Use PROACTIVELY when encountering issues.
+description: Debugging specialist for errors, test failures, and unexpected behavior.
+  Use PROACTIVELY when encountering issues.
 tools: Read, Edit, Bash, Grep, Glob
 ---
 
@@ -588,7 +592,7 @@ skill-name/
 
 ### SKILL.md Format
 
-```yaml
+```markdown
 ---
 name: skill-name
 description: What this skill does and when Claude should use it. Very important for discovery!
@@ -624,7 +628,8 @@ See [reference.md](reference.md) for detailed documentation.
 ```yaml
 ---
 name: commit-message-generator
-description: Generate clear git commit messages from diffs. Use when writing commit messages or reviewing staged changes.
+description: Generate clear git commit messages from diffs. Use when writing commit messages
+  or reviewing staged changes.
 allowed-tools: Bash(git:*), Read
 ---
 
@@ -662,10 +667,11 @@ Optional body with more context:
 
 #### PDF Processing Skill
 
-```yaml
+```markdown
 ---
 name: pdf-processing
-description: Extract text, fill forms, merge PDFs. Use when working with PDF files, forms, or document extraction. Requires pypdf and pdfplumber packages.
+description: Extract text, fill forms, merge PDFs. Use when working with PDF files, forms,
+  or document extraction. Requires pypdf and pdfplumber packages.
 allowed-tools: Bash, Read, Write
 ---
 
@@ -807,7 +813,9 @@ Claude automatically activates the skill if it matches.
    description: Helps with documents
 
    # Specific
-   description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when user mentions PDFs, forms, or document extraction.
+   description: Extract text and tables from PDF files, fill forms, merge documents.
+     Use when working with PDF files or when user mentions PDFs, forms,
+     or document extraction.
    ```
 
 2. **Verify path**:
@@ -841,7 +849,8 @@ Claude automatically activates the skill if it matches.
 
 ### What are Hooks?
 
-Hooks are shell commands automatically executed on specific events in the Claude Code lifecycle. They provide deterministic control over behavior.
+Hooks are shell commands automatically executed on specific events in the Claude Code lifecycle.
+They provide deterministic control over behavior.
 
 > **Quick Start**: See `docs/claude-code/hooks-guide.md` for a beginner-friendly introduction to hooks.
 > **Complete Reference**: See `docs/claude-code/hooks.md` for detailed hook documentation.
@@ -912,7 +921,8 @@ Hooks are configured in settings files:
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '\"\\(.tool_input.command) - \\(.tool_input.description // \\\"No description\\\")\"' >> ~/.claude/bash-log.txt"
+            "command": "jq -r '\"\\(.tool_input.command) - \\(.tool_input.description // \\\"No description\\\")\"' \
+              >> ~/.claude/bash-log.txt"
           }
         ]
       }
@@ -1318,7 +1328,7 @@ claude --debug
 
 A typical workflow combining all components:
 
-**1. Project Setup**
+#### 1. Project Setup
 
 ```bash
 # Project structure
@@ -1331,7 +1341,7 @@ cat > .gitignore << 'EOF'
 EOF
 ```
 
-**2. Agents for Team**
+#### 2. Agents for Team
 
 ```bash
 # Code reviewer
@@ -1355,7 +1365,7 @@ tools: Read, Edit, Bash
 EOF
 ```
 
-**3. Commands for Productivity**
+#### 3. Commands for Productivity
 
 ```bash
 # Commit
@@ -1377,7 +1387,7 @@ description: Create detailed PR
 EOF
 ```
 
-**4. Skills for Specialization**
+#### 4. Skills for Specialization
 
 ```bash
 # PDF processing skill
@@ -1391,7 +1401,7 @@ description: PDF operations - extract, merge, fill
 EOF
 ```
 
-**5. Hooks for Quality**
+#### 5. Hooks for Quality
 
 ```json
 {
@@ -1620,7 +1630,8 @@ claude --debug   # Debug mode
 claude --agents '{}' # Dynamic agents
 ```
 
-> **Mode Guides**: See `docs/claude-code/interactive-mode.md` for interactive sessions and `docs/claude-code/headless.md` for automation.
+> **Mode Guides**: See `docs/claude-code/interactive-mode.md` for interactive sessions and
+> `docs/claude-code/headless.md` for automation.
 > **Full Reference**: See `docs/claude-code/cli-reference.md` for all CLI options.
 
 ### Useful Patterns
@@ -1698,7 +1709,8 @@ claude --debug
 
 ### Overview
 
-Melly implements a complete C4 model workflow for reverse engineering codebases. This section provides specific guidance for implementing the Melly workflow components.
+Melly implements a complete C4 model workflow for reverse engineering codebases.
+This section provides specific guidance for implementing the Melly workflow components.
 
 ### Workflow Architecture
 
@@ -2017,14 +2029,16 @@ For Melly implementation details, see:
 
 ## Conclusion
 
-This implementation guide provides everything needed to build production-ready Claude Code components for the Melly marketplace. Use this guide to:
+This implementation guide provides everything needed to build production-ready Claude Code components
+for the Melly marketplace. Use this guide to:
 
 1. **Implement Agents** - Specialized AI assistants for contextual knowledge retrieval
 2. **Create Commands** - Reusable prompts that leverage the knowledge base
 3. **Develop Skills** - Extensible capabilities for intelligent information extraction
 4. **Configure Hooks** - Automation and quality control for production workflows
 
-By following this guide, you'll create a production-ready marketplace of Claude Code components that enable powerful contextual retrieval from your knowledge base.
+By following this guide, you'll create a production-ready marketplace of Claude Code components
+that enable powerful contextual retrieval from your knowledge base.
 
 For questions or updates, refer to the docs folder or the official Claude Code documentation.
 

@@ -534,7 +534,7 @@ export const MCPServersTable = ({platform = "all"}) => {
           overflow-x: auto;
         }
       `}</style>
-      
+
       {categoryOrder.map(category => {
     if (!serversByCategory[category]) return null;
     return <div key={category}>
@@ -550,7 +550,7 @@ export const MCPServersTable = ({platform = "all"}) => {
                           <strong>{server.name}</strong>
                         </a> : <strong>{server.name}</strong>}
                     </div>
-                    
+
                     <p style={{
         margin: '0.5rem 0',
         fontSize: '0.9rem'
@@ -566,7 +566,7 @@ export const MCPServersTable = ({platform = "all"}) => {
                           {server.notes}
                         </span>}
                     </p>
-                    
+
                     {commandToShow && <>
                       <p style={{
         display: 'block',
@@ -1021,8 +1021,8 @@ If you've already configured MCP servers in Claude Desktop, you can import them:
 <Steps>
   <Step title="Import servers from Claude Desktop">
     ```bash  theme={null}
-    # Basic syntax 
-    claude mcp add-from-claude-desktop 
+    # Basic syntax
+    claude mcp add-from-claude-desktop
     ```
   </Step>
 
@@ -1032,7 +1032,7 @@ If you've already configured MCP servers in Claude Desktop, you can import them:
 
   <Step title="Verify the servers were imported">
     ```bash  theme={null}
-    claude mcp list 
+    claude mcp list
     ```
   </Step>
 </Steps>

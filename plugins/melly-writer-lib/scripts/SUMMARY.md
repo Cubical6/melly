@@ -92,7 +92,7 @@
 **Key Functions**:
 - `validate_metadata_json(json_file: Path) -> Tuple[int, List[str], List[str]]`
   - **Root validation**: Required fields present
-  - **Entity validation**: 
+  - **Entity validation**:
     - Required fields in all entities
     - Entity IDs are unique
     - File paths exist (warning if not)

@@ -1,0 +1,42 @@
+# Lychee Link Checker Configuration for Melly
+# Fast, async link checker for the Melly project
+# See: https://github.com/lycheeverse/lychee
+
+# Cache configuration
+cache = true
+max_cache_age = "24h"
+
+# Network configuration
+timeout = 20
+max_retries = 3
+user_agent = "lychee"
+
+# Output configuration
+format = "markdown"
+verbose = false
+
+# Exclude localhost and 127.0.0.1
+exclude_links = [
+  "^http://localhost",
+  "^http://127\\.0\\.0\\.1",
+  "^https://localhost",
+  "^https://127\\.0\\.0\\.1",
+  "^localhost:",
+  "^127\\.0\\.0\\.1:"
+]
+
+# Exclude mailto links
+exclude_mail = true
+
+# Exclude paths from being checked
+exclude_paths = [
+  ".git",
+  "node_modules",
+  ".claude",
+  ".next",
+  ".cache",
+  "dist",
+  "build",
+  "coverage",
+  "target"
+]

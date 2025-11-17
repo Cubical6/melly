@@ -92,7 +92,7 @@ def generate_observations(system: Dict[str, Any]) -> str:
                 if ev.get('snippet'):
                     sections.append(f"  ```{ev.get('type', 'text')}")
                     sections.append(f"  {ev['snippet']}")
-                    sections.append(f"  ```")
+                    sections.append("  ```")
 
             # Add tags if present
             if obs.get('tags'):
@@ -190,7 +190,7 @@ def main():
     for system in systems:
         system_id = system.get('id')
         if not system_id:
-            print(f"Warning: System without ID, skipping")
+            print("Warning: System without ID, skipping")
             continue
 
         # Generate markdown

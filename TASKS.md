@@ -1,9 +1,27 @@
 # Melly Development Tasks
 
 > **Project**: Melly - Claude Code marketplace for C4 model-based code reverse engineering
-> **Version**: 1.0.0
-> **Last Updated**: 2025-11-15
-> **Current Phase**: Section 2 - Core Infrastructure (JSON Schemas & Validation)
+> **Version**: 1.1.0
+> **Last Updated**: 2025-11-17
+> **Current Phase**: 🔴 P0 CRITICAL - Component Refactoring (Section 1)
+
+## 🚨 IMPORTANT UPDATE (2025-11-17)
+
+**Issue Identified**: Existing components are over-engineered and violate Claude Code best practices:
+- Agents with 5-phase workflows and excessive script dependencies
+- Commands with 200+ lines of embedded documentation
+- 12+ fragmented plugins (should be 4)
+- Complexity over simplicity
+
+**New Priority**: **Section 1 - Component Refactoring** is now P0 (highest priority).
+ALL development must pause until refactoring is complete.
+
+**Why?**: Building more over-engineered components will create technical debt and violate best practices.
+We must simplify existing components before continuing development.
+
+**Action**: Review **Section 0 (Best Practices)** before ANY development work.
+
+---
 
 ## Overview
 
@@ -11,25 +29,668 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 ---
 
-## Table of Contents
+## ⚠️ CRITICAL: Claude Code Best Practices
 
-1. [Project Setup](#1-project-setup)
-2. [Core Infrastructure](#2-core-infrastructure)
-3. [Skills Development](#3-skills-development)
-4. [Phase 1: Initialization](#4-phase-1-initialization-melly-init)
-5. [Phase 2: C1 Systems](#5-phase-2-c1-systems-melly-c1-systems)
-6. [Phase 3: C2 Containers](#6-phase-3-c2-containers-melly-c2-containers)
-7. [Phase 4: C3 Components](#7-phase-4-c3-components-melly-c3-components)
-8. [Phase 5: Documentation](#8-phase-5-documentation-melly-doc-c4model)
-9. [Phase 6: Visualization](#9-phase-6-visualization)
-10. [Integration & Testing](#10-integration--testing)
-11. [Marketplace Preparation](#11-marketplace-preparation)
+**READ THIS FIRST** before implementing ANY component. All Melly components must follow these principles to avoid over-engineering.
+
+### Core Principles
+
+#### 1. **Simplicity Over Complexity**
+- Each component should do ONE thing well
+- Prefer Claude's built-in capabilities over external scripts
+- Avoid multi-phase workflows with excessive orchestration
+- Keep agents under 100 lines, commands under 50 lines
+
+#### 2. **Progressive Disclosure**
+- Start simple, link to detailed docs only when needed
+- Skills: concise SKILL.md → detailed reference.md
+- Agents: clear workflow → skill handles methodology
+- Commands: orchestration only → agents do the work
+
+#### 3. **Natural Delegation**
+- Let Claude decide when to use agents (via descriptions)
+- Skills provide knowledge, agents execute tasks
+- Commands orchestrate, don't implement
+- Avoid explicit "invoke agent X" instructions
 
 ---
 
-## 1. Project Setup
+### Component Architecture Guidelines
 
-### 1.1 Repository Structure ✅ COMPLETED
+#### **Skills** (Methodology & Knowledge)
+
+**Purpose**: Provide methodology, rules, and examples - NOT procedural workflows
+
+**✅ DO:**
+- Focus on WHAT to identify, not HOW to execute
+- Provide rules, patterns, and examples
+- Use progressive disclosure (SKILL.md → reference.md)
+- Include rich examples from real architectures
+- Let Claude activate automatically via description keywords
+
+**❌ DON'T:**
+- Include step-by-step execution workflows (that's for agents)
+- Call external scripts or tools (that's for agents)
+- Provide implementation details (that's for agents)
+- Create skills for simple tasks (use agents instead)
+
+**Example - Good Skill Structure:**
+```markdown
+---
+name: c4model-c1
+description: C4 Level 1 methodology - system identification, boundaries, actors.
+  Use when: analyzing architecture, identifying systems.
+---
+
+# C4 Model Level 1: System Context
+
+## What is a System?
+[Definition and rules]
+
+## System Identification Rules
+1. Independently deployable
+2. Clear boundaries
+3. Distinct purpose
+
+## Examples
+[Real architecture examples]
+
+## Common Patterns
+[Architecture patterns]
+
+For detailed rules, see [reference.md](reference.md)
+```
+
+**Size**: SKILL.md: 50-200 lines, reference.md: unlimited
+
+---
+
+#### **Agents** (Task Execution)
+
+**Purpose**: Execute specific tasks autonomously with clear workflows
+
+**✅ DO:**
+- Focus on ONE clear responsibility
+- Use simple, linear workflows (3-7 steps)
+- Leverage skills for methodology (Skill(c4model-c1))
+- Use built-in tools (Read, Grep, Edit, Write, Bash)
+- Include clear success criteria
+- Provide concise output format
+
+**❌ DON'T:**
+- Create multi-phase workflows (5+ phases)
+- Depend on multiple external scripts
+- Include extensive validation logic (use hooks instead)
+- Duplicate methodology (use skills instead)
+- Over-specify implementation details
+
+**Example - Good Agent Structure:**
+```markdown
+---
+name: c1-analyzer
+description: Identify C1 systems from repositories. Use when analyzing system architecture.
+tools: Read, Grep, Write, Skill(c4model-c1)
+model: sonnet
+---
+
+# C1 System Analyzer
+
+You identify systems at C4 Level 1.
+
+## Workflow
+
+1. Load c4model-c1 skill for methodology
+2. Read init.json for repository paths
+3. Analyze each repository for system boundaries
+4. Generate c1-systems.json with structure:
+   - systems[] (id, name, type, purpose)
+   - observations[] (category, content, evidence)
+   - relations[] (from, to, type)
+5. Return summary
+
+## Output Format
+
+Return:
+- Systems found: [count]
+- File: c1-systems.json
+- Next: Run validation or proceed to C2
+```
+
+**Size**: 30-100 lines (max 150 for complex agents)
+
+---
+
+#### **Slash Commands** (User Interface)
+
+**Purpose**: Simple prompts that orchestrate agents and workflows
+
+**✅ DO:**
+- Keep prompts short and clear (10-50 lines)
+- Use Task tool to invoke agents
+- Focus on orchestration, not implementation
+- Include runtime context with !`command`
+- Provide clear argument hints
+- Handle errors gracefully
+
+**❌ DON'T:**
+- Include detailed implementation logic
+- Create 200+ line command files
+- Explicitly specify agent workflows (let agents decide)
+- Duplicate agent or skill content
+- Over-document usage (link to docs instead)
+
+**Example - Good Command Structure:**
+```markdown
+---
+description: Identify C1-level systems from repositories
+argument-hint: [init-json-path]
+allowed-tools: Task, Read, Bash
+---
+
+Analyze repositories and identify C1 systems.
+
+## Context
+- Init file: $1 (or init.json if not specified)
+- Status: !`test -f ${1:-init.json} && echo "exists" || echo "missing"`
+
+## Workflow
+
+Use the Task tool to launch c1-analyzer agent to:
+1. Read init.json
+2. Apply C1 methodology (via c4model-c1 skill)
+3. Generate c1-systems.json
+
+After agent completes:
+- Validate: `bash plugins/melly-validation/scripts/validate-c1-systems.py c1-systems.json`
+- Report results
+- Suggest next step: /melly-c2-containers
+```
+
+**Size**: 10-50 lines
+
+---
+
+#### **Validation Scripts** (Quality Control)
+
+**Purpose**: Automated validation, NOT part of core workflows
+
+**✅ DO:**
+- Use standard exit codes (0=pass, 1=warning, 2=error)
+- Keep focused on validation only
+- Provide clear error messages
+- Make scripts executable (chmod +x)
+- Use hooks for automatic validation (optional)
+
+**❌ DON'T:**
+- Embed validation in agents (keep separate)
+- Create complex multi-script validation chains
+- Require validation for every agent step
+- Make validation block simple operations
+
+**Example - Good Validation Script:**
+```python
+#!/usr/bin/env python3
+"""Validate c1-systems.json structure."""
+import sys, json
+
+try:
+    data = json.load(sys.stdin)
+
+    # Basic structure check
+    assert "systems" in data, "Missing systems array"
+    assert len(data["systems"]) > 0, "No systems found"
+
+    # Validate each system
+    for system in data["systems"]:
+        assert "id" in system, f"System missing id"
+        assert "name" in system, f"System {system.get('id')} missing name"
+
+    print("✅ Validation passed")
+    sys.exit(0)
+
+except AssertionError as e:
+    print(f"❌ Error: {e}", file=sys.stderr)
+    sys.exit(2)
+except Exception as e:
+    print(f"⚠️  Warning: {e}", file=sys.stderr)
+    sys.exit(1)
+```
+
+**Size**: 50-200 lines per validator
+
+---
+
+### Plugin Organization
+
+**Current Problem**: 12+ fragmented plugins (melly-init, melly-c1, melly-c2, etc.)
+
+**Better Approach**: Consolidate into logical groupings
+
+#### **Recommended Plugin Structure:**
+
+```
+plugins/
+├── melly-core/              # Core workflow (1 plugin instead of 6+)
+│   ├── agents/
+│   │   ├── explorer.md      # Repository exploration
+│   │   ├── c1-analyzer.md   # C1 system identification
+│   │   ├── c2-analyzer.md   # C2 container identification
+│   │   ├── c3-analyzer.md   # C3 component identification
+│   │   └── doc-writer.md    # Documentation generation
+│   ├── commands/
+│   │   ├── init.md          # /melly-init
+│   │   ├── analyze.md       # /melly-analyze [c1|c2|c3]
+│   │   └── doc.md           # /melly-doc
+│   └── plugin.json
+│
+├── melly-methodology/       # C4 methodology (1 plugin instead of 5+)
+│   ├── skills/
+│   │   ├── c4model-c1/      # C1 methodology
+│   │   ├── c4model-c2/      # C2 methodology
+│   │   ├── c4model-c3/      # C3 methodology
+│   │   └── observations/    # Observation patterns
+│   └── plugin.json
+│
+├── melly-validation/        # ✅ Already correct
+│   ├── scripts/             # Validation scripts
+│   └── templates/           # JSON/markdown templates
+│
+└── basic-memory/            # ✅ Already correct
+    └── ...                  # MCP knowledge base
+```
+
+**Benefits:**
+- Fewer plugins to manage (4 instead of 12+)
+- Clearer separation of concerns
+- Easier installation and updates
+- Better discoverability
+- Reduced duplication
+
+---
+
+### Anti-Patterns to Avoid
+
+#### ❌ **Over-Scripted Agents**
+```markdown
+# BAD - Too many scripts
+1. Run parse-markdown.py
+2. Run extract-metadata.py
+3. Run enhance-content.py
+4. Run validate-output.py
+5. Run store-in-mcp.py
+```
+
+**Better**: Use Claude's built-in tools
+```markdown
+# GOOD - Use built-in capabilities
+1. Read markdown files
+2. Extract metadata (Claude does this)
+3. Write enhanced markdown
+4. Store via MCP tool
+```
+
+#### ❌ **Multi-Phase Agent Workflows**
+```markdown
+# BAD - Too complex
+Phase 1: Discovery & Validation
+Phase 2: Parsing
+Phase 3: Semantic Analysis
+Phase 4: Generation
+Phase 5: Validation & Reporting
+```
+
+**Better**: Simple linear workflow
+```markdown
+# GOOD - Simple and clear
+1. Read input
+2. Apply methodology
+3. Generate output
+4. Report results
+```
+
+#### ❌ **Overloaded Command Documentation**
+```markdown
+# BAD - 200+ lines of docs
+- 50 lines of usage examples
+- 50 lines of error handling
+- 50 lines of troubleshooting
+- 50 lines of workflow details
+```
+
+**Better**: Concise with links
+```markdown
+# GOOD - Brief with references
+## Usage
+[10 lines of core usage]
+
+See [docs/command-reference.md](docs/command-reference.md) for details.
+```
+
+#### ❌ **Explicit Agent Invocation**
+```markdown
+# BAD - Too explicit
+Explicitly invoke the c1-analyzer agent:
+"Use the c1-analyzer agent to analyze..."
+
+Alternative patterns:
+"Have the c1-analyzer agent process..."
+"Ask c1-analyzer to analyze..."
+```
+
+**Better**: Natural delegation
+```markdown
+# GOOD - Let Claude decide
+Use the Task tool to launch c1-analyzer agent with:
+- Repository paths from init.json
+- Output: c1-systems.json
+
+The agent will automatically apply C1 methodology.
+```
+
+---
+
+### Implementation Checklist
+
+Before creating ANY component, verify:
+
+- [ ] **Simplicity**: Can this be simpler?
+- [ ] **Single Responsibility**: Does it do ONE thing well?
+- [ ] **Right Tool**: Is this a skill, agent, or command?
+- [ ] **No Duplication**: Is this functionality already covered?
+- [ ] **Size**: Is it under the line limit?
+- [ ] **Scripts**: Can I use built-in tools instead?
+- [ ] **Progressive Disclosure**: Simple main file, detailed docs linked?
+- [ ] **Natural Language**: Does it read naturally?
+
+---
+
+### Migration Plan
+
+**Existing Over-Engineered Components:**
+
+1. **lib-doc-analyzer agent** (100 lines, 5 phases, 5+ scripts)
+   - ❌ Problem: Too complex, script-heavy
+   - ✅ Solution: Simplify to 40-60 line agent using built-in tools
+
+2. **melly-analyze-lib-docs command** (275 lines)
+   - ❌ Problem: Over-documented, implementation details
+   - ✅ Solution: 30-40 lines with links to docs
+
+3. **6+ separate workflow plugins** (melly-init, melly-c1, etc.)
+   - ❌ Problem: Over-fragmentation
+   - ✅ Solution: Consolidate into melly-core + melly-methodology
+
+**Action Items:**
+- [ ] Audit all existing components against guidelines
+- [ ] Refactor over-engineered components
+- [ ] Consolidate fragmented plugins
+- [ ] Update CLAUDE.md with simplified examples
+
+---
+
+## Table of Contents
+
+0. [⚠️ CRITICAL: Claude Code Best Practices](#️-critical-claude-code-best-practices)
+1. [Component Refactoring (P0 - PRIORITY)](#1-component-refactoring-p0---priority)
+2. [Project Setup](#2-project-setup)
+3. [Core Infrastructure](#3-core-infrastructure)
+4. [Skills Development](#4-skills-development)
+5. [Phase 1: Initialization](#5-phase-1-initialization-melly-init)
+6. [Phase 2: C1 Systems](#6-phase-2-c1-systems-melly-c1-systems)
+7. [Phase 3: C2 Containers](#7-phase-3-c2-containers-melly-c2-containers)
+8. [Phase 4: C3 Components](#8-phase-4-c3-components-melly-c3-components)
+9. [Phase 5: Documentation](#9-phase-5-documentation-melly-doc-c4model)
+10. [Phase 6: Visualization](#10-phase-6-visualization)
+11. [Integration & Testing](#11-integration--testing)
+12. [Marketplace Preparation](#12-marketplace-preparation)
+
+---
+
+## 1. Component Refactoring (P0 - PRIORITY)
+
+**STATUS**: 🔴 CRITICAL - Must complete before new development
+
+**WHY**: Existing components violate Claude Code best practices (over-engineered, too complex, fragmented plugins)
+
+**GOAL**: Simplify and consolidate components to follow best practices outlined in Section 0
+
+---
+
+### 1.1 Audit Current Components ⚠️ IN PROGRESS
+
+**Task**: Review all existing components against best practices
+
+- [ ] **Skills Audit**:
+  - [x] c4model-c1 (1,558 lines) - ✅ ACCEPTABLE (methodology-focused, good structure)
+  - [x] c4model-c2 (2,318 lines) - ✅ ACCEPTABLE (methodology-focused, comprehensive)
+  - [ ] Review lib-doc-methodology skill structure
+  - [ ] Identify over-complex skills
+
+- [ ] **Agents Audit**:
+  - [ ] lib-doc-analyzer (100 lines, 5 phases) - ❌ OVER-ENGINEERED
+  - [ ] abstractor-agent - Review for complexity
+  - [ ] List all agents and assess complexity
+
+- [ ] **Commands Audit**:
+  - [ ] melly-analyze-lib-docs (275 lines) - ❌ OVER-ENGINEERED
+  - [ ] List all commands and assess size
+  - [ ] Identify over-documented commands
+
+- [ ] **Plugin Structure Audit**:
+  - [ ] Count current plugins (12+ in marketplace.json)
+  - [ ] Identify fragmentation (melly-init, melly-c1, melly-c2, etc.)
+  - [ ] Map consolidation opportunities
+
+**Deliverable**: Audit report with specific refactoring tasks
+
+---
+
+### 1.2 Refactor Over-Engineered Components
+
+#### 1.2.1 Simplify lib-doc-analyzer Agent
+
+**Current**: 100 lines, 5 phases, 5+ external scripts
+**Target**: 40-60 lines, simple workflow, built-in tools
+
+- [ ] Remove multi-phase structure (Phase 1-5)
+- [ ] Replace external scripts with Claude built-in tools:
+  - [ ] Remove `parse-markdown.py` → Use Read tool
+  - [ ] Remove `extract-metadata.py` → Use Claude's analysis
+  - [ ] Remove `enhance-content.py` → Use Write tool
+  - [ ] Remove `validate-output.py` → Move to validation plugin
+  - [ ] Remove `store-in-mcp.py` → Use MCP tools directly
+- [ ] Simplify workflow to 4-6 steps:
+  1. Read markdown files
+  2. Extract observations and relations
+  3. Generate enhanced markdown with frontmatter
+  4. Store via basic-memory MCP
+- [ ] Move validation to optional post-processing
+- [ ] Test simplified agent
+
+**Success Criteria**:
+- Agent under 60 lines
+- No external script dependencies
+- Clear, linear workflow
+- Same functionality, simpler implementation
+
+---
+
+#### 1.2.2 Simplify melly-analyze-lib-docs Command
+
+**Current**: 275 lines with extensive documentation
+**Target**: 30-40 lines with links to docs
+
+- [ ] Remove embedded documentation:
+  - [ ] Move usage examples to docs/
+  - [ ] Move error handling details to docs/
+  - [ ] Move troubleshooting to docs/
+  - [ ] Move best practices to docs/
+- [ ] Simplify to core orchestration:
+  - [ ] Validate arguments (5 lines)
+  - [ ] Launch lib-doc-analyzer agent (10 lines)
+  - [ ] Report results (5 lines)
+  - [ ] Link to detailed docs (2 lines)
+- [ ] Create separate documentation file:
+  - [ ] docs/commands/melly-analyze-lib-docs.md
+  - [ ] Include all removed content
+- [ ] Test simplified command
+
+**Success Criteria**:
+- Command under 40 lines
+- Links to comprehensive docs
+- Same functionality, clearer structure
+
+---
+
+#### 1.2.3 Consolidate Workflow Plugins
+
+**Current**: 6+ separate plugins (melly-init, melly-c1, melly-c2, melly-c3, melly-doc, melly-draw)
+**Target**: 1-2 consolidated plugins (melly-core, melly-methodology)
+
+**Phase A: Create melly-core Plugin**
+
+- [ ] Create `plugins/melly-core/` structure:
+  ```
+  melly-core/
+  ├── plugin.json
+  ├── README.md
+  ├── agents/
+  │   ├── explorer.md
+  │   ├── c1-analyzer.md
+  │   ├── c2-analyzer.md
+  │   ├── c3-analyzer.md
+  │   └── doc-writer.md
+  └── commands/
+      ├── init.md
+      ├── analyze.md      # Unified command with [c1|c2|c3] arg
+      └── doc.md
+  ```
+
+- [ ] **Migrate agents to melly-core**:
+  - [ ] Create simplified explorer.md (from melly-init)
+  - [ ] Create simplified c1-analyzer.md (from melly-c1)
+  - [ ] Create simplified c2-analyzer.md (from melly-c2)
+  - [ ] Create simplified c3-analyzer.md (from melly-c3)
+  - [ ] Create simplified doc-writer.md (from melly-doc)
+
+- [ ] **Migrate commands to melly-core**:
+  - [ ] Create init.md → /melly-init
+  - [ ] Create analyze.md → /melly-analyze [c1|c2|c3]
+  - [ ] Create doc.md → /melly-doc
+
+- [ ] **Test melly-core plugin**:
+  - [ ] Test agent activation
+  - [ ] Test command execution
+  - [ ] Verify no regressions
+
+**Phase B: Create melly-methodology Plugin**
+
+- [ ] Create `plugins/melly-methodology/` structure:
+  ```
+  melly-methodology/
+  ├── plugin.json
+  ├── README.md
+  └── skills/
+      ├── c4model-c1/
+      ├── c4model-c2/
+      ├── c4model-c3/
+      └── observations/
+  ```
+
+- [ ] **Migrate skills to melly-methodology**:
+  - [ ] Move c4model-c1 skill (already well-structured)
+  - [ ] Move c4model-c2 skill (already well-structured)
+  - [ ] Create c4model-c3 skill (pending)
+  - [ ] Create observations skill (pending)
+
+- [ ] **Test melly-methodology plugin**:
+  - [ ] Test skill activation
+  - [ ] Verify keyword matching
+  - [ ] Test with agents
+
+**Phase C: Update marketplace.json**
+
+- [ ] Remove deprecated plugins:
+  - [ ] Remove melly-init entry
+  - [ ] Remove melly-c1 entry
+  - [ ] Remove melly-c2 entry
+  - [ ] Remove melly-c3 entry
+  - [ ] Remove melly-doc entry
+  - [ ] Remove melly-draw entry (if consolidating)
+
+- [ ] Add new consolidated plugins:
+  - [ ] Add melly-core entry
+  - [ ] Add melly-methodology entry
+
+- [ ] Update dependencies:
+  - [ ] Verify basic-memory dependency
+  - [ ] Update plugin descriptions
+  - [ ] Update keywords
+
+**Phase D: Cleanup and Testing**
+
+- [ ] Archive old plugin directories:
+  - [ ] Move to `plugins/.archived/`
+  - [ ] Preserve for reference during transition
+
+- [ ] Integration testing:
+  - [ ] Test complete workflow: init → c1 → c2 → c3 → doc
+  - [ ] Verify agent delegation works
+  - [ ] Verify skill activation works
+  - [ ] Test with sample repositories
+
+- [ ] Documentation updates:
+  - [ ] Update CLAUDE.md with new structure
+  - [ ] Update README.md
+  - [ ] Update workflow diagrams
+
+**Success Criteria**:
+- 4 total plugins (melly-core, melly-methodology, melly-validation, basic-memory)
+- Down from 12+ plugins
+- Same functionality, better organization
+- Clearer separation of concerns
+
+---
+
+### 1.3 Update CLAUDE.md Examples
+
+**Current**: CLAUDE.md has examples that may reflect old patterns
+**Target**: All examples follow best practices
+
+- [ ] Review all agent examples in CLAUDE.md
+- [ ] Review all command examples in CLAUDE.md
+- [ ] Review all skill examples in CLAUDE.md
+- [ ] Update examples to match Section 0 guidelines
+- [ ] Add anti-pattern warnings where appropriate
+- [ ] Add references to refactored components as examples
+
+**Sections to Update**:
+- [ ] Section 1: Subagents (show simple agent examples)
+- [ ] Section 2: Slash Commands (show concise commands)
+- [ ] Section 3: Skills (emphasize methodology over execution)
+- [ ] Section 10: Melly C4 Model Workflow (update plugin structure)
+
+---
+
+### 1.4 Create Refactoring Documentation
+
+- [ ] Create `docs/refactoring-guide.md`:
+  - [ ] Document old vs new structure
+  - [ ] Migration path for users
+  - [ ] Breaking changes (if any)
+  - [ ] Upgrade instructions
+
+- [ ] Create `docs/architecture-decisions.md`:
+  - [ ] Why consolidate plugins?
+  - [ ] Why simplify agents?
+  - [ ] Trade-offs and benefits
+  - [ ] Design principles
+
+---
+
+## 2. Project Setup
+
+### 2.1 Repository Structure ✅ COMPLETED
 
 - [x] Create plugin directory structure:
   ```
@@ -57,14 +718,14 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 **NOTE**: Plugin directories exist but are EMPTY (only .gitkeep files). Content creation is the next phase.
 
-### 1.2 Dependencies ✅ COMPLETED
+### 2.2 Dependencies ✅ COMPLETED
 
 - [x] Add basic-memory MCP to marketplace configuration
 - [x] Add context7 MCP to marketplace configuration
 - [ ] Document MCP server requirements in README
 - [ ] Create `requirements.txt` or `package.json` for validation scripts
 
-### 1.3 Documentation ✅ COMPLETED
+### 2.3 Documentation ✅ COMPLETED
 
 - [ ] Update README.md with Melly workflow overview
 - [x] Create `docs/c4model-methodology.md` explaining C4 approach
@@ -73,15 +734,15 @@ Melly is a Claude Code marketplace consisting of components that form a workflow
 
 ---
 
-## 2. Core Infrastructure
+## 3. Core Infrastructure
 
 **STATUS**: 🔴 IN PROGRESS - JSON Schemas & Validation Plugin
 
-**CRITICAL PATH**: Section 2 blocks all subsequent phases. Must complete before Phase 1-6 implementation.
+**CRITICAL PATH**: Section 3 blocks all subsequent phases. Must complete before Phase 1-6 implementation.
 
 ---
 
-### 2.0 melly-validation Plugin ✅ COMPLETED
+### 3.0 melly-validation Plugin ✅ COMPLETED
 
 **Purpose**: Centralized validation scripts and templates for all Melly workflow components.
 
@@ -159,7 +820,7 @@ plugins/melly-validation/
 
 ---
 
-### 2.1 JSON Schemas ✅ DESIGN COMPLETE
+### 3.1 JSON Schemas ✅ DESIGN COMPLETE
 
 **Status**: Schema architecture designed and documented
 **Reference**: See **[docs/json-schemas-design.md](../docs/json-schemas-design.md)** for complete specification
@@ -201,11 +862,11 @@ The JSON schema architecture supports progressive abstraction from repositories 
 
 ---
 
-### 2.2 Validation Scripts (MOVED to melly-validation plugin)
+### 3.2 Validation Scripts (MOVED to melly-validation plugin)
 
-**See Section 2.0** - All validation scripts are now part of the `melly-validation` plugin.
+**See Section 3.0** - All validation scripts are now part of the `melly-validation` plugin.
 
-### 2.3 Validation Script Specifications ✅ DESIGN COMPLETE
+### 3.3 Validation Script Specifications ✅ DESIGN COMPLETE
 
 **Status**: Validation requirements documented
 **Location**: `plugins/melly-validation/scripts/`
@@ -257,7 +918,7 @@ All validation scripts use exit code convention:
 
 ---
 
-### 2.4 Template File Specifications ✅ DESIGN COMPLETE
+### 3.4 Template File Specifications ✅ DESIGN COMPLETE
 
 **Status**: Template structure and usage documented
 **Location**: `plugins/melly-validation/templates/`
@@ -299,9 +960,9 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ---
 
-## 3. Skills Development
+## 4. Skills Development
 
-### 3.1 C4 Model Skills
+### 4.1 C4 Model Skills
 
 - [x] Create `plugins/c4model-c1/` skill plugin ✅ COMPLETED
   - C1 (System Context) methodology
@@ -338,7 +999,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
   - Class/function mapping
   - Integration with basic-memory
 
-### 3.2 Documentation Skills
+### 4.2 Documentation Skills
 
 - [ ] Create `plugins/c4model-observations/` skill plugin
   - Observation section format
@@ -352,15 +1013,15 @@ Templates define the structure of generated JSON and Markdown files. The c4model
   - Relationship types
   - Template structure
 
-### 3.3 Template Files ✅ MOVED
+### 4.3 Template Files ✅ MOVED
 
-**See Section 2.4** - All template files are now part of the `melly-validation` plugin at `plugins/melly-validation/templates/`.
+**See Section 3.4** - All template files are now part of the `melly-validation` plugin at `plugins/melly-validation/templates/`.
 
 ---
 
-## 4. Phase 1: Initialization (`/melly-init`)
+## 5. Phase 1: Initialization (`/melly-init`)
 
-### 4.1 Slash Command
+### 5.1 Slash Command
 
 - [ ] Create `.claude/commands/melly-init.md`
   - Description: Initialize C4 model exploration
@@ -371,7 +1032,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
     - Validate init.json output
     - Commit init.json to repository
 
-### 4.2 Sub-agent: c4model-explorer
+### 5.2 Sub-agent: c4model-explorer
 
 - [ ] Create `.claude/agents/c4model-explorer.md`
   - Name: c4model-explorer
@@ -394,9 +1055,9 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ---
 
-## 5. Phase 2: C1 Systems (`/melly-c1-systems`)
+## 6. Phase 2: C1 Systems (`/melly-c1-systems`)
 
-### 5.1 Slash Command
+### 6.1 Slash Command
 
 - [ ] Create `.claude/commands/melly-c1-systems.md`
   - Description: Identify C1-level systems
@@ -407,7 +1068,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
     3. Validate c1-systems.json
     4. Commit results
 
-### 5.2 Sub-agent: c1-abstractor
+### 6.2 Sub-agent: c1-abstractor
 
 - [ ] Create `.claude/agents/c1-abstractor.md`
   - Name: c1-abstractor
@@ -435,9 +1096,9 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ---
 
-## 6. Phase 3: C2 Containers (`/melly-c2-containers`)
+## 7. Phase 3: C2 Containers (`/melly-c2-containers`)
 
-### 6.1 Slash Command
+### 7.1 Slash Command
 
 - [ ] Create `.claude/commands/melly-c2-containers.md`
   - Description: Identify C2-level containers
@@ -450,7 +1111,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
     5. Validate c2-containers.json
     6. Commit results
 
-### 6.2 Sub-agent: c2-abstractor
+### 7.2 Sub-agent: c2-abstractor
 
 - [ ] Create `.claude/agents/c2-abstractor.md`
   - Name: c2-abstractor
@@ -477,9 +1138,9 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ---
 
-## 7. Phase 4: C3 Components (`/melly-c3-components`)
+## 8. Phase 4: C3 Components (`/melly-c3-components`)
 
-### 7.1 Slash Command
+### 8.1 Slash Command
 
 - [ ] Create `.claude/commands/melly-c3-components.md`
   - Description: Identify C3-level components
@@ -492,7 +1153,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
     5. Validate c3-components.json
     6. Commit results
 
-### 7.2 Sub-agent: c3-abstractor
+### 8.2 Sub-agent: c3-abstractor
 
 - [ ] Create `.claude/agents/c3-abstractor.md`
   - Name: c3-abstractor
@@ -519,9 +1180,9 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ---
 
-## 8. Phase 5: Documentation (`/melly-doc-c4model`)
+## 9. Phase 5: Documentation (`/melly-doc-c4model`)
 
-### 8.1 Slash Command
+### 9.1 Slash Command
 
 - [ ] Create `.claude/commands/melly-doc-c4model.md`
   - Description: Generate C4 model documentation
@@ -532,7 +1193,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
     3. Validate markdown output
     4. Commit documentation
 
-### 8.2 Sub-agent: c4model-writer ✅ DESIGN COMPLETE
+### 9.2 Sub-agent: c4model-writer ✅ DESIGN COMPLETE
 
 **Status**: Workflow designed and documented
 **Reference**: See **[docs/c4model-writer-workflow.md](../docs/c4model-writer-workflow.md)** for complete specification
@@ -586,9 +1247,9 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
 
 ---
 
-## 9. Phase 6: Visualization
+## 10. Phase 6: Visualization
 
-### 9.1 Sub-agent: c4model-drawer
+### 10.1 Sub-agent: c4model-drawer
 
 - [ ] Create `.claude/agents/c4model-drawer.md`
   - Name: c4model-drawer
@@ -605,7 +1266,7 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
     5. Use basic-memory canvas tool
     6. Return results
 
-### 9.2 Slash Command
+### 10.2 Slash Command
 
 - [ ] Create `.claude/commands/melly-draw-c4model.md`
   - Description: Generate visual diagrams from C4 model
@@ -618,9 +1279,9 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
 
 ---
 
-## 10. Integration & Testing
+## 11. Integration & Testing
 
-### 10.1 End-to-End Testing
+### 11.1 End-to-End Testing
 
 - [ ] Create test repository structure in `test/fixtures/`
 - [ ] Create test case: Simple single-repo project
@@ -628,7 +1289,7 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
 - [ ] Create test case: Monorepo structure
 - [ ] Create test case: Mixed technology stack
 
-### 10.2 Workflow Testing
+### 11.2 Workflow Testing
 
 - [ ] Test `/melly-init` on each test case
 - [ ] Test `/melly-c1-systems` on each test case
@@ -637,14 +1298,14 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
 - [ ] Test `/melly-doc-c4model` on each test case
 - [ ] Test `/melly-draw-c4model` on each test case
 
-### 10.3 Incremental Update Testing
+### 11.3 Incremental Update Testing
 
 - [ ] Modify test repository and re-run `/melly-init`
 - [ ] Verify only changed repos processed
 - [ ] Add new repository and verify detection
 - [ ] Remove repository and verify handling
 
-### 10.4 Error Handling
+### 11.4 Error Handling
 
 - [ ] Test invalid repository paths
 - [ ] Test missing JSON files
@@ -654,9 +1315,9 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
 
 ---
 
-## 11. Marketplace Preparation
+## 12. Marketplace Preparation
 
-### 11.1 Plugin Configuration
+### 12.1 Plugin Configuration
 
 - [ ] Update `.claude-plugin/marketplace.json`:
   - Add Melly workflow metadata
@@ -665,7 +1326,7 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
   - List all skills
   - Specify dependencies (basic-memory, context7)
 
-### 11.2 Documentation
+### 12.2 Documentation
 
 - [ ] Create `docs/installation.md`
   - MCP server setup
@@ -688,7 +1349,7 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
   - Custom skill development
   - Template modifications
 
-### 11.3 Quality Assurance
+### 12.3 Quality Assurance
 
 - [ ] Verify all slash commands work
 - [ ] Verify all sub-agents work
@@ -696,7 +1357,7 @@ The c4model-writer agent converts JSON files to structured markdown documentatio
 - [ ] Verify all validation scripts work
 - [ ] Test on different operating systems (Linux, macOS, Windows)
 
-### 11.4 Repository Cleanup
+### 12.4 Repository Cleanup
 
 - [ ] Remove test artifacts
 - [ ] Update all documentation
@@ -737,40 +1398,45 @@ graph TD
 ### Priority Assignments
 
 #### P0 Tasks (CRITICAL PATH - MUST COMPLETE FIRST)
-1. ✅ Project Setup (Section 1) - COMPLETED
-2. 🚧 **melly-validation Plugin (Section 2.0)** - IN PROGRESS (BLOCKING)
-3. 🚧 **JSON Schemas (Section 2.1)** - IN PROGRESS (BLOCKING)
-4. Validation Script Implementation (Section 2.3) - Depends on 2.0, 2.1
-5. Template File Implementation (Section 2.4) - Depends on 2.0, 2.1
-6. C4 Model Skills - C1, C2, C3 (Section 3.1)
-7. Phase 1: Initialization (Section 4)
-8. Phase 2: C1 Systems (Section 5)
+1. 🔴 **Component Refactoring (Section 1)** - CRITICAL (NEW - MUST DO FIRST)
+   - 1.1 Audit Current Components
+   - 1.2 Refactor Over-Engineered Components
+   - 1.3 Update CLAUDE.md Examples
+   - 1.4 Create Refactoring Documentation
+2. ✅ Project Setup (Section 2) - COMPLETED
+3. ✅ **melly-validation Plugin (Section 3.0)** - COMPLETED
+4. ✅ **JSON Schemas (Section 3.1)** - DESIGN COMPLETE
+5. ✅ Validation Script Implementation (Section 3.3) - COMPLETED
+6. ✅ Template File Implementation (Section 3.4) - COMPLETED
+7. 🚧 C4 Model Skills - C1 ✅, C2 ✅, C3 🔴 (Section 4.1)
+8. Phase 1: Initialization (Section 5) - Use simplified patterns
+9. Phase 2: C1 Systems (Section 6) - Use simplified patterns
 
 #### P1 Tasks
-7. Phase 3: C2 Containers (Section 6)
-8. Phase 4: C3 Components (Section 7)
-9. Documentation Skills (Section 3.2)
-10. Template Files (Section 3.3)
-11. Phase 5: Documentation (Section 8)
+1. Phase 3: C2 Containers (Section 7)
+2. Phase 4: C3 Components (Section 8)
+3. Documentation Skills (Section 4.2)
+4. Phase 5: Documentation (Section 9)
 
 #### P2 Tasks
-12. Phase 6: Visualization (Section 9)
-13. Integration & Testing (Section 10)
-14. Marketplace Preparation (Section 11)
+1. Phase 6: Visualization (Section 10)
+2. Integration & Testing (Section 11)
+3. Marketplace Preparation (Section 12)
 
 #### P3 Tasks
-15. C4 Level 4 (Code) implementation
-16. Advanced visualizations
-17. AI-powered refactoring suggestions
+1. C4 Level 4 (Code) implementation
+2. Advanced visualizations
+3. AI-powered refactoring suggestions
 
 ---
 
 ## Notes
 
 **CRITICAL**:
-- Section 2 (Core Infrastructure) is BLOCKING all other work
-- melly-validation plugin must be completed before any agent/command implementation
-- All validation scripts should be executable: `chmod +x plugins/melly-validation/scripts/*`
+- **Section 1 (Component Refactoring) is now TOP PRIORITY** - Must simplify before building more
+- Section 0 (Best Practices) guides ALL development - read it first
+- ✅ Section 3 (Core Infrastructure) completed - validation & schemas ready
+- All new components MUST follow best practices (simple, focused, under line limits)
 
 **Best Practices**:
 - All JSON files must be validated before commit using melly-validation scripts
@@ -781,13 +1447,26 @@ graph TD
 - Exit code convention: 0=success, 1=warning, 2=blocking error
 
 **Architecture Decisions**:
+- **Consolidate plugins**: 4 plugins (melly-core, melly-methodology, melly-validation, basic-memory) instead of 12+
+- **Simplify components**: Agents under 100 lines, commands under 50 lines, no multi-phase workflows
+- **Use built-in tools**: Minimize external scripts, use Claude's Read/Write/Edit/Grep capabilities
+- **Progressive disclosure**: Simple main files, link to detailed docs
 - Centralized validation in melly-validation plugin (not scattered across plugins)
 - Shared templates in melly-validation plugin (avoid duplication)
-- All workflow plugins depend on melly-validation
 
 ---
 
-**Total Tasks**: 110+ (updated with melly-validation plugin)
-**Estimated Timeline**: 4-6 weeks for complete implementation
-**Current Sprint**: Skills Development (Section 3.1-3.2) - c4model-c1 ✅ c4model-c2 ✅ c4model-c3 ✅ COMPLETED
-**Last Updated**: 2025-11-17
+**Total Tasks**: 140+ (updated with refactoring section)
+**Estimated Timeline**:
+- Refactoring: 1-2 weeks (P0 - MUST COMPLETE FIRST)
+- Core Implementation: 4-6 weeks after refactoring
+- Total: 5-8 weeks
+
+**Current Sprint**:
+- 🔴 **P0 PRIORITY**: Component Refactoring (Section 1) - IN PROGRESS
+- Skills Development (Section 4.1): c4model-c1 ✅, c4model-c2 ✅, c4model-c3 ✅ COMPLETED & REFACTORED
+- Infrastructure: melly-validation ✅ COMPLETED
+
+**Recent Completion**: c4model-c3 skill refactored following Claude Code best practices (231 lines, progressive disclosure, 6 reference files)
+
+**Last Updated**: 2025-11-17 (c4model-c3 refactoring completed)
