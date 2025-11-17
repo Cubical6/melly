@@ -1,0 +1,28 @@
+{
+  "name": "c4model-c2",
+  "version": "1.0.0",
+  "description": "C4 Model Level 2 (Container) methodology skill for identifying deployable units, technology stacks, and runtime environments within software systems",
+  "author": "Melly Team",
+  "type": "skill",
+  "dependencies": [
+    "c4model-c1"
+  ],
+  "skills": [
+    "c4model-c2"
+  ],
+  "readme": "README.md",
+  "license": "MIT",
+  "tags": [
+    "c4-model",
+    "container",
+    "c2-level",
+    "architecture",
+    "technology-detection",
+    "deployment",
+    "runtime-analysis",
+    "containerization",
+    "melly"
+  ],
+  "melly_version": "1.0.0",
+  "category": "methodology"
+}

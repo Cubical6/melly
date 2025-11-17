@@ -578,6 +578,71 @@ jobs:
 
 ---
 
+## Available Components
+
+### Implemented Plugins
+
+Melly currently provides the following production-ready components:
+
+#### Core Plugins (3)
+
+1. **abstractor-agent** ✅
+   - Deep architectural analysis through subagent-driven exploration
+   - Generates C4 diagrams and subsystem catalogs
+   - Use: `/system-archaeologist`
+
+2. **skill-builder** ✅
+   - Meta-skill for creating and editing Claude Code skills
+   - CLI tools and Python scripting patterns
+   - Use: "Help me create a skill for [task]"
+
+3. **basic-memory** ✅
+   - Knowledge management via MCP server
+   - Multi-project support with sync
+   - Obsidian canvas integration
+
+#### Validation & Templates (1)
+
+4. **melly-validation** ✅
+   - Centralized validation scripts (7 validators)
+   - Markdown generators (3 generators)
+   - JSON templates for all C4 levels
+   - Total: 2,859 lines of production-ready code
+
+#### C4 Methodology Skills (1/5)
+
+5. **c4model-c1** ✅
+   - **C1 (System Context) methodology skill**
+   - Comprehensive guidance for system identification
+   - System identification rules and criteria
+   - Actor identification (users and external systems)
+   - Boundary detection methodology
+   - Relationship mapping (8 relationship types)
+   - Observation guidelines (8 categories with evidence)
+   - 4 complete architecture patterns (web, microservices, event-driven, mobile)
+   - Complete workflow integration (init.json → c1-systems.json)
+   - **Documentation**: 1,558 lines (400 README + 1,158 SKILL.md)
+   - **Use**: Automatically activates when working with system identification
+
+### In Development
+
+The following workflow components are currently being developed:
+
+- **c4model-c2** 🔴 - C2 Container methodology skill
+- **c4model-c3** 🔴 - C3 Component methodology skill
+- **c4model-observations** 🔴 - Observation documentation skill
+- **c4model-relations** 🔴 - Relation documentation skill
+- **melly-init** 🔴 - Initialization workflow command
+- **melly-c1** 🔴 - C1 Systems workflow command
+- **melly-c2** 🔴 - C2 Containers workflow command
+- **melly-c3** 🔴 - C3 Components workflow command
+- **melly-doc** 🔴 - Documentation generation command
+- **melly-draw** 🔴 - Diagram visualization command
+
+**Legend:** ✅ Completed | 🔴 In Development
+
+---
+
 ## Next Steps
 
 After completing the workflow:
@@ -598,5 +663,5 @@ After completing the workflow:
 
 ---
 
-**Last Updated:** 2025-11-15
+**Last Updated:** 2025-11-17
 **Version:** 1.0.0

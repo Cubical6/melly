@@ -1,0 +1,2323 @@
+---
+name: c4model-c2
+description: C4 Model Level 2 (Container) methodology for identifying deployable units, technology stacks, and runtime environments. Use when analyzing software architecture at the container abstraction level, identifying what deployable/runnable units exist, what technologies they use, and how they communicate. Keywords - container level, C2 level, container identification, deployable units, technology stack, runtime environment, application server, web server, database container, technology detection, framework analysis, deployment model, containerization, docker, kubernetes, microservices containers, spa container, api server, message broker, cache container, infrastructure as code.
+allowed-tools: Read, Grep, Glob, Bash
+---
+
+# C4 Model - Level 2: Container Methodology
+
+## Overview
+
+You are an expert in the C4 Model's Level 2 (Container) methodology. This skill provides comprehensive knowledge for identifying and documenting containers (deployable/runnable units) at the second level of architectural abstraction.
+
+**Your Mission:** Help identify WHAT deployable units exist within each system, WHAT technologies they use, and HOW they communicate - focusing on the building blocks that get deployed to production.
+
+**C2 Container Level Definition:**
+A container represents an application or data store that executes code or stores data. It's something that needs to be running for the overall system to work. Think: web servers, application servers, standalone applications, databases, file systems, message brokers.
+
+**Relationship to Other Levels:**
+- **C1 (System Context)** - Identified high-level systems → Now we decompose each system into containers
+- **C2 (Container) - YOU ARE HERE** - Identify deployable/runnable units within each system
+- **C3 (Component)** - Will identify code modules within each container (next level)
+
+---
+
+## C2 Level Definition
+
+### What is a Container (C2)?
+
+A **container** at C2 level is a deployable/runnable unit:
+
+- **Deployable Unit** - Can be deployed independently (even if part of a larger system)
+- **Runs Code or Stores Data** - Executes application logic or persists information
+- **Has Technology Stack** - Built with specific languages, frameworks, libraries
+- **Has Runtime Environment** - Runs in browser, server, cloud, mobile device
+- **Communicates via Protocols** - HTTP, gRPC, database connections, message queues
+
+**Important:** Container in C4 Model ≠ Docker container
+- C4 "container" = deployable/runnable unit (broader concept)
+- Docker container is one possible deployment technology
+
+### Abstraction Level
+
+```
+┌─────────────────────────────────────────────┐
+│ C1: System Context                          │
+│ "What systems exist?"                       │
+├─────────────────────────────────────────────┤
+│ C2: Container Level                         │ ← YOU ARE HERE
+│ "What are the deployable units?"            │
+├─────────────────────────────────────────────┤
+│ C3: Component Level                         │
+│ "What are the code modules?"                │
+├─────────────────────────────────────────────┤
+│ C4: Code Level                              │
+│ "What are the classes/functions?"           │
+└─────────────────────────────────────────────┘
+```
+
+**At C2, we focus on:**
+- ✅ Deployable/runnable units (what gets deployed)
+- ✅ Technology stack (languages, frameworks, versions)
+- ✅ Runtime environment (browser, server, cloud, mobile)
+- ✅ Communication protocols (HTTP, gRPC, database, messaging)
+- ✅ Deployment model (containerized, serverless, standalone)
+
+**At C2, we do NOT focus on:**
+- ❌ Code structure (that's C3 Component level)
+- ❌ Classes and functions (that's C4 Code level)
+- ❌ System boundaries (that was C1 System level)
+- ❌ Line-by-line code analysis
+
+---
+
+## Container Identification Methodology
+
+### Step 1: Understand System Decomposition
+
+Start by reviewing the systems identified at C1 level in `c1-systems.json`:
+
+**Questions to ask:**
+1. What systems were identified at C1?
+2. What repositories belong to each system?
+3. What is the system type (web-application, api-service, etc.)?
+4. What technologies were mentioned in system observations?
+
+**System-to-Container Mapping Patterns:**
+
+**Simple Web Application System →**
+- Frontend SPA container (React/Vue/Angular in browser)
+- Backend API container (Express/Django/Spring on server)
+- Database container (PostgreSQL/MongoDB)
+- Cache container (Redis) - optional
+
+**Microservice System →**
+- API Server container (main service logic)
+- Database container (service-specific database)
+- Worker container (background processing) - optional
+- Message broker container (RabbitMQ/Kafka) - if async
+
+**Mobile App System →**
+- Mobile Application container (React Native/Flutter on mobile)
+- Backend API container (supporting backend)
+- Database container
+- Push notification service container - optional
+
+### Step 2: Apply Container Identification Rules
+
+A **container** at C2 level is:
+
+#### ✅ A Container IS:
+
+1. **Deployable independently (even if part of larger system)**
+   - Can be built and deployed as separate unit with its own build/deployment process
+   - Has its own deployment artifact (Docker image, JAR, build output, static files)
+   - Has its own deployment lifecycle - can be updated/redeployed without redeploying other containers
+   - Example: In an "E-Commerce System" (C1 level), you might have:
+     - React SPA container (built separately to static files, deployed to CDN)
+     - Express API container (built separately as Node.js app, deployed to server)
+     - PostgreSQL Database container (deployed separately as database instance)
+     - Each of these 3 containers can be deployed/updated independently, even though they're all part of the same "E-Commerce System"
+
+2. **Executes code OR stores data**
+   - Runs application logic (web server, API, worker)
+   - Persists data (database, file storage, cache)
+   - Example: Node.js API server, PostgreSQL database, Redis cache
+
+3. **Has distinct technology stack**
+   - Built with specific language/framework
+   - Clear technology dependencies
+   - Example: "React 18 + TypeScript", "Python 3.11 + Django 4.2"
+
+4. **Has runtime environment**
+   - Runs in specific environment: browser, server, mobile, cloud
+   - Requires specific platform: Node.js, JVM, Python runtime, browser
+   - Example: Browser (for SPA), Node.js server (for API), Linux container (for database)
+
+5. **Communicates via defined protocols**
+   - HTTP REST, GraphQL, gRPC, WebSocket
+   - Database connections (JDBC, psycopg2, etc.)
+   - Message queues (AMQP, Kafka protocol)
+   - Example: Frontend calls API via HTTP REST, API queries database via PostgreSQL wire protocol
+
+6. **Infrastructure components required for system operation**
+   - Databases, caches, message brokers
+   - Load balancers, reverse proxies
+   - Example: Nginx reverse proxy, RabbitMQ message broker, Redis cache
+
+#### ❌ A Container is NOT:
+
+1. **Code modules within an application** (these are C3 components)
+   - ❌ "Authentication Module" in React app → C3 Component
+   - ❌ "Payment Controller" in Express API → C3 Component
+   - ❌ "User Service Class" → C3 Component
+   - ✅ "Express API Application" → C2 Container
+   - ✅ "React SPA Application" → C2 Container
+
+2. **Configuration files or static assets**
+   - ❌ package.json, webpack.config.js
+   - ❌ CSS files, images, fonts
+   - ❌ Environment variables (.env)
+
+3. **Development tools**
+   - ❌ Webpack, Babel, ESLint
+   - ❌ Jest test runner
+   - ❌ Docker Compose (tool, not container)
+
+4. **Generic names without technology**
+   - ❌ "Frontend Container" → ✅ "React SPA Container"
+   - ❌ "Backend Container" → ✅ "Express API Server Container"
+   - ❌ "Database Container" → ✅ "PostgreSQL Database Container"
+
+5. **Over-granular decomposition**
+   - ❌ "Login API" + "Register API" + "Profile API" → ✅ "User Management API"
+   - ❌ "Product List Service" + "Product Details Service" → ✅ "Product Catalog API"
+
+### Step 3: Analyze Repository Structure
+
+For each system, examine its repositories to identify containers:
+
+**Look for deployment indicators:**
+
+```bash
+# Check for containerization
+find . -name "Dockerfile" -o -name "docker-compose.yml"
+
+# Check for build outputs
+ls -la dist/ build/ target/ out/
+
+# Check for deployment configs
+ls -la .kubernetes/ .aws/ .azure/ vercel.json netlify.toml
+
+# Check for application entry points
+find . -name "main.*" -o -name "index.*" -o -name "server.*"
+```
+
+**Common patterns:**
+
+**Frontend SPA:**
+- `public/index.html` - Entry HTML
+- `src/App.tsx` - Main app component
+- `package.json` with `react`, `vue`, or `angular`
+- Build script: `npm run build` → outputs to `dist/` or `build/`
+
+**Backend API:**
+- `src/server.js` or `app.py` or `Main.java`
+- `package.json` with `express`, `fastify`, or `koa`
+- `requirements.txt` with `django`, `flask`, or `fastapi`
+- `pom.xml` or `build.gradle` for Java
+
+**Database:**
+- `docker-compose.yml` defining database service
+- Database migration files (`migrations/`, `db/`)
+- Connection strings in `.env.example`
+
+**Worker/Background Service:**
+- Queue consumer code
+- Scheduled job definitions (cron, celery beat)
+- `worker.js`, `worker.py`, `background_job.rb`
+
+### Step 4: Detect Technology Stack
+
+For each container, identify:
+
+#### Primary Language
+- JavaScript/TypeScript
+- Python
+- Java/Kotlin
+- Go
+- Ruby
+- PHP
+- C#
+- Rust
+
+**Detection methods:**
+- Check package manifests
+- Count file extensions (`find . -name "*.ts" | wc -l`)
+- Read Dockerfile FROM statements
+- Check build tool configs
+
+#### Framework/Platform
+- React, Vue, Angular, Svelte (frontend)
+- Express, Fastify, Koa, NestJS (Node.js backend)
+- Django, Flask, FastAPI (Python backend)
+- Spring Boot, Quarkus (Java backend)
+- Rails, Sinatra (Ruby backend)
+
+**Detection methods:**
+- Check dependencies in package manifests
+- Look for framework-specific files (e.g., `angular.json`, `vue.config.js`)
+- Analyze import statements in code
+
+#### Libraries and Tools
+- State management: Redux, MobX, Zustand
+- HTTP clients: axios, fetch, requests
+- ORM: Prisma, TypeORM, Sequelize, SQLAlchemy
+- Testing: Jest, Pytest, JUnit
+- Build tools: Webpack, Vite, esbuild
+
+### Step 5: Identify Runtime Environment
+
+For each container, determine:
+
+#### Environment
+- **browser** - Runs in web browser (SPAs, client-side apps)
+- **server** - Runs on server (APIs, web servers)
+- **mobile** - Runs on mobile device (iOS/Android)
+- **cloud** - Runs in cloud environment (Lambda, Cloud Functions)
+- **edge** - Runs at edge locations (Cloudflare Workers)
+
+#### Platform
+- **Browser:** Chrome, Firefox, Safari, Edge
+- **Server:** Linux, Windows Server, macOS
+- **Mobile:** iOS 14+, Android 11+
+- **Runtime:** Node.js 18, Python 3.11, JVM 17, .NET 7
+
+#### Containerization
+- **Containerized:** true/false
+- **Container Technology:** Docker, Kubernetes, ECS, Cloud Run
+- **Container Image:** `node:18-alpine`, `python:3.11-slim`
+
+**Detection methods:**
+
+```bash
+# Check for Docker
+cat Dockerfile | grep "FROM"
+# Example: FROM node:18-alpine → Node.js 18, containerized
+
+# Check for Kubernetes
+ls .kubernetes/*.yaml
+# Presence indicates K8s deployment
+
+# Check package.json scripts for runtime hints
+cat package.json | jq '.scripts'
+# "start": "node server.js" → Node.js runtime
+# "start": "react-scripts start" → Browser runtime (dev)
+# "build": "react-scripts build" → Browser runtime (prod)
+```
+
+---
+
+## Technology Detection Patterns
+
+### Pattern 1: npm/package.json Detection
+
+**Frontend Frameworks:**
+
+```json
+{
+  "dependencies": {
+    "react": "^18.2.0",           // → React 18 SPA
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0" // → Client-side routing
+  }
+}
+```
+→ **Container:** React SPA, runs in browser
+
+```json
+{
+  "dependencies": {
+    "vue": "^3.3.0",              // → Vue 3 SPA
+    "@vue/runtime-core": "^3.3.0"
+  }
+}
+```
+→ **Container:** Vue SPA, runs in browser
+
+```json
+{
+  "dependencies": {
+    "@angular/core": "^16.0.0",   // → Angular 16 SPA
+    "@angular/platform-browser": "^16.0.0"
+  }
+}
+```
+→ **Container:** Angular SPA, runs in browser
+
+**Backend Frameworks:**
+
+```json
+{
+  "dependencies": {
+    "express": "^4.18.2",         // → Express API Server
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0"
+  }
+}
+```
+→ **Container:** Express.js API Server, runs on Node.js
+
+```json
+{
+  "dependencies": {
+    "@nestjs/core": "^10.0.0",    // → NestJS API Server
+    "@nestjs/platform-express": "^10.0.0"
+  }
+}
+```
+→ **Container:** NestJS API Server, runs on Node.js
+
+```json
+{
+  "dependencies": {
+    "fastify": "^4.20.0",         // → Fastify API Server
+    "@fastify/cors": "^8.3.0"
+  }
+}
+```
+→ **Container:** Fastify API Server, runs on Node.js
+
+**Full-Stack Frameworks:**
+
+```json
+{
+  "dependencies": {
+    "next": "^13.4.0",            // → Next.js Full-Stack
+    "react": "^18.2.0"
+  }
+}
+```
+→ **Container:** Next.js Application (SSR + API routes), runs on Node.js server
+
+```json
+{
+  "dependencies": {
+    "nuxt": "^3.6.0",             // → Nuxt.js Full-Stack
+    "vue": "^3.3.0"
+  }
+}
+```
+→ **Container:** Nuxt.js Application, runs on Node.js server
+
+**Mobile Frameworks:**
+
+```json
+{
+  "dependencies": {
+    "react-native": "^0.72.0"     // → React Native Mobile App
+  }
+}
+```
+→ **Container:** React Native Mobile Application, runs on iOS/Android
+
+```json
+{
+  "dependencies": {
+    "@ionic/react": "^7.0.0",     // → Ionic Mobile App
+    "capacitor": "^5.0.0"
+  }
+}
+```
+→ **Container:** Ionic Mobile Application, runs on iOS/Android
+
+**Desktop Frameworks:**
+
+```json
+{
+  "dependencies": {
+    "electron": "^25.0.0"         // → Electron Desktop App
+  }
+}
+```
+→ **Container:** Electron Desktop Application, runs on Windows/macOS/Linux
+
+### Pattern 2: Python Detection
+
+**Web Frameworks:**
+
+```txt
+# requirements.txt
+Django==4.2.0                   # → Django Web Application
+djangorestframework==3.14.0     # → Also has REST API
+psycopg2-binary==2.9.6          # → Uses PostgreSQL
+```
+→ **Container:** Django Web Application + API, runs on Python 3.x
+
+```txt
+# requirements.txt
+Flask==2.3.0                    # → Flask API Server
+Flask-CORS==4.0.0
+gunicorn==21.0.0                # → WSGI server for production
+```
+→ **Container:** Flask API Server, runs on Python 3.x with Gunicorn
+
+```txt
+# requirements.txt
+fastapi==0.100.0                # → FastAPI API Server
+uvicorn[standard]==0.23.0       # → ASGI server
+pydantic==2.0.0                 # → Data validation
+```
+→ **Container:** FastAPI API Server, runs on Python 3.x with Uvicorn
+
+**Background Workers:**
+
+```txt
+# requirements.txt
+celery==5.3.0                   # → Celery Worker
+redis==4.6.0                    # → Uses Redis as broker
+```
+→ **Container:** Celery Worker, runs on Python 3.x
+
+### Pattern 3: Java Detection
+
+**pom.xml (Maven):**
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>3.1.0</version>
+    </dependency>
+</dependencies>
+```
+→ **Container:** Spring Boot API Server, runs on JVM 17+
+
+**build.gradle (Gradle):**
+
+```groovy
+dependencies {
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+}
+```
+→ **Container:** Quarkus API Server, runs on JVM or native
+
+### Pattern 4: Docker Detection
+
+**Dockerfile:**
+
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]
+```
+→ **Container:** Node.js API Server, containerized with Docker, runs on Node.js 18
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
+```
+→ **Container:** Python FastAPI Server, containerized with Docker, runs on Python 3.11
+
+**docker-compose.yml:**
+
+```yaml
+services:
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: myapp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+```
+→ **Containers identified:**
+1. API Server (custom built from ./api)
+2. PostgreSQL Database (postgres:15-alpine)
+3. Redis Cache (redis:7-alpine)
+
+### Pattern 5: Kubernetes Detection
+
+**deployment.yaml:**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-spa
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 80
+```
+→ **Container:** Nginx Web Server, containerized with K8s, serves static SPA
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+spec:
+  template:
+    spec:
+      containers:
+      - name: api
+        image: myapp/api:1.0
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: url
+```
+→ **Container:** Custom API Server, containerized with K8s
+
+### Pattern 6: Serverless Detection
+
+**serverless.yml (Serverless Framework):**
+
+```yaml
+service: my-api
+provider:
+  name: aws
+  runtime: nodejs18.x
+functions:
+  api:
+    handler: handler.main
+    events:
+      - http:
+          path: /api/{proxy+}
+          method: ANY
+```
+→ **Container:** AWS Lambda Function, runs on Node.js 18, serverless
+
+**vercel.json (Vercel):**
+
+```json
+{
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ]
+}
+```
+→ **Container:** Next.js Application, serverless deployment on Vercel
+
+---
+
+## Container Types
+
+### Type 1: Single-Page Application (SPA)
+
+**Type:** `spa`
+
+**Description:** Client-side web application that runs entirely in the browser
+
+**Technology Indicators:**
+- React, Vue, Angular, Svelte
+- Webpack, Vite, or similar bundler
+- Build output to static files (HTML/CSS/JS)
+
+**Runtime:**
+- Environment: `browser`
+- Platform: `Chrome, Firefox, Safari, Edge`
+- Containerized: `false` (static files)
+
+**Example:**
+```json
+{
+  "id": "customer-portal-spa",
+  "name": "Customer Portal SPA",
+  "type": "spa",
+  "technology": {
+    "primary_language": "TypeScript",
+    "framework": "React 18.2.0",
+    "libraries": [
+      {"name": "React Router", "version": "6.14.0", "purpose": "Client-side routing"},
+      {"name": "Redux Toolkit", "version": "1.9.5", "purpose": "State management"},
+      {"name": "Axios", "version": "1.4.0", "purpose": "HTTP client"}
+    ]
+  },
+  "runtime": {
+    "environment": "browser",
+    "platform": "Modern browsers (Chrome 90+, Firefox 88+, Safari 14+)",
+    "containerized": false
+  }
+}
+```
+
+### Type 2: API Server / Application Server
+
+**Type:** `app-server` or `api`
+
+**Description:** Server-side application that exposes APIs or serves requests
+
+**Technology Indicators:**
+- Express, NestJS, Fastify (Node.js)
+- Django, Flask, FastAPI (Python)
+- Spring Boot, Quarkus (Java)
+- Runs on server, listens on port
+
+**Runtime:**
+- Environment: `server`
+- Platform: `Linux, Node.js 18, Python 3.11, JVM 17`
+- Containerized: `true` (usually)
+
+**Example:**
+```json
+{
+  "id": "ecommerce-api",
+  "name": "E-Commerce REST API",
+  "type": "api",
+  "technology": {
+    "primary_language": "TypeScript",
+    "framework": "NestJS 10.0.0",
+    "libraries": [
+      {"name": "Prisma", "version": "5.0.0", "purpose": "ORM"},
+      {"name": "Passport", "version": "0.6.0", "purpose": "Authentication"},
+      {"name": "class-validator", "version": "0.14.0", "purpose": "Validation"}
+    ]
+  },
+  "runtime": {
+    "environment": "server",
+    "platform": "Linux x64, Node.js 18.16.0",
+    "containerized": true,
+    "container_technology": "Docker",
+    "deployment_model": "Kubernetes (3 replicas)"
+  }
+}
+```
+
+### Type 3: Database
+
+**Type:** `database`
+
+**Description:** Data persistence layer (relational or NoSQL)
+
+**Technology Indicators:**
+- PostgreSQL, MySQL, MariaDB (relational)
+- MongoDB, Cassandra, DynamoDB (NoSQL)
+- Docker image or managed service
+
+**Runtime:**
+- Environment: `server` or `cloud`
+- Platform: `Linux, Docker`
+- Containerized: `true` (often)
+
+**Example:**
+```json
+{
+  "id": "main-database",
+  "name": "Main PostgreSQL Database",
+  "type": "database",
+  "technology": {
+    "primary_language": "SQL",
+    "framework": "PostgreSQL 15.3",
+    "libraries": []
+  },
+  "runtime": {
+    "environment": "server",
+    "platform": "Linux x64, Docker",
+    "containerized": true,
+    "container_technology": "Docker",
+    "deployment_model": "Single instance with volume persistence"
+  }
+}
+```
+
+### Type 4: Cache
+
+**Type:** `cache`
+
+**Description:** In-memory data store for caching and session management
+
+**Technology Indicators:**
+- Redis, Memcached
+- In-memory key-value store
+- TTL-based expiration
+
+**Example:**
+```json
+{
+  "id": "session-cache",
+  "name": "Redis Session Cache",
+  "type": "cache",
+  "technology": {
+    "primary_language": "N/A",
+    "framework": "Redis 7.0",
+    "libraries": []
+  },
+  "runtime": {
+    "environment": "server",
+    "platform": "Linux x64",
+    "containerized": true,
+    "container_technology": "Docker"
+  }
+}
+```
+
+### Type 5: Message Broker
+
+**Type:** `message-broker`
+
+**Description:** Message queue or event streaming platform
+
+**Technology Indicators:**
+- RabbitMQ, Apache Kafka, AWS SQS, Redis Pub/Sub
+- Async message passing
+- Producers and consumers
+
+**Example:**
+```json
+{
+  "id": "event-broker",
+  "name": "RabbitMQ Message Broker",
+  "type": "message-broker",
+  "technology": {
+    "primary_language": "N/A",
+    "framework": "RabbitMQ 3.12",
+    "libraries": []
+  },
+  "runtime": {
+    "environment": "server",
+    "platform": "Linux x64",
+    "containerized": true,
+    "container_technology": "Kubernetes"
+  }
+}
+```
+
+### Type 6: Web Server / Reverse Proxy
+
+**Type:** `web-server`
+
+**Description:** HTTP server, reverse proxy, or load balancer
+
+**Technology Indicators:**
+- Nginx, Apache, Traefik
+- Serves static files
+- Reverse proxy to backend services
+
+**Example:**
+```json
+{
+  "id": "nginx-proxy",
+  "name": "Nginx Reverse Proxy",
+  "type": "web-server",
+  "technology": {
+    "primary_language": "N/A",
+    "framework": "Nginx 1.25",
+    "libraries": []
+  },
+  "runtime": {
+    "environment": "server",
+    "platform": "Linux x64",
+    "containerized": true,
+    "container_technology": "Kubernetes"
+  }
+}
+```
+
+### Type 7: Worker / Background Service
+
+**Type:** `worker`
+
+**Description:** Background job processor, cron jobs, queue consumers
+
+**Technology Indicators:**
+- Celery workers, Sidekiq, Bull queue
+- Processes background tasks
+- Often queue-based
+
+**Example:**
+```json
+{
+  "id": "email-worker",
+  "name": "Email Processing Worker",
+  "type": "worker",
+  "technology": {
+    "primary_language": "Python",
+    "framework": "Celery 5.3.0",
+    "libraries": [
+      {"name": "sendgrid", "version": "6.10.0", "purpose": "Email sending"}
+    ]
+  },
+  "runtime": {
+    "environment": "server",
+    "platform": "Linux x64, Python 3.11",
+    "containerized": true,
+    "container_technology": "Kubernetes"
+  }
+}
+```
+
+### Type 8: Mobile Application
+
+**Type:** `mobile-app`
+
+**Description:** Native or hybrid mobile application
+
+**Technology Indicators:**
+- React Native, Flutter, Swift, Kotlin
+- Runs on mobile devices
+- Platform-specific build outputs
+
+**Example:**
+```json
+{
+  "id": "shopping-mobile-app",
+  "name": "Shopping Mobile App",
+  "type": "mobile-app",
+  "technology": {
+    "primary_language": "TypeScript",
+    "framework": "React Native 0.72.0",
+    "libraries": [
+      {"name": "React Navigation", "version": "6.1.0", "purpose": "Navigation"}
+    ]
+  },
+  "runtime": {
+    "environment": "mobile",
+    "platform": "iOS 14+, Android 11+",
+    "containerized": false
+  }
+}
+```
+
+### Type 9: Desktop Application
+
+**Type:** `desktop-app`
+
+**Description:** Desktop application for Windows, macOS, or Linux
+
+**Technology Indicators:**
+- Electron, Tauri, Qt
+- Native desktop frameworks
+- Installable applications
+
+**Example:**
+```json
+{
+  "id": "admin-desktop-app",
+  "name": "Admin Desktop Application",
+  "type": "desktop-app",
+  "technology": {
+    "primary_language": "TypeScript",
+    "framework": "Electron 25.0.0",
+    "libraries": []
+  },
+  "runtime": {
+    "environment": "desktop",
+    "platform": "Windows 10+, macOS 11+, Linux",
+    "containerized": false
+  }
+}
+```
+
+### Type 10: File Storage
+
+**Type:** `file-storage`
+
+**Description:** Object storage, file system, or CDN
+
+**Technology Indicators:**
+- AWS S3, MinIO, Azure Blob Storage
+- File upload/download
+- Static asset storage
+
+**Example:**
+```json
+{
+  "id": "media-storage",
+  "name": "S3 Media Storage",
+  "type": "file-storage",
+  "technology": {
+    "primary_language": "N/A",
+    "framework": "AWS S3",
+    "libraries": []
+  },
+  "runtime": {
+    "environment": "cloud",
+    "platform": "AWS",
+    "containerized": false
+  }
+}
+```
+
+---
+
+## Communication Patterns
+
+### Synchronous Communication
+
+#### HTTP REST API
+
+**Pattern:** Client makes HTTP request, waits for response
+
+**Indicators:**
+- axios, fetch, requests library
+- REST endpoints (`/api/v1/users`)
+- JSON request/response
+
+**Relation Type:** `http-rest`
+
+**Example:**
+```json
+{
+  "target": "ecommerce-api",
+  "type": "http-rest",
+  "direction": "outbound",
+  "description": "Fetches product catalog data via REST API",
+  "protocol": {
+    "method": "GET, POST",
+    "endpoint": "/api/v1/products",
+    "format": "JSON",
+    "authentication": "JWT Bearer Token"
+  }
+}
+```
+
+#### HTTP GraphQL API
+
+**Pattern:** Client sends GraphQL query, receives specific data
+
+**Indicators:**
+- Apollo Client, graphql-request
+- Single `/graphql` endpoint
+- Query language
+
+**Relation Type:** `http-graphql`
+
+**Example:**
+```json
+{
+  "target": "graphql-api",
+  "type": "http-graphql",
+  "direction": "outbound",
+  "description": "Queries user and order data via GraphQL",
+  "protocol": {
+    "endpoint": "/graphql",
+    "format": "GraphQL",
+    "authentication": "API Key header"
+  }
+}
+```
+
+#### gRPC
+
+**Pattern:** Remote procedure call with Protocol Buffers
+
+**Indicators:**
+- @grpc/grpc-js, grpc-go
+- .proto files
+- Binary protocol
+
+**Relation Type:** `grpc`
+
+**Example:**
+```json
+{
+  "target": "user-service",
+  "type": "grpc",
+  "direction": "outbound",
+  "description": "Calls user authentication via gRPC",
+  "protocol": {
+    "service": "UserService",
+    "methods": ["Authenticate", "GetProfile"]
+  }
+}
+```
+
+### Asynchronous Communication
+
+#### Message Queue (Publish/Subscribe)
+
+**Pattern:** Publisher sends message to queue, consumer processes later
+
+**Indicators:**
+- RabbitMQ, Kafka, AWS SQS
+- amqplib, kafkajs
+- Queue/topic names
+
+**Relation Types:** `message-publish`, `message-subscribe`
+
+**Example (Publisher):**
+```json
+{
+  "target": "order-queue",
+  "type": "message-publish",
+  "direction": "outbound",
+  "description": "Publishes order created events",
+  "protocol": {
+    "queue": "orders.created",
+    "format": "JSON",
+    "broker": "RabbitMQ"
+  }
+}
+```
+
+**Example (Consumer):**
+```json
+{
+  "target": "order-queue",
+  "type": "message-subscribe",
+  "direction": "inbound",
+  "description": "Consumes order created events for processing",
+  "protocol": {
+    "queue": "orders.created",
+    "format": "JSON",
+    "broker": "RabbitMQ"
+  }
+}
+```
+
+### Database Communication
+
+#### Database Connection
+
+**Pattern:** Application connects to database, executes queries
+
+**Indicators:**
+- Connection strings in .env
+- ORM libraries (Prisma, SQLAlchemy, Hibernate)
+- Database drivers (pg, psycopg2, mysql2)
+
+**Relation Type:** `database-query`
+
+**Example:**
+```json
+{
+  "target": "main-database",
+  "type": "database-query",
+  "direction": "outbound",
+  "description": "Reads and writes user and order data",
+  "protocol": {
+    "driver": "PostgreSQL wire protocol",
+    "connection_pool": "Max 20 connections",
+    "orm": "Prisma"
+  }
+}
+```
+
+### Cache Access
+
+**Pattern:** Application reads/writes to in-memory cache
+
+**Indicators:**
+- redis, ioredis, node-cache
+- Cache keys and TTL
+- GET/SET operations
+
+**Relation Type:** `cache-read-write`
+
+**Example:**
+```json
+{
+  "target": "session-cache",
+  "type": "cache-read-write",
+  "direction": "bidirectional",
+  "description": "Stores and retrieves user session data",
+  "protocol": {
+    "driver": "Redis protocol",
+    "operations": ["GET", "SET", "DEL", "EXPIRE"],
+    "ttl": "1 hour"
+  }
+}
+```
+
+---
+
+## Observation Guidelines
+
+### Observation Categories for C2
+
+When documenting containers, capture these observation categories:
+
+#### 1. **technology**
+Technology stack, frameworks, libraries, and versions
+
+**Examples:**
+- "Uses React 18.2.0 with TypeScript for type safety"
+- "Built with NestJS 10.0 framework following modular architecture"
+- "Python 3.11 with FastAPI for high-performance async API"
+- "Outdated Express 3.x version (current is 4.x)" (warning)
+
+#### 2. **runtime**
+Runtime environment, platform, and deployment model
+
+**Examples:**
+- "Runs in browser (Chrome 90+, Firefox 88+, Safari 14+)"
+- "Node.js 18.16.0 runtime on Linux x64"
+- "Containerized with Docker, deployed to Kubernetes with 3 replicas"
+- "Serverless deployment on AWS Lambda with cold start ~500ms"
+
+#### 3. **communication**
+How the container communicates with other containers
+
+**Examples:**
+- "Communicates with API via HTTP REST over HTTPS"
+- "Publishes events to RabbitMQ message broker"
+- "Uses gRPC for inter-service communication"
+- "WebSocket connection for real-time updates"
+
+#### 4. **data-storage**
+Data persistence, caching, and storage patterns
+
+**Examples:**
+- "PostgreSQL 15 database with connection pooling (max 20)"
+- "Redis cache for session storage with 1-hour TTL"
+- "Stores uploaded files in AWS S3 bucket"
+- "No database connection (stateless API)"
+
+#### 5. **authentication**
+Authentication and authorization mechanisms
+
+**Examples:**
+- "JWT Bearer token authentication with 15-minute expiry"
+- "OAuth 2.0 integration with Auth0"
+- "API key authentication via x-api-key header"
+- "No authentication implemented" (warning)
+
+#### 6. **configuration**
+Configuration management and environment variables
+
+**Examples:**
+- "Configuration via environment variables"
+- "Uses .env files for local development"
+- "ConfigMap and Secrets in Kubernetes"
+- "Hardcoded configuration values in source code" (warning)
+
+#### 7. **monitoring**
+Logging, monitoring, and observability
+
+**Examples:**
+- "Application logs to stdout, collected by Fluentd"
+- "Prometheus metrics exposed on /metrics endpoint"
+- "OpenTelemetry tracing enabled"
+- "No logging or monitoring configured" (warning)
+
+#### 8. **dependencies**
+External dependencies and third-party services
+
+**Examples:**
+- "Depends on Stripe API for payment processing"
+- "Uses SendGrid for transactional email"
+- "Integrates with Google Analytics for tracking"
+- "Heavy dependency on external APIs (availability risk)" (warning)
+
+### Observation Structure
+
+```json
+{
+  "id": "obs-tech-react-18",
+  "category": "technology",
+  "severity": "info",
+  "description": "React 18.2.0 with TypeScript 5.0 for type-safe component development",
+  "evidence": {
+    "type": "file",
+    "location": "package.json",
+    "snippet": "\"react\": \"^18.2.0\", \"typescript\": \"^5.0.0\""
+  },
+  "tags": ["react", "typescript", "frontend", "spa"]
+}
+```
+
+### Observation Severity Levels
+
+- **info** - Informational observation (neutral finding)
+- **warning** - Potential issue requiring attention (not blocking)
+- **critical** - Critical issue requiring immediate action (blocking)
+
+**Examples:**
+- ℹ️ **info**: "Uses Prisma ORM for database access"
+- ⚠️ **warning**: "Redis cache has no password configured"
+- 🔴 **critical**: "Database credentials hardcoded in source code"
+
+---
+
+## Relationship Identification
+
+### Relationship Types for C2
+
+Document how containers communicate:
+
+#### Common Relationship Types
+
+1. **http-rest** - RESTful HTTP API
+2. **http-graphql** - GraphQL API
+3. **grpc** - gRPC remote procedure calls
+4. **websocket** - WebSocket bidirectional communication
+5. **database-query** - Database read/write operations
+6. **cache-read** - Cache read operations only
+7. **cache-write** - Cache write operations only
+8. **cache-read-write** - Cache read and write
+9. **message-publish** - Publish messages to queue/topic
+10. **message-subscribe** - Subscribe to queue/topic
+11. **file-read** - Read files from storage
+12. **file-write** - Write files to storage
+13. **stream** - Data streaming
+
+### Relationship Direction
+
+Specify the direction of communication:
+
+- **unidirectional** - One-way communication
+  - Example: SPA → API (SPA calls API, API doesn't call SPA)
+
+- **bidirectional** - Two-way communication
+  - Example: WebSocket connection (both sides can send messages)
+
+**Prefer unidirectional** for clarity. Only use bidirectional for truly symmetric communication (WebSockets, long polling, etc.).
+
+### Relationship Metadata
+
+Document additional context:
+
+```json
+{
+  "target": "ecommerce-api",
+  "type": "http-rest",
+  "direction": "unidirectional",
+  "description": "Fetches product catalog and submits orders via REST API",
+  "protocol": {
+    "method": "GET, POST, PUT, DELETE",
+    "endpoint": "/api/v1/*",
+    "format": "JSON",
+    "authentication": "JWT Bearer Token"
+  },
+  "metadata": {
+    "synchronous": true,
+    "frequency": "high",
+    "critical": true,
+    "latency_requirement": "< 200ms"
+  },
+  "tags": ["rest", "api", "critical"]
+}
+```
+
+### How to Identify Relationships
+
+**1. Search for HTTP clients:**
+```bash
+# JavaScript/TypeScript
+grep -r "axios\|fetch\|http.get" src/
+grep -r "import.*from.*axios" src/
+
+# Python
+grep -r "requests\|httpx\|aiohttp" .
+grep -r "import requests" .
+```
+
+**2. Check configuration files:**
+```bash
+# API URLs in .env.example
+cat .env.example | grep -E "API_URL|BASE_URL|ENDPOINT"
+
+# Example output:
+# API_BASE_URL=https://api.example.com  → Calls external API
+```
+
+**3. Search for database clients:**
+```bash
+# Look for database connections
+grep -r "createConnection\|Pool\|connect" src/
+
+# Check for ORMs
+grep -r "Prisma\|TypeORM\|Sequelize" .
+```
+
+**4. Search for message queue clients:**
+```bash
+# RabbitMQ
+grep -r "amqplib\|amqp.connect" .
+
+# Kafka
+grep -r "kafkajs\|KafkaConsumer" .
+
+# Redis Pub/Sub
+grep -r "redis.subscribe\|redis.publish" .
+```
+
+---
+
+## Common Container Patterns
+
+### Pattern 1: Simple SPA + API + Database
+
+**Scenario:** Basic web application with frontend, backend, and database
+
+**Containers identified:**
+
+1. **Frontend SPA Container**
+   - Type: `spa`
+   - Technology: React 18 + TypeScript
+   - Runtime: Browser
+   - Communicates with API via HTTP REST
+
+2. **Backend API Container**
+   - Type: `api`
+   - Technology: Express.js + Node.js 18
+   - Runtime: Server (Node.js)
+   - Communicates with database via PostgreSQL protocol
+
+3. **PostgreSQL Database Container**
+   - Type: `database`
+   - Technology: PostgreSQL 15
+   - Runtime: Server (Docker)
+   - Stores application data
+
+**Architecture:**
+```
+┌──────────────────┐
+│  Browser         │
+│  ┌────────────┐  │
+│  │ React SPA  │  │
+│  └──────┬─────┘  │
+└─────────┼────────┘
+          │ HTTP REST
+          ▼
+┌─────────────────┐
+│  Server         │
+│  ┌────────────┐ │
+│  │ Express API│ │
+│  └──────┬─────┘ │
+└─────────┼───────┘
+          │ SQL
+          ▼
+┌─────────────────┐
+│  ┌────────────┐ │
+│  │PostgreSQL  │ │
+│  │ Database   │ │
+│  └────────────┘ │
+└─────────────────┘
+```
+
+---
+
+### Pattern 2: Microservices with API Gateway
+
+**Scenario:** Multiple microservices behind API gateway
+
+**Containers identified:**
+
+1. **API Gateway Container**
+   - Type: `web-server`
+   - Technology: Nginx or Kong
+   - Runtime: Server
+   - Routes requests to services
+
+2. **Auth Service Container**
+   - Type: `api`
+   - Technology: NestJS
+   - Runtime: Server (Node.js in Docker)
+   - Handles authentication
+
+3. **User Service Container**
+   - Type: `api`
+   - Technology: Spring Boot
+   - Runtime: Server (JVM in Docker)
+   - Manages user data
+
+4. **Order Service Container**
+   - Type: `api`
+   - Technology: FastAPI
+   - Runtime: Server (Python in Docker)
+   - Processes orders
+
+5. **Message Broker Container**
+   - Type: `message-broker`
+   - Technology: RabbitMQ
+   - Runtime: Server (Docker)
+   - Event bus
+
+6. **Per-Service Databases**
+   - Each service has its own database container
+
+**Architecture:**
+```
+┌──────────────┐
+│ API Gateway  │
+└──────┬───────┘
+       │ HTTP
+   ┌───┴────┬────────┐
+   │        │        │
+   ▼        ▼        ▼
+┌─────┐ ┌──────┐ ┌───────┐
+│Auth │ │User  │ │Order  │
+│Svc  │ │Svc   │ │Svc    │
+└──┬──┘ └──┬───┘ └───┬───┘
+   │       │         │
+   └───────┴────┬────┘
+               │
+               ▼
+         ┌─────────┐
+         │RabbitMQ │
+         └─────────┘
+```
+
+---
+
+### Pattern 3: Serverless Architecture
+
+**Scenario:** Serverless functions with managed services
+
+**Containers identified:**
+
+1. **Frontend SPA Container**
+   - Type: `spa`
+   - Deployed to: CloudFront + S3
+   - Technology: React
+   - Runtime: Browser
+
+2. **API Lambda Functions Container(s)**
+   - Type: `api`
+   - Multiple functions or single function
+   - Technology: Node.js Lambda handlers
+   - Runtime: AWS Lambda (serverless)
+
+3. **DynamoDB Database**
+   - Type: `database`
+   - Technology: AWS DynamoDB
+   - Runtime: AWS managed
+   - Fully serverless
+
+4. **S3 Storage Container**
+   - Type: `file-storage`
+   - Technology: AWS S3
+   - Runtime: AWS managed
+   - Stores uploaded files
+
+**Architecture:**
+```
+┌─────────────┐
+│ CloudFront  │
+│ + S3        │
+│ (SPA)       │
+└──────┬──────┘
+       │ HTTP
+       ▼
+┌─────────────┐
+│ API Gateway │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐      ┌──────────┐
+│ Lambda      │──────▶ DynamoDB │
+│ Functions   │      └──────────┘
+└─────────────┘
+       │
+       ▼
+┌─────────────┐
+│ S3 Bucket   │
+└─────────────┘
+```
+
+---
+
+### Pattern 4: Full-Stack Framework (Next.js/Nuxt)
+
+**Scenario:** Single full-stack application with SSR
+
+**Containers identified:**
+
+1. **Next.js Application Container**
+   - Type: `app-server` (full-stack)
+   - Technology: Next.js 13
+   - Runtime: Server (Node.js)
+   - Serves both frontend and API routes
+   - **Note:** This is ONE container, not separate frontend/backend
+
+2. **Database Container**
+   - Type: `database`
+   - Technology: PostgreSQL
+   - Runtime: Server (Docker)
+
+3. **Redis Cache Container**
+   - Type: `cache`
+   - Technology: Redis
+   - Runtime: Server (Docker)
+   - Caches SSR pages
+
+**Architecture:**
+```
+┌────────────────────┐
+│  Next.js App       │
+│  ┌──────────────┐  │
+│  │ SSR + API    │  │
+│  │ Routes       │  │
+│  └──────┬───────┘  │
+└─────────┼──────────┘
+        ┌─┴──┐
+        │    │
+    ┌───▼──┐ └──▼─────┐
+    │ DB   │  │ Redis │
+    └──────┘  └───────┘
+```
+
+---
+
+### Pattern 5: Mobile App + Backend
+
+**Scenario:** Mobile application with supporting backend
+
+**Containers identified:**
+
+1. **Mobile Application Container**
+   - Type: `mobile-app`
+   - Technology: React Native
+   - Runtime: iOS/Android
+   - Communicates with API
+
+2. **Backend API Container**
+   - Type: `api`
+   - Technology: Django REST Framework
+   - Runtime: Server (Python)
+   - Provides mobile API
+
+3. **PostgreSQL Database Container**
+   - Type: `database`
+   - Technology: PostgreSQL
+   - Runtime: Server
+
+4. **Redis Cache Container**
+   - Type: `cache`
+   - Technology: Redis
+   - Runtime: Server
+   - API response caching
+
+5. **Push Notification Service Container**
+   - Type: `worker`
+   - Technology: Custom Python service
+   - Runtime: Server
+   - Sends push notifications via FCM/APNS
+
+**Architecture:**
+```
+┌─────────────────┐
+│ Mobile Device   │
+│ ┌─────────────┐ │
+│ │React Native │ │
+│ │    App      │ │
+│ └──────┬──────┘ │
+└────────┼────────┘
+         │ HTTPS
+         ▼
+┌────────────────┐      ┌────────┐
+│ Django API     │──────▶ Postgres│
+└────────┬───────┘      └────────┘
+         │
+    ┌────┴────┐
+    ▼         ▼
+┌──────┐  ┌────────┐
+│Redis │  │Push    │
+│Cache │  │Service │
+└──────┘  └────────┘
+```
+
+---
+
+### Pattern 6: Event-Driven with Workers
+
+**Scenario:** Async processing with message queue and workers
+
+**Containers identified:**
+
+1. **Web Application Container**
+   - Type: `spa`
+   - Technology: Vue 3
+   - Runtime: Browser
+
+2. **Backend API Container**
+   - Type: `api`
+   - Technology: FastAPI
+   - Runtime: Server (Python)
+   - Publishes events to queue
+
+3. **Message Queue Container**
+   - Type: `message-broker`
+   - Technology: Kafka
+   - Runtime: Server (Docker)
+   - Event streaming
+
+4. **Email Worker Container**
+   - Type: `worker`
+   - Technology: Celery
+   - Runtime: Server (Python)
+   - Consumes email events
+
+5. **Report Worker Container**
+   - Type: `worker`
+   - Technology: Celery
+   - Runtime: Server (Python)
+   - Generates reports
+
+6. **Database Container**
+   - Type: `database`
+   - Technology: PostgreSQL
+   - Runtime: Server
+
+**Architecture:**
+```
+┌──────┐    ┌─────┐
+│ Vue  │───▶│ API │
+│ SPA  │    └──┬──┘
+└──────┘       │
+               │ publish
+               ▼
+         ┌──────────┐
+         │  Kafka   │
+         │  Queue   │
+         └─────┬────┘
+           ┌───┴───┐
+      subscribe  subscribe
+           │       │
+      ┌────▼──┐ ┌─▼──────┐
+      │Email  │ │Report  │
+      │Worker │ │Worker  │
+      └───────┘ └────────┘
+```
+
+---
+
+## Integration with Melly Workflow
+
+### When This Skill is Used
+
+This skill is activated during:
+
+1. **Phase 3: C2 Container Identification** (`/melly-c2-containers`)
+   - Primary usage phase
+   - Container identification per system
+   - Technology stack detection
+   - Runtime environment analysis
+   - Relationship mapping
+
+2. **Phase 5: Documentation** (`/melly-doc-c4model`)
+   - Markdown generation for C2 level
+   - Observation documentation
+
+### Input Expectations
+
+This skill expects data from:
+
+**1. init.json** - Repository metadata
+```json
+{
+  "repositories": [
+    {
+      "id": "frontend-spa",
+      "path": "/repos/frontend-spa",
+      "type": "single",
+      "manifests": [
+        {
+          "type": "npm",
+          "path": "package.json",
+          "data": {
+            "dependencies": {
+              "react": "^18.2.0"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+**2. c1-systems.json** - Systems identified
+```json
+{
+  "systems": [
+    {
+      "id": "customer-web-app",
+      "name": "Customer Web Application",
+      "type": "web-application",
+      "repositories": ["/repos/frontend-spa"]
+    }
+  ]
+}
+```
+
+### Output Format
+
+This skill helps generate `c2-containers.json`:
+
+```json
+{
+  "metadata": {
+    "schema_version": "1.0.0",
+    "generator": "melly-workflow",
+    "generated_by": "c2-abstractor",
+    "timestamp": "2025-11-17T20:20:00.000Z",
+    "melly_version": "1.0.0",
+    "parent_timestamp": "2025-11-17T20:10:00.000Z"
+  },
+  "containers": [
+    {
+      "id": "frontend-spa",
+      "name": "Frontend Single-Page Application",
+      "system_id": "customer-web-app",
+      "type": "spa",
+      "responsibility": "Provides interactive web interface for customers to browse products, manage cart, and checkout",
+      "technology": {
+        "primary_language": "TypeScript",
+        "framework": "React 18.2.0",
+        "libraries": [
+          {
+            "name": "React Router",
+            "version": "6.14.0",
+            "purpose": "Client-side routing and navigation"
+          },
+          {
+            "name": "Redux Toolkit",
+            "version": "1.9.5",
+            "purpose": "Global state management"
+          }
+        ]
+      },
+      "runtime": {
+        "environment": "browser",
+        "platform": "Chrome 90+, Firefox 88+, Safari 14+",
+        "containerized": false,
+        "deployment_model": "Static files served via CDN (CloudFront)"
+      },
+      "observations": [
+        {
+          "id": "obs-tech-react-18",
+          "category": "technology",
+          "severity": "info",
+          "description": "Uses React 18.2.0 with TypeScript 5.0 for type-safe component development",
+          "evidence": {
+            "type": "file",
+            "location": "package.json",
+            "snippet": "\"react\": \"^18.2.0\", \"typescript\": \"^5.0.0\""
+          },
+          "tags": ["react", "typescript", "frontend"]
+        }
+      ],
+      "relations": [
+        {
+          "target": "backend-api",
+          "type": "http-rest",
+          "direction": "unidirectional",
+          "description": "Fetches product data and submits orders via REST API",
+          "protocol": {
+            "method": "GET, POST",
+            "endpoint": "/api/v1/*",
+            "format": "JSON",
+            "authentication": "JWT Bearer Token"
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_containers": 4,
+    "container_types": {
+      "spa": 1,
+      "api": 1,
+      "database": 1,
+      "cache": 1
+    }
+  }
+}
+```
+
+### Validation
+
+Generated output must pass:
+
+1. **Schema validation** - Correct JSON structure
+2. **Timestamp ordering** - metadata.timestamp > parent_timestamp
+3. **Referential integrity** - All system_id references exist in c1-systems.json
+4. **Required fields** - All required fields present (id, name, type, system_id, responsibility, technology, runtime)
+5. **ID format** - Kebab-case pattern
+6. **Technology completeness** - primary_language and framework present
+7. **Runtime completeness** - environment, platform, containerized present
+
+Validation script:
+```bash
+cat c2-containers.json | python plugins/melly-validation/scripts/validate-c2-containers.py
+```
+
+---
+
+## Step-by-Step Workflow
+
+### When Invoked by c2-abstractor Agent
+
+Follow this systematic approach:
+
+#### Step 1: Load Input Data
+
+```bash
+# Load init.json
+cat init.json | jq '.repositories'
+
+# Load c1-systems.json
+cat c1-systems.json | jq '.systems'
+```
+
+#### Step 2: Analyze Each System
+
+For each system in c1-systems.json:
+
+1. **Identify system purpose**
+   - What does this system do?
+   - What type is it (web-application, api-service, etc.)?
+
+2. **Review associated repositories**
+   - What repositories belong to this system?
+   - What manifests exist in each repository?
+
+3. **Plan container decomposition**
+   - How many deployable units are there?
+   - What does each unit do?
+
+#### Step 3: Identify Containers per System
+
+For each system:
+
+1. **Check for frontend indicators**
+   ```bash
+   # Look for SPA frameworks
+   jq '.repositories[] | select(.manifests[].data.dependencies.react) | .id' init.json
+   jq '.repositories[] | select(.manifests[].data.dependencies.vue) | .id' init.json
+   ```
+
+2. **Check for backend indicators**
+   ```bash
+   # Look for API frameworks
+   jq '.repositories[] | select(.manifests[].data.dependencies.express) | .id' init.json
+   jq '.repositories[] | select(.manifests[].data.dependencies.fastapi) | .id' init.json
+   ```
+
+3. **Check for infrastructure**
+   ```bash
+   # Look for docker-compose.yml
+   grep -r "postgres\|mysql\|mongodb\|redis" docker-compose.yml
+   ```
+
+4. **Document each container**
+   - ID (kebab-case)
+   - Name (descriptive)
+   - Type (spa, api, database, etc.)
+   - Responsibility (what it does)
+
+#### Step 4: Detect Technology Stack
+
+For each container:
+
+1. **Identify primary language**
+   - Check manifest type (npm → JavaScript/TypeScript)
+   - Check file extensions
+   - Check Dockerfile FROM statement
+
+2. **Identify framework**
+   - Check dependencies in manifest
+   - Look for framework-specific files
+
+3. **List key libraries**
+   - Important dependencies
+   - Their purpose in the container
+
+4. **Document versions**
+   - Always include version numbers
+   - Use exact versions from manifests
+
+#### Step 5: Analyze Runtime Environment
+
+For each container:
+
+1. **Determine environment**
+   - Browser? Server? Mobile? Cloud?
+   - Check build output and deployment
+
+2. **Determine platform**
+   - OS, runtime version
+   - Check Dockerfile or deployment config
+
+3. **Check containerization**
+   - Dockerfile present? → containerized: true
+   - Kubernetes manifests? → container_technology: "Kubernetes"
+   - Otherwise → containerized: false
+
+#### Step 6: Map Relationships
+
+For each container:
+
+1. **Find HTTP clients**
+   ```bash
+   grep -r "axios\|fetch\|requests" src/
+   ```
+
+2. **Find database connections**
+   ```bash
+   grep -r "createConnection\|connect\|Pool" src/
+   ```
+
+3. **Find message queue usage**
+   ```bash
+   grep -r "publish\|subscribe\|send\|consume" src/
+   ```
+
+4. **Document each relationship**
+   - Target container ID
+   - Type (http-rest, database-query, etc.)
+   - Direction (unidirectional, bidirectional)
+   - Protocol details
+
+#### Step 7: Generate Observations
+
+For each container, document:
+
+1. **Technology observations**
+   - Framework choices
+   - Version specifics
+   - Library usage
+
+2. **Runtime observations**
+   - Deployment model
+   - Containerization approach
+   - Platform requirements
+
+3. **Communication observations**
+   - API patterns
+   - Protocol usage
+   - Authentication methods
+
+4. **Configuration observations**
+   - Environment variables
+   - Configuration management
+   - Secrets handling
+
+#### Step 8: Validate Output
+
+Before finalizing:
+
+1. **Check container IDs**
+   - All kebab-case
+   - All unique
+   - No conflicts with other levels
+
+2. **Check system_id references**
+   - All reference valid systems from c1-systems.json
+   - No orphaned containers
+
+3. **Check required fields**
+   - technology.primary_language present
+   - technology.framework present
+   - runtime.environment present
+   - runtime.platform present
+   - runtime.containerized present
+
+4. **Check timestamps**
+   - Child > parent
+   - ISO 8601 format
+
+5. **Run validation script**
+   ```bash
+   cat c2-containers.json | python plugins/melly-validation/scripts/validate-c2-containers.py
+   ```
+
+---
+
+## Best Practices Summary
+
+### ✅ DO:
+
+1. **Be specific about technologies**
+   - "React 18.2.0", not "React"
+   - "Node.js 18.16.0", not "Node"
+   - Include versions from package manifests
+
+2. **Identify ALL deployable units**
+   - Don't forget databases, caches, message brokers
+   - Infrastructure containers count
+   - Worker processes are containers
+
+3. **Use descriptive container names**
+   - "Customer Portal SPA", not "Frontend"
+   - "E-Commerce REST API", not "Backend"
+   - "PostgreSQL User Database", not "Database"
+
+4. **Document runtime environments clearly**
+   - Where does it run? (browser, server, mobile, cloud)
+   - What platform? (Node.js 18, Python 3.11, JVM 17)
+   - Containerized or not?
+
+5. **Map ALL communication patterns**
+   - Every container communicates with something
+   - Document protocol details
+   - Include authentication methods
+
+6. **Detect technology from evidence**
+   - Check package manifests first
+   - Inspect Dockerfiles
+   - Read configuration files
+   - Use grep to search for imports
+
+7. **Document observations with evidence**
+   - Cite file locations
+   - Include code snippets
+   - Reference configuration values
+
+8. **Validate before finalizing**
+   - Run validation script
+   - Check referential integrity
+   - Verify timestamp ordering
+
+### ❌ DON'T:
+
+1. **Don't confuse containers with components**
+   - ❌ "Auth Component" → C3 level
+   - ✅ "Auth Service API" → C2 container
+
+2. **Don't use vague names**
+   - ❌ "Frontend Container"
+   - ❌ "Backend Service"
+   - ❌ "API Container"
+
+3. **Don't skip technology versions**
+   - ❌ "React" → ✅ "React 18.2.0"
+   - ❌ "Express" → ✅ "Express 4.18.2"
+   - Always include versions
+
+4. **Don't ignore infrastructure**
+   - Databases are containers
+   - Caches are containers
+   - Message brokers are containers
+   - Load balancers are containers
+
+5. **Don't forget relationships**
+   - Containers don't exist in isolation
+   - Document how they communicate
+   - Include protocol details
+
+6. **Don't over-granularize**
+   - ❌ Separate containers for login/register/profile
+   - ✅ One "User Management API" container
+
+7. **Don't skip runtime details**
+   - Environment is required
+   - Platform is required
+   - Containerization status is required
+
+8. **Don't use generic technology names**
+   - ❌ "JavaScript" → ✅ "TypeScript 5.0"
+   - ❌ "Database" → ✅ "PostgreSQL 15.3"
+
+9. **Don't ignore validation errors**
+   - Fix all errors before continuing
+   - Validate references to C1 systems
+   - Check timestamp ordering
+
+10. **Don't skip evidence**
+    - Observations need supporting evidence
+    - Reference actual files and code
+    - Include snippets where helpful
+
+---
+
+## Troubleshooting
+
+### Problem: Too Many Containers Identified
+
+**Symptom:** 15+ containers for a simple web application
+
+**Solution:** You're likely identifying C3 components as C2 containers. Remember:
+- Containers are **deployable units**
+- Components are **code modules** within containers
+- If it can't be deployed independently, it's probably C3
+
+**Test:** Can this be deployed separately?
+- ✅ Yes → C2 Container
+- ❌ No → C3 Component
+
+**Examples:**
+- React SPA (builds to static files) → C2 Container
+- Auth module within React app → C3 Component
+- Express API server → C2 Container
+- Payment controller in Express → C3 Component
+
+### Problem: Can't Determine Technology Stack
+
+**Symptom:** No clear framework or language indicators
+
+**Solution:**
+
+1. **Check all manifests**
+   ```bash
+   find . -name "package.json" -o -name "requirements.txt" -o -name "pom.xml" -o -name "Cargo.toml"
+   ```
+
+2. **Check Dockerfiles**
+   ```bash
+   cat Dockerfile | grep "FROM"
+   # Example: FROM node:18 → Node.js 18
+   ```
+
+3. **Count file types**
+   ```bash
+   find src -name "*.ts" | wc -l  # TypeScript
+   find src -name "*.py" | wc -l  # Python
+   find src -name "*.java" | wc -l  # Java
+   ```
+
+4. **Check build configs**
+   ```bash
+   ls -la webpack.config.js tsconfig.json angular.json vue.config.js
+   ```
+
+5. **If still unclear**
+   - Mark technology as "Unknown" temporarily
+   - Document why it's unclear
+   - Ask user for clarification
+
+### Problem: Container vs System Confusion
+
+**Symptom:** Unclear if something is C1 System or C2 Container
+
+**Remember:**
+- **C1 System** = High-level logical system with business purpose
+- **C2 Container** = Deployable/runnable unit within a system
+
+**Examples:**
+- "E-Commerce System" → C1 System
+  - "React SPA" → C2 Container
+  - "Express API" → C2 Container
+  - "PostgreSQL Database" → C2 Container
+
+- "Payment Processing System" → C1 System
+  - "Payment API Server" → C2 Container
+  - "Payment Database" → C2 Container
+
+### Problem: Missing Required Fields in Validation
+
+**Symptom:** Validation script fails with "Missing required field"
+
+**Common missing fields:**
+
+1. **system_id** - References C1 system
+   - Check c1-systems.json for valid system IDs
+   - Use exact ID (case-sensitive)
+
+2. **technology.primary_language**
+   - JavaScript, TypeScript, Python, Java, etc.
+   - Required for all containers except infrastructure
+
+3. **technology.framework**
+   - React, Express, Django, Spring Boot, etc.
+   - Required for all application containers
+
+4. **runtime.environment**
+   - browser, server, mobile, cloud, edge
+   - Always required
+
+5. **runtime.platform**
+   - "Chrome 90+, Firefox 88+, Safari 14+"
+   - "Linux x64, Node.js 18.16.0"
+   - Always required
+
+6. **runtime.containerized**
+   - true or false
+   - Always required
+
+### Problem: Timestamp Validation Fails
+
+**Symptom:** "Timestamp must be newer than parent timestamp"
+
+**Solution:**
+- c2-containers.json timestamp must be > c1-systems.json timestamp
+- Regenerate c2-containers.json with current timestamp
+- Ensure ISO 8601 format: `2025-11-17T20:20:00.000Z`
+
+**Check timestamps:**
+```bash
+cat c1-systems.json | jq '.metadata.timestamp'
+cat c2-containers.json | jq '.metadata.timestamp'
+```
+
+---
+
+## Quick Reference
+
+### Container Type Checklist
+
+- [ ] `spa` - Single-page application (browser)
+- [ ] `mobile-app` - iOS/Android application
+- [ ] `desktop-app` - Desktop application
+- [ ] `api` or `app-server` - Backend API server
+- [ ] `web-server` - Web server, reverse proxy
+- [ ] `database` - Relational or NoSQL database
+- [ ] `cache` - In-memory cache (Redis, Memcached)
+- [ ] `message-broker` - Message queue/event streaming
+- [ ] `worker` - Background job processor
+- [ ] `file-storage` - Object storage, file system
+
+### Technology Detection Checklist
+
+- [ ] **Primary Language** - JavaScript, TypeScript, Python, Java, etc.
+- [ ] **Framework** - React, Express, Django, Spring Boot, etc.
+- [ ] **Version** - Always include version numbers from manifests
+- [ ] **Key Libraries** - List important dependencies with purpose
+
+### Runtime Environment Checklist
+
+- [ ] **Environment** - browser / server / mobile / cloud / edge
+- [ ] **Platform** - OS, runtime version, supported browsers
+- [ ] **Containerized** - true / false
+- [ ] **Container Technology** - Docker, Kubernetes (if containerized)
+- [ ] **Deployment Model** - Standalone, replicated, serverless
+
+### Relationship Type Checklist
+
+- [ ] `http-rest` - RESTful HTTP API
+- [ ] `http-graphql` - GraphQL API
+- [ ] `grpc` - gRPC remote procedure calls
+- [ ] `websocket` - WebSocket bidirectional
+- [ ] `database-query` - Database connection
+- [ ] `cache-read-write` - Cache access
+- [ ] `message-publish` - Publish to queue
+- [ ] `message-subscribe` - Subscribe to queue
+- [ ] `file-read` / `file-write` - File operations
+
+### Observation Category Checklist
+
+- [ ] `technology` - Stack, frameworks, libraries
+- [ ] `runtime` - Environment, platform, deployment
+- [ ] `communication` - Protocols, APIs, connections
+- [ ] `data-storage` - Databases, caches, persistence
+- [ ] `authentication` - Auth methods, security
+- [ ] `configuration` - Config management, env vars
+- [ ] `monitoring` - Logging, metrics, tracing
+- [ ] `dependencies` - External services, third-party APIs
+
+---
+
+## Summary
+
+You now have comprehensive knowledge of C4 Model Level 2 (Container) methodology. When invoked:
+
+1. **Analyze systems** from `c1-systems.json`
+2. **Identify containers** using the rules above (deployable/runnable units)
+3. **Detect technology stack** (languages, frameworks, versions)
+4. **Analyze runtime environment** (where and how it runs)
+5. **Map relationships** between containers (communication patterns)
+6. **Document observations** with evidence (technology, runtime, communication)
+7. **Generate `c2-containers.json`** following the schema
+8. **Validate output** before finalizing
+
+Remember: **C2 is about deployable units.** Focus on WHAT gets deployed, WHAT technologies are used, and HOW containers communicate - not the internal code structure (that's C3).
+
+---
+
+**Skill Version**: 1.0.0
+**Last Updated**: 2025-11-17
+**Compatibility**: Melly 1.0.0+
