@@ -61,6 +61,19 @@
       "keywords": ["memory", "knowledge", "notes", "mcp", "search", "sync", "multi-project"]
     },
     {
+      "name": "melly-validation",
+      "source": "./plugins/melly-validation",
+      "version": "1.0.0",
+      "description": "Centralized validation scripts and templates for Melly C4 workflow - 7 production-ready validators (init, c1-c3 systems, markdown) and 3 markdown generators with 2,859 lines of code",
+      "author": {
+        "name": "Melly Team",
+        "email": "melly.jwpd1@simplelogin.com"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["validation", "templates", "c4-model", "workflow", "json-schema", "scripts"]
+    },
+    {
       "name": "melly-init",
       "source": "./plugins/melly-init",
       "version": "1.0.0",
