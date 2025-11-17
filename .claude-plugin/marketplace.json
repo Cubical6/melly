@@ -74,8 +74,8 @@
       "keywords": ["validation", "templates", "c4-model", "workflow", "json-schema", "scripts"]
     },
     {
-      "name": "analyzing-c1-systems",
-      "source": "./plugins/analyzing-c1-systems",
+      "name": "c4model-c1",
+      "source": "./plugins/c4model-c1",
       "version": "2.0.0",
       "description": "C4 Model Level 1 (System Context) methodology skill - comprehensive guidance for identifying systems, actors, boundaries, and high-level relationships in software architectures. Refactored with progressive disclosure (562 lines core + 5 supporting files totaling 1,543 lines)",
       "author": {
