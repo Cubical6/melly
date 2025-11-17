@@ -21,7 +21,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import List, Tuple
 
 
 REQUIRED_ROOT_FIELDS = ['library', 'version', 'source_url', 'entities', 'metadata']
@@ -269,7 +269,7 @@ def main():
                 for entity in data.get('entities', [])
             )
             
-            print(f"\nSummary:")
+            print("\nSummary:")
             print(f"  Library: {data.get('library', 'unknown')}")
             print(f"  Entities: {entity_count}")
             print(f"  Observations: {obs_count}")

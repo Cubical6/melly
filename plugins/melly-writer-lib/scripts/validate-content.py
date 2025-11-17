@@ -222,7 +222,7 @@ def main():
             print(f"  Enhanced: {args.enhanced_file}")
         return 0
     else:
-        print(f"✗ Content validation failed", file=sys.stderr)
+        print("✗ Content validation failed", file=sys.stderr)
         print(f"  {message}", file=sys.stderr)
         return 2
 
