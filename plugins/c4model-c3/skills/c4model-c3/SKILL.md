@@ -370,11 +370,11 @@ import { EmailService } from '../notifications/EmailService';
 
 #### Technique 3: Analyze File Content
 ```bash
-# Count methods in a class
-grep -E "^\s+(public|private|protected|async)\s+\w+\s*\(" UserService.ts
+# Count methods in a class (using extended regex)
+grep -E '^\s+(public|private|protected|async)\s+\w+\s*\(' UserService.ts
 
 # Find key operations
-grep -E "(create|update|delete|get|find|save)" UserService.ts
+grep -E '(create|update|delete|get|find|save)' UserService.ts
 ```
 
 ---
@@ -531,10 +531,10 @@ Use metrics to identify significant components:
 #### Metric 1: Lines of Code (LOC)
 ```bash
 # Count lines per file
-find src -name "*.ts" -exec wc -l {} \; | sort -rn
+find src -name "*.ts" -print0 | xargs -0 wc -l | sort -rn
 
 # Components with > 200 LOC are significant
-find src -name "*.ts" -exec bash -c 'wc -l "$1" | awk "{ if (\$1 > 200) print \$2, \$1 }"' _ {} \;
+find src -name "*.ts" -print0 | xargs -0 wc -l | awk '$1 > 200 { print $2, $1 }'
 ```
 
 **Guidelines:**
@@ -546,7 +546,7 @@ find src -name "*.ts" -exec bash -c 'wc -l "$1" | awk "{ if (\$1 > 200) print \$
 #### Metric 2: Cyclomatic Complexity
 ```bash
 # Use complexity tools
-find src -name "*.ts" -exec npx ts-complexity {} +
+find src -name "*.ts" -print0 | xargs -0 npx ts-complexity
 
 # High complexity (>10) indicates important component
 ```
@@ -554,7 +554,7 @@ find src -name "*.ts" -exec npx ts-complexity {} +
 #### Metric 3: Dependency Count
 ```bash
 # Count imports per file
-find src -name "*.ts" -exec grep -c "^import" {} + 2>/dev/null
+find src -name "*.ts" -print0 | xargs -0 grep -c "^import" 2>/dev/null
 
 # Files with many imports are often important orchestrators (Services)
 ```
@@ -562,7 +562,7 @@ find src -name "*.ts" -exec grep -c "^import" {} + 2>/dev/null
 #### Metric 4: Export Count
 ```bash
 # Count exports per file
-find src -name "*.ts" -exec grep -c "^export" {} + 2>/dev/null
+find src -name "*.ts" -print0 | xargs -0 grep -c "^export" 2>/dev/null
 
 # Files with many exports are often facades or utility modules
 ```
@@ -698,7 +698,8 @@ export class UserService {
 ```bash
 # Find components with many imports (high efferent coupling)
 find src -name "*.ts" -print0 | while IFS= read -r -d '' file; do
-  echo "$(grep -c '^import' "$file") $file"
+  count=$(grep -c '^import' "$file" || echo 0)
+  printf "%d %s\n" "$count" "$file"
 done | sort -rn | head -20
 
 # Find components imported by many others (high afferent coupling)
