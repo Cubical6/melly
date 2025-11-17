@@ -546,7 +546,7 @@ find src -name "*.ts" -exec bash -c 'wc -l "$1" | awk "{ if (\$1 > 200) print \$
 #### Metric 2: Cyclomatic Complexity
 ```bash
 # Use complexity tools
-npx ts-complexity src/**/*.ts
+find src -name "*.ts" -exec npx ts-complexity {} +
 
 # High complexity (>10) indicates important component
 ```
@@ -554,7 +554,7 @@ npx ts-complexity src/**/*.ts
 #### Metric 3: Dependency Count
 ```bash
 # Count imports per file
-grep -c "^import" src/**/*.ts
+find src -name "*.ts" -exec grep -c "^import" {} + 2>/dev/null
 
 # Files with many imports are often important orchestrators (Services)
 ```
@@ -562,7 +562,7 @@ grep -c "^import" src/**/*.ts
 #### Metric 4: Export Count
 ```bash
 # Count exports per file
-grep -c "^export" src/**/*.ts
+find src -name "*.ts" -exec grep -c "^export" {} + 2>/dev/null
 
 # Files with many exports are often facades or utility modules
 ```
@@ -697,7 +697,7 @@ export class UserService {
 **Detection:**
 ```bash
 # Find components with many imports (high efferent coupling)
-for file in src/**/*.ts; do
+find src -name "*.ts" -print0 | while IFS= read -r -d '' file; do
   echo "$(grep -c '^import' "$file") $file"
 done | sort -rn | head -20
 

@@ -61,10 +61,12 @@ A **component** is a grouping of related functionality encapsulated behind a wel
 - **Model** - Domain models and data structures
 - **Utility** - Helper functions and shared utilities
 - **Middleware** - Request/response processing pipeline
-- **View** - UI components and presentation layer
-- **Facade** - Simplified interface to complex subsystems
-- **Factory** - Object creation and instantiation
+- **DTO** - Data transfer objects for API contracts
 - **Adapter** - Interface translation for external APIs
+- **Factory** - Object creation and instantiation
+- **Validator** - Input and business rule validation
+- **Facade** - Simplified interface to complex subsystems
+- **Guard** - Authorization and authentication controls
 
 ### Code Structure
 
