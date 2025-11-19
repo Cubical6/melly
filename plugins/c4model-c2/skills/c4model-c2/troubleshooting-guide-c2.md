@@ -31,10 +31,21 @@ Can this be deployed separately?
 | PostgreSQL database | C2 Container | Runs as separate process |
 | User table in database | C3 Component | Schema within database |
 
-**Rule of Thumb:**
-- 3-10 containers: Typical web application
-- 10-20 containers: Microservices architecture
-- 20+ containers: Large enterprise system OR you're identifying C3 components
+**HARD LIMITS (Mandatory Validation):**
+
+| Count | Classification | Action Required |
+|-------|----------------|-----------------|
+| 3-10 | ✅ Standard | Correct C2 abstraction level |
+| 11-15 | ⚠️ Review Required | Each container MUST have explicit deployment boundary justification |
+| 16-20 | ⚠️ Microservices | Document why this is microservices architecture, not over-granular |
+| 20+ | 🛑 **STOP** | You are likely at C3 level. **Mandatory review of every container.** |
+
+**RULE for 20+ Containers:**
+- STOP analysis immediately
+- Review EVERY identified "container" against the deployment boundary test
+- Each item must answer YES to: "Can this be deployed independently?"
+- If most answers are NO, you are at C3 level - consolidate to actual containers
+- This is NOT guidance - this is a mandatory validation checkpoint
 
 ---
 
@@ -107,25 +118,36 @@ grep -r "from django\|from flask\|from fastapi" . | head -5
 grep -r "import.*springframework" src/ | head -5
 ```
 
-### Step 6: If Still Unclear
+### Step 6: If Still Unclear - RESTRICTED USE ONLY
 
+**"Unknown" is ONLY valid when ALL of these conditions are true:**
+- ❌ NO manifest files exist (no package.json, requirements.txt, pom.xml, Cargo.toml, go.mod, Gemfile)
+- ❌ NO Dockerfile exists OR Dockerfile does not specify version in FROM statement
+- ❌ NO build configuration files found (tsconfig.json, angular.json, etc.)
+- ❌ NO import statements reveal framework
+
+**If ANY manifest file exists, you MUST extract the version. "Unknown" is NOT acceptable.**
+
+When "Unknown" is legitimately required:
 - Mark technology as **"Unknown"** temporarily
-- Document **why** it's unclear in observations:
+- Document **why** it's unclear with evidence of what you searched:
   ```json
   {
     "id": "obs-tech-unknown",
     "category": "technology",
-    "severity": "warning",
-    "description": "Unable to determine primary framework. No package.json, requirements.txt, or recognizable build configuration found.",
+    "severity": "critical",
+    "description": "Unable to determine primary framework. Searched for all standard manifest files - none found.",
     "evidence": {
       "type": "command",
-      "location": "find . -name 'package.json' -o -name 'requirements.txt'",
+      "location": "find . -name 'package.json' -o -name 'requirements.txt' -o -name 'pom.xml' -o -name 'Cargo.toml' -o -name 'go.mod'",
       "snippet": "No results found"
     }
   }
   ```
-- Ask user for clarification
-- Review deployment configurations for hints
+- Ask user for clarification immediately
+- This triggers a CRITICAL observation, not a warning
+
+**RULE:** If you mark something as "Unknown" when manifest files exist, this is a VIOLATION of C2 methodology.
 
 ---
 
@@ -554,6 +576,36 @@ services/
 - [ ] Communication patterns documented
 - [ ] Observations categorized (8 categories)
 - [ ] Evidence provided for observations
+
+---
+
+## FORBIDDEN Rationalizations (Automatic Validation Failures)
+
+When under pressure, you may be tempted to skip C2 methodology rules. These rationalizations are **always wrong** and trigger **automatic validation failures**:
+
+**RULE:** If your thinking matches ANY of these rationalizations, STOP immediately. You are about to violate C2 methodology. Do not proceed without addressing the actual requirement.
+
+**Consequences:**
+- Each rationalization triggers a CRITICAL severity observation
+- Validation scripts will fail with explicit error messages
+- Work containing these violations will be rejected
+
+| Rationalization | Why It's Wrong |
+|-----------------|----------------|
+| "Versions can be refined later" | Creates technical debt, violates methodology. Do it right now. |
+| "Reading package.json is line-by-line analysis" | Manifest files are metadata, not code. Version detection is standard C2. |
+| "Version numbers get outdated anyway" | So does all documentation - not an excuse to skip standards. |
+| "Generic names are honest about current state" | Generic names violate C2 standards. Period. |
+| "Tech lead/senior approved it" | Authority doesn't override methodology. Push back professionally. |
+| "Each module is important" | Important ≠ C2 container. Many important things are C3 components. |
+| "Team needs granularity" | Then do C3 analysis. Don't pollute C2. |
+| "Good enough for now" | Standards exist for consistency across all analysis. |
+| "Being pragmatic not dogmatic" | Pragmatism ≠ violating definitions. The methodology IS pragmatic. |
+| "We can add more detail later" | "Later" never comes. Do it correctly now. |
+| "The spirit of the rule allows this" | Violating the letter IS violating the spirit. |
+| "This case is different" | No it isn't. Apply the same standards uniformly. |
+
+**If you catch yourself thinking any of these - STOP. Follow the methodology.**
 
 ---
 
