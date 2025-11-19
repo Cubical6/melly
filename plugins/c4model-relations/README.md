@@ -160,45 +160,15 @@ Code-level dependencies and patterns:
 
 ## Quick Examples
 
-### C1 Example
+See [examples.md](./skills/c4model-relations/examples.md) for 45+ comprehensive examples across all C4 levels.
 
+**Basic structure:**
 ```json
 {
-  "id": "rel-webapp-to-api",
-  "target": "backend-api",
-  "type": "http-rest",
-  "description": "Sends HTTP requests to fetch customer data",
-  "protocol": "HTTP/REST",
-  "direction": "outbound",
-  "isAsync": true,
-  "tags": ["api", "rest", "critical"]
-}
-```
-
-### C2 Example
-
-```json
-{
-  "id": "rel-api-to-postgres",
-  "target": "postgres-db",
-  "type": "database-read-write",
-  "description": "Reads and writes application data using Sequelize ORM",
-  "protocol": "PostgreSQL Wire Protocol",
-  "isAsync": false,
-  "tags": ["database", "postgres", "orm"]
-}
-```
-
-### C3 Example
-
-```json
-{
-  "id": "rel-controller-to-service",
-  "target": "user-service",
-  "type": "uses",
-  "description": "Delegates business logic operations to UserService",
-  "coupling": "loose",
-  "tags": ["service-layer", "delegation"]
+  "id": "rel-source-to-target",
+  "target": "target-entity-id",
+  "type": "relation-type",
+  "description": "Active voice description of communication"
 }
 ```
 
