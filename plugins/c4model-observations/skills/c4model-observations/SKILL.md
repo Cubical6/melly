@@ -1,6 +1,6 @@
 ---
 name: c4model-observations
-description: Use when documenting observations, architectural findings, or key discoveries across C4 Model levels (C1 System Context, C2 Container, C3 Component). Invoke when analyzing architecture, identifying patterns, documenting technical findings, security concerns, performance issues, or quality attributes. Essential for creating structured observations in c1-systems.json, c2-containers.json, and c3-components.json files. Use when users mention "observations", "findings", "document discoveries", "architectural notes", or "key observations".
+description: Use when documenting observations, architectural findings, or discoveries across C4 Model levels (C1, C2, C3). Triggers include "observations", "findings", "document architecture", "security concerns", "performance issues", "quality attributes". Creates structured observations for c1-systems.json, c2-containers.json, and c3-components.json files with evidence, severity levels, and recommendations.
 ---
 
 # C4 Model - Observation Documentation Methodology
@@ -10,6 +10,21 @@ description: Use when documenting observations, architectural findings, or key d
 This skill provides methodology for identifying, categorizing, and documenting architectural observations across all C4 Model levels (C1, C2, C3).
 
 **Mission:** Document WHAT you observe about systems, containers, and components—factual findings that inform architectural understanding.
+
+---
+
+## When to Use
+
+- Documenting architectural findings during code analysis
+- Categorizing security, performance, or quality issues
+- Creating structured observations for C4 model documentation
+- Recording evidence with file paths and code snippets
+
+## When NOT to Use
+
+- Writing C4 diagrams themselves (use c4model-c1/c2/c3)
+- Documenting relationships between entities (use c4model-relations)
+- General code documentation without architectural significance
 
 ---
 
@@ -90,26 +105,49 @@ An **observation** is a factual finding about an entity that describes:
 
 ## Categories by Level
 
-### C1 System Context (9 categories)
-`architecture`, `integration`, `boundaries`, `security`, `scalability`, `actors`, `external-dependencies`, `deployment`, `data-flow`
-
-See [categories.md](categories.md) for detailed definitions.
-
-### C2 Container (12 categories)
-`technology`, `runtime`, `communication`, `data-storage`, `authentication`, `deployment`, `scalability`, `performance`, `dependencies`, `configuration`, `monitoring`, `security`
-
-See [categories.md](categories.md) for detailed definitions.
-
-### C3 Component (13 categories)
-`design-patterns`, `code-structure`, `dependencies`, `error-handling`, `testing`, `performance`, `security`, `code-quality`, `documentation`, `complexity`, `coupling`, `cohesion`, `maintainability`
+| Level | Categories |
+|-------|------------|
+| **C1** | `architecture`, `integration`, `boundaries`, `security`, `scalability`, `actors`, `external-dependencies`, `deployment`, `data-flow` |
+| **C2** | `technology`, `runtime`, `communication`, `data-storage`, `authentication`, `deployment`, `scalability`, `performance`, `dependencies`, `configuration`, `monitoring`, `security` |
+| **C3** | `design-patterns`, `code-structure`, `dependencies`, `error-handling`, `testing`, `performance`, `security`, `code-quality`, `documentation`, `complexity`, `coupling`, `cohesion`, `maintainability` |
 
 See [categories.md](categories.md) for detailed definitions.
 
 ---
 
-## Quick Example
+## Quick Examples
 
-**C1 System Context:**
+**C3 Component (Critical):**
+```json
+{
+  "id": "obs-jwt-localstorage",
+  "category": "security",
+  "severity": "critical",
+  "title": "JWT tokens stored in localStorage",
+  "description": "Tokens in localStorage are vulnerable to XSS attacks.",
+  "evidence": [
+    {"type": "code", "location": "src/auth/storage.ts:45", "snippet": "localStorage.setItem('token', jwt)"}
+  ],
+  "recommendation": "Use httpOnly cookies for token storage"
+}
+```
+
+**C2 Container (Warning):**
+```json
+{
+  "id": "obs-no-connection-pool",
+  "category": "performance",
+  "severity": "warning",
+  "title": "Database connections not pooled",
+  "description": "New connection created for each request, causing overhead.",
+  "evidence": [
+    {"type": "code", "location": "src/db/connection.ts:12", "snippet": "new Client(config)"}
+  ],
+  "recommendation": "Implement connection pooling with pg-pool"
+}
+```
+
+**C1 System Context (Info):**
 ```json
 {
   "id": "obs-event-driven-arch",
@@ -149,6 +187,15 @@ For comprehensive methodology:
 
 ---
 
+## Common Mistakes
+
+1. **Opinion instead of fact** - Document observations, not judgments ("poorly designed" vs "tight coupling between modules")
+2. **Vague descriptions** - Be specific with file paths and evidence
+3. **Wrong severity** - Critical for security/data loss, warning for should-fix, info for neutral findings
+4. **Wrong category level** - Use C1 categories at C1 level, C3 at C3 level
+
+---
+
 ## Integration
 
 Observations are used by:
@@ -156,3 +203,12 @@ Observations are used by:
 - **c4model-writer** - Convert observations to markdown docs
 - **Validation scripts** - Validate structure and content
 - **basic-memory MCP** - Search and retrieve observations
+
+---
+
+## Related Skills
+
+- **c4model-c1** - C1 System Context methodology
+- **c4model-c2** - C2 Container methodology
+- **c4model-c3** - C3 Component methodology
+- **c4model-relations** - Relationship documentation methodology
