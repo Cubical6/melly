@@ -113,6 +113,19 @@
       "keywords": ["skill", "c4-model", "c3", "component-level", "architecture", "methodology", "components", "design-patterns", "code-structure"]
     },
     {
+      "name": "melly-core",
+      "source": "./plugins/melly-core",
+      "version": "1.0.0",
+      "description": "Consolidated core workflow plugin - simplified explorer agent and init command following Claude Code best practices (Part of ongoing refactoring from 12+ plugins to 4 consolidated plugins)",
+      "author": {
+        "name": "Melly Team",
+        "email": "melly.jwpd1@simplelogin.com"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["agent", "command", "c4-model", "workflow", "core", "explorer", "init", "consolidated"]
+    },
+    {
       "name": "c4model-observations",
       "source": "./plugins/c4model-observations",
       "version": "1.0.0",
