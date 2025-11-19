@@ -198,28 +198,26 @@ melly/
 
 ### Plugin Categories
 
-**Total: 5 plugins** (3 existing + 1 validation + 1 skill) | **In Development: 11 workflow plugins**
+**Total: 9 plugins** (3 existing + 1 validation + 5 skills) | **In Development: 6 workflow plugins**
 
-**Implemented Plugins (5):**
+**Implemented Plugins (9):**
 - **abstractor-agent**: ✅ System archaeologist for codebase exploration
 - **skill-builder**: ✅ Create and manage skills
 - **basic-memory**: ✅ Knowledge management via MCP
 - **melly-validation**: ✅ Centralized validation scripts & templates (7 validators, 3 generators)
-- **c4model-c1**: ✅ C1 System Context methodology skill (1,558 lines of documentation)
+- **c4model-c1**: ✅ C1 System Context methodology skill (1,558 lines)
+- **c4model-c2**: ✅ C2 Container methodology skill (2,318 lines)
+- **c4model-c3**: ✅ C3 Component methodology skill (2,109 lines)
+- **c4model-observations**: ✅ Observation documentation methodology (2,455 lines, 34 categories)
+- **c4model-relations**: ✅ Relation documentation methodology (2,619 lines, 48 relation types)
 
 **Workflow Plugins (In Development):**
 - **melly-init**: 🔴 Explorer agent, init command
 - **melly-c1**: 🔴 C1 abstractor agent, c1-systems command
-- **melly-c2**: 🔴 C2 abstractor agent, c2-containers command, C2 methodology skill
-- **melly-c3**: 🔴 C3 abstractor agent, c3-components command, C3 methodology skill
-- **melly-doc**: 🔴 Writer agent, doc-c4model command, observations/relations skills
+- **melly-c2**: 🔴 C2 abstractor agent, c2-containers command
+- **melly-c3**: 🔴 C3 abstractor agent, c3-components command
+- **melly-doc**: 🔴 Writer agent, doc-c4model command
 - **melly-draw**: 🔴 Drawer agent, draw-c4model command
-
-**Skills (In Development):**
-- **c4model-c2**: 🔴 C2 Container methodology skill
-- **c4model-c3**: 🔴 C3 Component methodology skill
-- **c4model-observations**: 🔴 Observation documentation skill
-- **c4model-relations**: 🔴 Relation documentation skill
 
 **Legend:** ✅ Completed | 🔴 In Development
 

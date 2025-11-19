@@ -113,6 +113,32 @@
       "keywords": ["skill", "c4-model", "c3", "component-level", "architecture", "methodology", "components", "design-patterns", "code-structure"]
     },
     {
+      "name": "c4model-observations",
+      "source": "./plugins/c4model-observations",
+      "version": "1.0.0",
+      "description": "C4 Model observation documentation methodology for architectural findings across system, container, and component levels - 34 categories, evidence-based approach, 30+ examples",
+      "author": {
+        "name": "Melly Team",
+        "email": "melly.jwpd1@simplelogin.com"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "observations", "architecture", "documentation", "findings", "methodology"]
+    },
+    {
+      "name": "c4model-relations",
+      "source": "./plugins/c4model-relations",
+      "version": "1.0.0",
+      "description": "C4 Model relation documentation methodology for dependencies and communications across system, container, and component levels - 48 relation types, protocol documentation, 45+ examples",
+      "author": {
+        "name": "Melly Team",
+        "email": "melly.jwpd1@simplelogin.com"
+      },
+      "repository": "https://github.com/Cubical6/melly",
+      "license": "MIT",
+      "keywords": ["skill", "c4-model", "relations", "dependencies", "architecture", "documentation", "methodology"]
+    },
+    {
       "name": "melly-init",
       "source": "./plugins/melly-init",
       "version": "1.0.0",
