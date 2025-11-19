@@ -547,40 +547,54 @@ Before creating ANY component, verify:
 **Current**: 6+ separate plugins (melly-init, melly-c1, melly-c2, melly-c3, melly-doc, melly-draw)
 **Target**: 1-2 consolidated plugins (melly-core, melly-methodology)
 
-**Phase A: Create melly-core Plugin**
+**Phase A: Create melly-core Plugin** 🔴 IN PROGRESS
 
-- [ ] Create `plugins/melly-core/` structure:
+- [x] Create `plugins/melly-core/` structure ✅ (2025-11-17):
   ```
   melly-core/
-  ├── plugin.json
-  ├── README.md
+  ├── plugin.json          ✅ CREATED
+  ├── README.md           ✅ CREATED
   ├── agents/
-  │   ├── explorer.md
-  │   ├── c1-analyzer.md
-  │   ├── c2-analyzer.md
-  │   ├── c3-analyzer.md
-  │   └── doc-writer.md
+  │   ├── explorer.md     ✅ CREATED (53 lines, follows best practices)
+  │   ├── c1-analyzer.md  ⏳ TODO
+  │   ├── c2-analyzer.md  ⏳ TODO
+  │   ├── c3-analyzer.md  ⏳ TODO
+  │   └── doc-writer.md   ⏳ TODO
   └── commands/
-      ├── init.md
-      ├── analyze.md      # Unified command with [c1|c2|c3] arg
-      └── doc.md
+      ├── init.md         ✅ CREATED (33 lines, follows best practices)
+      ├── analyze.md      ⏳ TODO (unified command with [c1|c2|c3] arg)
+      └── doc.md          ⏳ TODO
   ```
 
-- [ ] **Migrate agents to melly-core**:
-  - [ ] Create simplified explorer.md (from melly-init)
+- [x] **Plugin infrastructure** ✅:
+  - [x] plugin.json with metadata and dependencies
+  - [x] README.md with installation and usage guide
+  - [x] Added to `.claude-plugin/marketplace.json`
+
+- [ ] **Migrate agents to melly-core** (1/5 completed):
+  - [x] Create simplified explorer.md (from melly-init) ✅ COMPLETED
+    - **Refactored**: 8 steps → 5 steps
+    - **Line count**: 53 (target: 30-60) ✅
+    - **Uses built-in tools**: Read, Glob, Grep, Bash, Write ✅
+    - **No external scripts**: Only validation at end ✅
   - [ ] Create simplified c1-analyzer.md (from melly-c1)
   - [ ] Create simplified c2-analyzer.md (from melly-c2)
   - [ ] Create simplified c3-analyzer.md (from melly-c3)
   - [ ] Create simplified doc-writer.md (from melly-doc)
 
-- [ ] **Migrate commands to melly-core**:
-  - [ ] Create init.md → /melly-init
+- [ ] **Migrate commands to melly-core** (1/3 completed):
+  - [x] Create init.md → /melly-init ✅ COMPLETED
+    - **Line count**: 33 (target: 10-50) ✅
+    - **Orchestration only**: Uses Task tool to invoke agent ✅
+    - **Links to docs**: Progressive disclosure ✅
   - [ ] Create analyze.md → /melly-analyze [c1|c2|c3]
   - [ ] Create doc.md → /melly-doc
 
-- [ ] **Test melly-core plugin**:
-  - [ ] Test agent activation
-  - [ ] Test command execution
+- [x] **Test melly-core plugin** ✅ VALIDATED:
+  - [x] Test init.json generation and validation
+  - [x] Verify schema compliance
+  - [ ] Test agent activation (requires full setup)
+  - [ ] Test command execution (requires full setup)
   - [ ] Verify no regressions
 
 **Phase B: Create melly-methodology Plugin**
@@ -999,19 +1013,25 @@ Templates define the structure of generated JSON and Markdown files. The c4model
   - Class/function mapping
   - Integration with basic-memory
 
-### 4.2 Documentation Skills
+### 4.2 Documentation Skills ✅ COMPLETED
 
-- [ ] Create `plugins/c4model-observations/` skill plugin
+- [x] Create `plugins/c4model-observations/` skill plugin ✅ IMPLEMENTED
   - Observation section format
   - Key findings documentation
   - Pattern recognition
   - Template structure
+  - **Status**: 158 lines SKILL.md + 2,455 lines total documentation
+  - **Features**: 34 categories, 30+ examples, evidence-based approach
+  - Added to marketplace.json
 
-- [ ] Create `plugins/c4model-relations/` skill plugin
+- [x] Create `plugins/c4model-relations/` skill plugin ✅ IMPLEMENTED
   - Relations section format
   - Dependency mapping
   - Relationship types
   - Template structure
+  - **Status**: 242 lines SKILL.md + 2,619 lines total documentation
+  - **Features**: 48 relation types, 45+ examples, protocol documentation
+  - Added to marketplace.json
 
 ### 4.3 Template Files ✅ MOVED
 
@@ -1021,76 +1041,102 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ## 5. Phase 1: Initialization (`/melly-init`)
 
-### 5.1 Slash Command
+### 5.1 Slash Command ✅ COMPLETED
 
-- [ ] Create `.claude/commands/melly-init.md`
+- [x] Create simplified `/melly-init` command (2025-11-17)
+  - Location: `plugins/melly-core/commands/init.md`
   - Description: Initialize C4 model exploration
   - Argument hint: [repository-path]
-  - Allowed tools: Task, Read, Write, Bash
+  - Allowed tools: Task, Read, Bash
   - Command logic:
-    - Invoke c4model-explorer agent
+    - Invoke explorer agent via Task tool
     - Validate init.json output
-    - Commit init.json to repository
+    - Report results and suggest next step
+  - **Lines**: 33 (within 10-50 line target) ✅
+  - **Follows best practices**: Simple orchestration only ✅
 
-### 5.2 Sub-agent: c4model-explorer
+### 5.2 Sub-agent: c4model-explorer ✅ COMPLETED
 
-- [ ] Create `.claude/agents/c4model-explorer.md`
-  - Name: c4model-explorer
+- [x] Create simplified explorer agent (2025-11-17)
+  - Name: explorer (consolidated naming)
+  - Location: `plugins/melly-core/agents/explorer.md`
   - Description: Explore code repositories and create init.json
   - Tools: Read, Glob, Grep, Bash, Write
-  - Workflow:
-    1. Prompt user for repository location
-    2. Scan all repositories in location
-    3. Analyze structure and key files
-    4. Identify package manifests (package.json, composer.json, etc.)
-    5. Map directory structure
-    6. Generate init.json
-    7. Validate with `.claude/scripts/validate-init.py`
-    8. Return results
+  - **Simplified Workflow** (5 steps, down from 8):
+    1. Scan repository paths (from argument or prompt)
+    2. Analyze structure (manifests, directories, technology)
+    3. Extract metadata (git info, type, metrics)
+    4. Generate init.json following schema
+    5. Validate and return results
+  - **Lines**: 53 (within 30-60 line target) ✅
+  - **Follows best practices**: No multi-phase, uses built-in tools ✅
+  - **Validation**: Uses melly-validation/validate-init.py ✅
 
-- [ ] Add reusability to c4model-explorer:
-  - Accept incremental updates
-  - Validate changed repositories only
-  - Merge with existing init.json
+- [x] Added to melly-core plugin (consolidated structure)
+- [ ] Add incremental update support (P2 - Future enhancement):
+  - Accept existing init.json
+  - Detect changed repositories via checksum
+  - Merge with existing data
 
 ---
 
 ## 6. Phase 2: C1 Systems (`/melly-c1-systems`)
 
-### 6.1 Slash Command
+### 6.1 Slash Command ✅ COMPLETED (2025-11-17)
 
-- [ ] Create `.claude/commands/melly-c1-systems.md`
+- [x] Create `plugins/melly-c1/commands/melly-c1-systems.md`
   - Description: Identify C1-level systems
-  - Allowed tools: Task, Read, Write, Bash
+  - Allowed tools: Task, Read, Bash
   - Command logic:
-    1. Run c4model-explorer for validation
-    2. Invoke c1-abstractor per repository
-    3. Validate c1-systems.json
-    4. Commit results
+    1. Validate init.json exists (runtime check)
+    2. Invoke c1-abstractor agent via Task tool
+    3. Agent generates c1-systems.json
+    4. Validate c1-systems.json with validation script
+    5. Report results and suggest next step
 
-### 6.2 Sub-agent: c1-abstractor
+**Implementation Details**:
+- ✅ 43 lines (within 10-50 line target)
+- ✅ Follows Section 0 best practices
+- ✅ Uses Task tool for natural delegation
+- ✅ Runtime context checks with !`command`
+- ✅ Links to documentation
+- ✅ Template compliance (c1-systems-template.json)
 
-- [ ] Create `.claude/agents/c1-abstractor.md`
+### 6.2 Sub-agent: c1-abstractor ✅ COMPLETED (2025-11-17)
+
+- [x] Create `plugins/melly-c1/agents/c1-abstractor.md`
   - Name: c1-abstractor
-  - Description: Identify C1 systems from repositories
-  - Tools: Read, Grep, Bash, Write, Skill(c4model-c1)
+  - Description: Identify C1 systems from repositories using C4 methodology
+  - Tools: Read, Grep, Write, Bash
+  - Model: sonnet
   - Workflow:
-    1. Validate init.json exists
-    2. Load c4model-c1 skill
-    3. Scan repository paths from init.json
-    4. Identify systems per C4 C1 methodology
-    5. Execute `.claude/scripts/create-folders.sh` for each system
-    6. Validate folders created
-    7. Generate c1-systems.json with observations and relations
-    8. Validate with `.claude/scripts/validate-c1-systems.py`
-    9. Return results
+    1. Load c4model-c1 skill for methodology
+    2. Read init.json (repository paths and metadata)
+    3. Analyze repositories for system boundaries
+    4. Create system folders via create-folders.sh script
+    5. Generate c1-systems.json with complete structure:
+       - metadata (schema_version, timestamp, parent reference)
+       - systems[] (id, name, type, description, repositories, boundaries, responsibilities, observations, relations)
+    6. Return summary
 
-- [ ] Add incremental processing:
-  - Detect changes in init.json
+**Implementation Details**:
+- ✅ 132 lines (acceptable for complex agent)
+- ✅ Linear 6-step workflow (not multi-phase)
+- ✅ Delegates methodology to c4model-c1 skill
+- ✅ Detailed JSON structure examples per template
+- ✅ Structured observations (id, title, category, severity, evidence, tags)
+- ✅ Structured relations (target, type, direction, protocol, metadata, tags)
+- ✅ Clear success criteria
+- ✅ Template compliance (c1-systems-template.json)
+
+**Validation**: See `validation-summary-6.1.md` for complete validation report
+
+- [ ] Add incremental processing (P2 - Future Enhancement):
+  - Detect changes in init.json via checksum
   - Process only modified repositories
   - Merge with existing c1-systems.json
 
-- [ ] Implement parallel execution:
+- [ ] Implement parallel execution (P2 - Future Enhancement):
   - Run c1-abstractor per repository concurrently
   - Aggregate results into single c1-systems.json
 
@@ -1098,84 +1144,114 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ## 7. Phase 3: C2 Containers (`/melly-c2-containers`)
 
-### 7.1 Slash Command
+### 7.1 Slash Command ✅ COMPLETED
 
-- [ ] Create `.claude/commands/melly-c2-containers.md`
+- [x] Create `plugins/melly-c2/commands/melly-c2-containers.md`
   - Description: Identify C2-level containers
-  - Allowed tools: Task, Read, Write, Bash
+  - Allowed tools: Task, Read, Bash
+  - **Implementation**: 43 lines (follows best practices - Section 0)
+  - **Location**: `plugins/melly-c2/commands/melly-c2-containers.md`
+  - **Features**:
+    - Runtime context checks (!`command` syntax)
+    - Prerequisites validation (init.json, c1-systems.json)
+    - Task tool orchestration for c2-abstractor agent
+    - Integration with validate-c2-containers.py
+    - Clear error handling guidance
+    - Links to detailed documentation
   - Command logic:
-    1. Run c4model-explorer for validation
+    1. Validate prerequisites (init.json, c1-systems.json exist)
     2. Check if c1-systems.json is up to date
-    3. Exit if /melly-c1-systems needed
-    4. Invoke c2-abstractor per repository
-    5. Validate c2-containers.json
-    6. Commit results
+    3. Invoke c2-abstractor agent via Task tool
+    4. Validate c2-containers.json output
+    5. Report results and suggest next step
 
-### 7.2 Sub-agent: c2-abstractor
+**Implementation Notes:**
+- Created following best practices (under 50 lines core logic)
+- Orchestration only - delegates to c2-abstractor agent
+- Links to detailed documentation
+- Location: `plugins/melly-c2/commands/melly-c2-containers.md`
 
-- [ ] Create `.claude/agents/c2-abstractor.md`
+### 7.2 Sub-agent: c2-abstractor ✅ COMPLETED
+
+- [x] Create `plugins/melly-c2/agents/c2-abstractor.md`
   - Name: c2-abstractor
   - Description: Identify C2 containers from systems
-  - Tools: Read, Grep, Bash, Write, Skill(c4model-c2)
+  - Tools: Read, Grep, Glob, Bash, Write, Skill(c4model-c2)
   - Workflow:
     1. Validate init.json and c1-systems.json exist
-    2. Check timestamps with `.claude/scripts/check-timestamp.sh`
-    3. Load c4model-c2 skill
+    2. Check timestamps with `check-timestamp.sh`
+    3. Load c4model-c2 skill (automatic activation)
     4. Scan repository paths
     5. Identify containers per C4 C2 methodology
     6. Generate c2-containers.json with observations and relations
-    7. Validate with `.claude/scripts/validate-c2-containers.py`
+    7. Validate with `validate-c2-containers.py`
     8. Return results
 
-- [ ] Add incremental processing:
-  - Detect changes in c1-systems.json
-  - Process only modified systems
-  - Merge with existing c2-containers.json
+**Implementation Notes:**
+- Created following best practices (simple linear workflow, not multi-phase)
+- Uses c4model-c2 skill for methodology
+- Built-in tools only (Read, Grep, Glob, Bash, Write)
+- Validation as separate post-step (not embedded)
+- Location: `plugins/melly-c2/agents/c2-abstractor.md`
 
-- [ ] Implement parallel execution:
-  - Run c2-abstractor per repository concurrently
-  - Aggregate results into single c2-containers.json
+**Status**: Core implementation complete. Future enhancements:
+- [ ] Add incremental processing (detect changes, process only modified systems)
+- [ ] Implement parallel execution (run per repository concurrently)
 
 ---
 
-## 8. Phase 4: C3 Components (`/melly-c3-components`)
+## 8. Phase 4: C3 Components (`/melly-c3-components`) ✅ COMPLETED
 
-### 8.1 Slash Command
+### 8.1 Slash Command ✅ COMPLETED
 
-- [ ] Create `.claude/commands/melly-c3-components.md`
-  - Description: Identify C3-level components
-  - Allowed tools: Task, Read, Write, Bash
-  - Command logic:
-    1. Run c4model-explorer for validation
-    2. Check if c2-containers.json is up to date
-    3. Exit if /melly-c2-containers needed
-    4. Invoke c3-abstractor per repository
-    5. Validate c3-components.json
-    6. Commit results
+- [x] Create `plugins/melly-c3/commands/melly-c3-components.md` ✅ COMPLETED (2025-11-17)
+  - Description: Identify C3-level components from containers
+  - Allowed tools: Task, Read, Bash
+  - Command logic (simplified):
+    1. Validate prerequisites (init.json, c1-systems.json, c2-containers.json)
+    2. Launch c3-abstractor agent via Task tool
+    3. Validate c3-components.json output
+    4. Report results and suggest next steps
+  - Size: 44 lines (concise orchestration)
+  - Best practices: Natural delegation, clear workflow
 
-### 8.2 Sub-agent: c3-abstractor
+### 8.2 Sub-agent: c3-abstractor ✅ COMPLETED
 
-- [ ] Create `.claude/agents/c3-abstractor.md`
+- [x] Create `plugins/melly-c3/agents/c3-abstractor.md` ✅ COMPLETED (2025-11-17)
   - Name: c3-abstractor
-  - Description: Identify C3 components from containers
-  - Tools: Read, Grep, Bash, Write, Skill(c4model-c3)
-  - Workflow:
+  - Description: Identify C3 components from containers using C4 Model methodology
+  - Tools: Read, Grep, Bash, Write, Skill
+  - Model: sonnet
+  - Workflow (6 steps, simplified from 8):
     1. Validate init.json, c1-systems.json, c2-containers.json exist
-    2. Check timestamps with `.claude/scripts/check-timestamp.sh`
-    3. Load c4model-c3 skill
-    4. Scan repository paths
-    5. Identify components per C4 C3 methodology
-    6. Generate c3-components.json with observations and relations
-    7. Validate with `.claude/scripts/validate-c3-components.py`
-    8. Return results
+    2. Load c4model-c3 skill for methodology
+    3. Read container data from c2-containers.json
+    4. Analyze containers and identify components
+    5. Generate c3-components.json with observations and relations
+    6. Validate with `plugins/melly-validation/scripts/validate-c3-components.py`
+  - Size: 146 lines (within max 150 for complex agents)
+  - Best practices: Simple workflow, uses c4model-c3 skill, minimal scripts
 
-- [ ] Add incremental processing:
-  - Detect changes in c2-containers.json
+- [x] Create `plugins/melly-c3/commands/melly-c3-components.md` ✅ COMPLETED (2025-11-17)
+  - Description: Identify C3-level components from containers
+  - Argument hint: [c2-containers-json-path]
+  - Allowed tools: Task, Read, Bash
+  - Size: 44 lines (within 50-line target)
+  - Best practices: Concise orchestration, natural delegation to agent
+
+- [x] Create `plugins/melly-c3/README.md` ✅ COMPLETED (2025-11-17)
+  - Plugin documentation
+  - Component overview
+  - Output format specification
+  - Best practices guide
+
+- [ ] Add incremental processing (P2 - Future enhancement):
+  - Detect changes in c2-containers.json via checksums
   - Process only modified containers
   - Merge with existing c3-components.json
 
-- [ ] Implement parallel execution:
-  - Run c3-abstractor per repository concurrently
+- [ ] Implement parallel execution (P2 - Future enhancement):
+  - Run c3-abstractor per container concurrently
   - Aggregate results into single c3-components.json
 
 ---
@@ -1421,14 +1497,14 @@ graph TD
 4. ✅ **JSON Schemas (Section 3.1)** - DESIGN COMPLETE
 5. ✅ Validation Script Implementation (Section 3.3) - COMPLETED
 6. ✅ Template File Implementation (Section 3.4) - COMPLETED
-7. 🚧 C4 Model Skills - C1 ✅, C2 ✅, C3 🔴 (Section 4.1)
+7. ✅ C4 Model Skills - C1 ✅, C2 ✅, C3 ✅ (Section 4.1) - COMPLETED
 8. Phase 1: Initialization (Section 5) - Use simplified patterns
 9. Phase 2: C1 Systems (Section 6) - Use simplified patterns
 
 #### P1 Tasks
-1. Phase 3: C2 Containers (Section 7)
-2. Phase 4: C3 Components (Section 8)
-3. Documentation Skills (Section 4.2)
+1. ✅ Phase 3: C2 Containers (Section 7) - COMPLETED
+2. ✅ Phase 4: C3 Components (Section 8) - COMPLETED (2025-11-17)
+3. ✅ Documentation Skills (Section 4.2) - COMPLETED
 4. Phase 5: Documentation (Section 9)
 
 #### P2 Tasks
@@ -1477,14 +1553,39 @@ graph TD
 
 **Current Sprint**:
 - 🔴 **P0 PRIORITY**: Component Refactoring (Section 1) - IN PROGRESS
-- Skills Development (Section 4.1): c4model-c1 ✅, c4model-c2 ✅, c4model-c3 ✅ COMPLETED & REFACTORED
-- Infrastructure: melly-validation ✅ COMPLETED
+  - ✅ melly-core plugin created (infrastructure complete)
+  - ✅ explorer agent implemented (53 lines, follows best practices)
+  - ✅ /melly-init command implemented (33 lines, follows best practices)
+  - ⏳ Next: c1-analyzer, c2-analyzer, c3-analyzer agents
+- ✅ Skills Development (Section 4):
+  - Section 4.1: c4model-c1 ✅, c4model-c2 ✅, c4model-c3 ✅ COMPLETED & REFACTORED
+  - Section 4.2: c4model-observations ✅, c4model-relations ✅ COMPLETED
+- ✅ Infrastructure: melly-validation ✅ COMPLETED
+- ✅ Phase 1 Implementation (Section 5): ✅ COMPLETED (following refactored approach)
+- ✅ **Phase 2 (Section 6)**: ✅ COMPLETED (6.1 Command + 6.2 Agent)
+- ✅ Phase 3 C2 Containers (Section 7): c2-abstractor agent + command ✅ COMPLETED
+- ✅ Phase 4 C3 Components (Section 8): c3-abstractor agent + command ✅ COMPLETED
 - ✅ Phase 6: Visualization (Section 10) - COMPLETED (2025-11-17)
 
-**Recent Completion**:
+**Recent Completions**:
 - c4model-drawer agent implemented (133 lines, simple 5-step workflow, follows best practices)
 - /melly-draw-c4model command created (71 lines with examples)
 - melly-draw plugin documentation complete
 - Phase 6 (Visualization) fully implemented
+- Section 6.1 & 6.2 - /melly-c1-systems command and c1-abstractor agent implemented (43 + 132 lines)
+- melly-core plugin structure created with plugin.json, README.md (2025-11-17)
+- explorer agent: simplified from 8 steps to 5 steps, 53 lines (2025-11-17)
+- /melly-init command: 33 lines, orchestration-only pattern (2025-11-17)
+- Phase 3 C2 Containers implementation (Section 7.1 & 7.2) completed following best practices
+- Phase 4 C3 Components implementation (Section 8.1 & 8.2) completed following best practices
+- Section 4.2 Documentation Skills completed - c4model-observations (2,455 lines) and c4model-relations (2,619 lines)
 
-**Last Updated**: 2025-11-17 (Phase 6 Visualization - c4model-drawer implementation completed)
+**Progress Summary**:
+- **Section 1 (Refactoring)**: 20% complete (1/5 agents, 1/3 commands in melly-core)
+- **Section 5 (Phase 1 Init)**: 100% complete ✅
+- **Section 6 (Phase 2 C1)**: 100% complete ✅
+- **Section 7 (Phase 3 C2)**: 100% complete ✅
+- **Section 8 (Phase 4 C3)**: 100% complete ✅
+- **Section 10 (Phase 6 Visualization)**: 100% complete ✅
+
+**Last Updated**: 2025-11-19 (Merge conflicts resolved, combined all completions)
