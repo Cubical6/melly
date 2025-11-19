@@ -1,0 +1,29 @@
+{
+  "name": "c4model-relations",
+  "version": "1.0.0",
+  "description": "C4 Model relation documentation methodology for dependencies and communications across system, container, and component levels",
+  "author": "Melly Team",
+  "keywords": [
+    "c4-model",
+    "relations",
+    "dependencies",
+    "architecture",
+    "documentation",
+    "communication",
+    "integration",
+    "data-flow"
+  ],
+  "category": "methodology",
+  "type": "skill",
+  "skills": ["c4model-relations"],
+  "dependencies": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cubical6/melly"
+  },
+  "homepage": "https://github.com/Cubical6/melly#readme",
+  "bugs": {
+    "url": "https://github.com/Cubical6/melly/issues"
+  }
+}
