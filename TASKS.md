@@ -1109,12 +1109,21 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 - [x] Create `plugins/melly-c2/commands/melly-c2-containers.md`
   - Description: Identify C2-level containers
   - Allowed tools: Task, Read, Bash
+  - **Implementation**: 43 lines (follows best practices - Section 0)
+  - **Location**: `plugins/melly-c2/commands/melly-c2-containers.md`
+  - **Features**:
+    - Runtime context checks (!`command` syntax)
+    - Prerequisites validation (init.json, c1-systems.json)
+    - Task tool orchestration for c2-abstractor agent
+    - Integration with validate-c2-containers.py
+    - Clear error handling guidance
+    - Links to detailed documentation
   - Command logic:
-    1. Validate prerequisites (init.json, c1-systems.json)
-    2. Launch c2-abstractor agent
-    3. Generate c2-containers.json
-    4. Validate output
-    5. Report results
+    1. Validate prerequisites (init.json, c1-systems.json exist)
+    2. Check if c1-systems.json is up to date
+    3. Invoke c2-abstractor agent via Task tool
+    4. Validate c2-containers.json output
+    5. Report results and suggest next step
 
 **Implementation Notes:**
 - Created following best practices (under 50 lines core logic)
@@ -1512,4 +1521,4 @@ graph TD
   - Plugin README.md with comprehensive documentation
 - Section 4.2 Documentation Skills completed - c4model-observations (2,455 lines) and c4model-relations (2,619 lines) skills implemented with comprehensive methodology, examples, and reference documentation
 
-**Last Updated**: 2025-11-19 (Section 7 Phase 3: C2 Containers and Section 8 Phase 4: C3 Components merged)
+**Last Updated**: 2025-11-19 (Merge conflict resolved)

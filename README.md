@@ -65,10 +65,11 @@ Melly provides a complete workflow for reverse engineering codebases using the C
    - Generate architectural documentation
    - Store in knowledge base via basic-memory
 
-3. **`/melly-c2-containers`** - Identify C2 (Container) level
+3. **`/melly-c2-containers`** ✅ - Identify C2 (Container) level
    - Detect containers within systems
    - Map technology stack
    - Generate container documentation
+   - **Status**: Implemented (43 lines, follows best practices)
 
 4. **`/melly-c3-components`** - Identify C3 (Component) level
    - Detect components within containers
