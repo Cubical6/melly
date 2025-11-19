@@ -216,7 +216,7 @@ The c4model-c2 skill now successfully:
 | Scenario | Without Skill | With Skill |
 |----------|---------------|------------|
 | 1: Granularity | ✅ A | N/A (already passed) |
-| 2: Generic Namen | ❌ B | ✅ A |
+| 2: Generic Naming | ❌ B | ✅ A |
 | 3: C2/C3 Confusion | ✅ A | N/A (already passed) |
 
 ### TDD Cycle Complete
