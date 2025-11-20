@@ -12,26 +12,39 @@ Before using Melly, ensure you have:
 2. **basic-memory MCP server** installed and running
    - See [plugins/basic-memory](../plugins/basic-memory) for installation
    - Enable permalinks and sync in settings
-3. **Melly marketplace** components installed
+3. **Melly plugin** installed from marketplace
    ```bash
-   cd /path/to/melly
-   /plugin add ./plugins/abstractor-agent
-   /plugin add ./plugins/skill-builder
-   /plugin add ./plugins/basic-memory
-   /plugin add ./plugins/melly-init          # ✅ Phase 1 implemented
+   /plugin install melly@melly
    ```
 
 ### Implementation Status
 
-- ✅ **Phase 1: Initialization** (`/melly-init`) - IMPLEMENTED (2025-11-17)
-  - Command: `plugins/melly-init/commands/melly-init.md` (33 lines)
-  - Agent: `plugins/melly-init/agents/c4model-explorer.md` (70 lines)
-  - Status: Production-ready, follows Claude Code best practices
-- 🔴 Phase 2: C1 Systems (`/melly-c1-systems`) - Not yet implemented
-- 🔴 Phase 3: C2 Containers (`/melly-c2-containers`) - Not yet implemented
-- 🔴 Phase 4: C3 Components (`/melly-c3-components`) - Not yet implemented
-- 🔴 Phase 5: Documentation (`/melly-doc-c4model`) - Not yet implemented
-- 🔴 Phase 6: Visualization (`/melly-draw-c4model`) - Not yet implemented
+- ✅ **Phase 1: Initialization** (`/melly:init`) - IMPLEMENTED
+  - Command: `commands/melly-init.md`
+  - Agent: `agents/c4model-explorer.md`
+  - Status: Production-ready
+- ✅ **Phase 2: C1 Systems** (`/melly:c1-systems`) - IMPLEMENTED
+  - Command: `commands/melly-c1-systems.md`
+  - Agent: `agents/c1-abstractor.md`
+  - Status: Production-ready
+- ✅ **Phase 3: C2 Containers** (`/melly:c2-containers`) - IMPLEMENTED
+  - Command: `commands/melly-c2-containers.md`
+  - Agent: `agents/c2-abstractor.md`
+  - Status: Production-ready
+- ✅ **Phase 4: C3 Components** (`/melly:c3-components`) - IMPLEMENTED
+  - Command: `commands/melly-c3-components.md`
+  - Agent: `agents/c3-abstractor.md`
+  - Status: Production-ready
+- ✅ **Phase 5: Documentation** (`/melly:doc-c4model`) - IMPLEMENTED
+  - Command: `commands/melly-doc-c4model.md`
+  - Agent: `agents/c4model-writer.md`
+  - Status: Production-ready
+- ✅ **Phase 6: Visualization** (`/melly:draw-c4model`) - IMPLEMENTED
+  - Command: `commands/melly-draw-c4model.md`
+  - Agent: `agents/c4model-drawer.md`
+  - Status: Production-ready
+
+**Note**: All phases are functional and production-ready in the consolidated single-plugin structure.
 
 ---
 
@@ -44,7 +57,7 @@ Let's walk through analyzing a typical web application with frontend and backend
 #### Step 1: Initialize the Exploration
 
 ```bash
-/melly-init
+/melly:init
 ```
 
 **What it does:**
@@ -55,7 +68,7 @@ Let's walk through analyzing a typical web application with frontend and backend
 
 **Example interaction:**
 ```
-You: /melly-init
+You: /melly:init
 
 Claude: I'll help you initialize the C4 model exploration.
         Where are your code repositories located?
@@ -82,7 +95,7 @@ Claude: Scanning repositories in /home/user/projects/my-web-app...
 #### Step 2: Identify Systems (C1)
 
 ```bash
-/melly-c1-systems
+/melly:c1-systems
 ```
 
 **What it does:**
@@ -93,7 +106,7 @@ Claude: Scanning repositories in /home/user/projects/my-web-app...
 
 **Example interaction:**
 ```
-You: /melly-c1-systems
+You: /melly:c1-systems
 
 Claude: Analyzing repositories for C1 system identification...
 
@@ -126,7 +139,7 @@ Claude: Analyzing repositories for C1 system identification...
 #### Step 3: Identify Containers (C2)
 
 ```bash
-/melly-c2-containers
+/melly:c2-containers
 ```
 
 **What it does:**
@@ -137,7 +150,7 @@ Claude: Analyzing repositories for C1 system identification...
 
 **Example interaction:**
 ```
-You: /melly-c2-containers
+You: /melly:c2-containers
 
 Claude: Analyzing systems for C2 container identification...
 
@@ -175,7 +188,7 @@ Claude: Analyzing systems for C2 container identification...
 #### Step 4: Identify Components (C3)
 
 ```bash
-/melly-c3-components
+/melly:c3-components
 ```
 
 **What it does:**
@@ -186,7 +199,7 @@ Claude: Analyzing systems for C2 container identification...
 
 **Example interaction:**
 ```
-You: /melly-c3-components
+You: /melly:c3-components
 
 Claude: Analyzing containers for C3 component identification...
 
@@ -229,7 +242,7 @@ Claude: Analyzing containers for C3 component identification...
 #### Step 5: Generate Documentation
 
 ```bash
-/melly-doc-c4model
+/melly:doc-c4model
 ```
 
 **What it does:**
@@ -240,7 +253,7 @@ Claude: Analyzing containers for C3 component identification...
 
 **Example interaction:**
 ```
-You: /melly-doc-c4model
+You: /melly:doc-c4model
 
 Claude: Generating C4 model documentation...
 
@@ -276,7 +289,7 @@ Claude: Generating C4 model documentation...
 #### Step 6: Visualize Architecture
 
 ```bash
-/melly-draw-c4model
+/melly:draw-c4model
 ```
 
 **What it does:**
@@ -287,7 +300,7 @@ Claude: Generating C4 model documentation...
 
 **Example interaction:**
 ```
-You: /melly-draw-c4model
+You: /melly:draw-c4model
 
 Claude: Generating visual diagrams...
 
@@ -323,24 +336,24 @@ If your codebase changes, you can incrementally update the C4 model:
 
 1. **Re-run initialization** (if new repos added):
    ```bash
-   /melly-init
+   /melly:init
    ```
    - Only new/changed repositories will be processed
    - Existing data merged with updates
 
 2. **Re-run affected levels**:
    ```bash
-   /melly-c1-systems    # If system structure changed
-   /melly-c2-containers # If containers changed
-   /melly-c3-components # If components changed
+   /melly:c1-systems    # If system structure changed
+   /melly:c2-containers # If containers changed
+   /melly:c3-components # If components changed
    ```
    - Timestamp validation ensures efficient reprocessing
    - Only changed entities are updated
 
 3. **Regenerate documentation**:
    ```bash
-   /melly-doc-c4model
-   /melly-draw-c4model
+   /melly:doc-c4model
+   /melly:draw-c4model
    ```
 
 ### Example: Adding a New Service
@@ -352,19 +365,19 @@ You: I added a new authentication microservice to my backend.
 Claude: Since you added a new service, we should update from C2 level:
 
         1. First, update the initialization:
-           /melly-init
+           /melly:init
 
         2. Update C2 containers (new service will be detected):
-           /melly-c2-containers
+           /melly:c2-containers
 
         3. Analyze the new service's components:
-           /melly-c3-components
+           /melly:c3-components
 
         4. Regenerate documentation:
-           /melly-doc-c4model
+           /melly:doc-c4model
 
         5. Update visualizations:
-           /melly-draw-c4model
+           /melly:draw-c4model
 
         This will integrate the new authentication service into your
         existing C4 model without regenerating everything.
@@ -379,9 +392,9 @@ Claude: Since you added a new service, we should update from C2 level:
 Generate diagrams for specific levels:
 
 ```bash
-/melly-draw-c4model c1    # Only system context
-/melly-draw-c4model c2    # Only containers
-/melly-draw-c4model c3    # Only components
+/melly:draw-c4model c1    # Only system context
+/melly:draw-c4model c2    # Only containers
+/melly:draw-c4model c3    # Only components
 ```
 
 ### Custom Analysis
@@ -446,11 +459,11 @@ Claude: [Searches basic-memory knowledge base]
 
 #### 1. "init.json not found"
 
-**Problem:** Trying to run `/melly-c1-systems` before `/melly-init`
+**Problem:** Trying to run `/melly:c1-systems` before `/melly:init`
 
 **Solution:**
 ```bash
-/melly-init  # Always run this first
+/melly:init  # Always run this first
 ```
 
 #### 2. "Timestamp order violation"
@@ -460,9 +473,9 @@ Claude: [Searches basic-memory knowledge base]
 **Solution:**
 ```bash
 # Rerun the workflow in order
-/melly-c1-systems
-/melly-c2-containers
-/melly-c3-components
+/melly:c1-systems
+/melly:c2-containers
+/melly:c3-components
 ```
 
 #### 3. "basic-memory MCP not available"
@@ -492,7 +505,7 @@ Claude: [Searches basic-memory knowledge base]
 
 ### 1. Start Fresh
 
-For new projects, always start with `/melly-init` and work through the levels sequentially.
+For new projects, always start with `/melly:init` and work through the levels sequentially.
 
 ### 2. Document Observations
 
@@ -527,12 +540,12 @@ Generate visualizations frequently - they help validate your understanding of th
 
 **Workflow:**
 ```bash
-/melly-init               # Point to /home/user/projects/monorepo
-/melly-c1-systems        # Identifies 4 systems (frontend, backend, shared, mobile)
-/melly-c2-containers     # Analyzes each package
-/melly-c3-components     # Deep dive into components
-/melly-doc-c4model       # Generate docs
-/melly-draw-c4model         # Create diagrams
+/melly:init               # Point to /home/user/projects/monorepo
+/melly:c1-systems        # Identifies 4 systems (frontend, backend, shared, mobile)
+/melly:c2-containers     # Analyzes each package
+/melly:c3-components     # Deep dive into components
+/melly:doc-c4model       # Generate docs
+/melly:draw-c4model      # Create diagrams
 ```
 
 ### Microservices Example
@@ -548,12 +561,12 @@ Generate visualizations frequently - they help validate your understanding of th
 
 **Workflow:**
 ```bash
-/melly-init               # Point to /home/user/projects/microservices
-/melly-c1-systems        # Each service is a system
-/melly-c2-containers     # Service containers + databases
-/melly-c3-components     # Service internals
-/melly-doc-c4model       # Generate docs
-/melly-draw-c4model         # Create architecture diagrams
+/melly:init               # Point to /home/user/projects/microservices
+/melly:c1-systems        # Each service is a system
+/melly:c2-containers     # Service containers + databases
+/melly:c3-components     # Service internals
+/melly:doc-c4model       # Generate docs
+/melly:draw-c4model      # Create architecture diagrams
 ```
 
 ---
@@ -586,73 +599,65 @@ jobs:
       - uses: actions/checkout@v2
       - name: Update C4 Model
         run: |
-          claude -p "/melly-init && /melly-c1-systems && /melly-c2-containers && /melly-c3-components && /melly-doc-c4model"
+          claude -p "/melly:init && /melly:c1-systems && /melly:c2-containers && /melly:c3-components && /melly:doc-c4model"
 ```
 
 ---
 
 ## Available Components
 
-### Implemented Plugins
+### Consolidated Plugin Structure
 
-Melly currently provides the following production-ready components:
+Melly uses a consolidated single-plugin architecture with 3 total plugins:
 
-#### Core Plugins (3)
+#### Main Plugin (1)
+
+1. **melly** ✅
+   - Complete C4 model workflow implementation
+   - 6 workflow commands (init, c1-systems, c2-containers, c3-components, doc-c4model, draw-c4model)
+   - 5 methodology skills (c4model-c1, c4model-c2, c4model-c3, c4model-observations, c4model-relations)
+   - Integrated validation and templates
+   - Location: Root of repository
+   - Install: `/plugin install melly@melly`
+
+#### Support Plugins (2)
 
 1. **abstractor-agent** ✅
    - Deep architectural analysis through subagent-driven exploration
    - Generates C4 diagrams and subsystem catalogs
    - Use: `/system-archaeologist`
+   - Location: `plugins/abstractor-agent`
 
-2. **skill-builder** ✅
-   - Meta-skill for creating and editing Claude Code skills
-   - CLI tools and Python scripting patterns
-   - Use: "Help me create a skill for [task]"
-
-3. **basic-memory** ✅
+2. **basic-memory** ✅
    - Knowledge management via MCP server
    - Multi-project support with sync
    - Obsidian canvas integration
+   - Location: `plugins/basic-memory`
 
-#### Validation & Templates (1)
+### Workflow Commands
 
-1. **melly-validation** ✅
-   - Centralized validation scripts (7 validators)
-   - Markdown generators (3 generators)
-   - JSON templates for all C4 levels
-   - Total: 2,859 lines of production-ready code
+All commands are available through the main melly plugin:
 
-#### C4 Methodology Skills (1/5)
+- **init** ✅ - Initialization workflow (`/melly:init`)
+- **c1-systems** ✅ - C1 Systems identification (`/melly:c1-systems`)
+- **c2-containers** ✅ - C2 Containers analysis (`/melly:c2-containers`)
+- **c3-components** ✅ - C3 Components analysis (`/melly:c3-components`)
+- **doc-c4model** ✅ - Documentation generation (`/melly:doc-c4model`)
+- **draw-c4model** ✅ - Diagram visualization (`/melly:draw-c4model`)
 
-1. **c4model-c1** ✅
-   - **C1 (System Context) methodology skill**
-   - Comprehensive guidance for system identification
-   - System identification rules and criteria
-   - Actor identification (users and external systems)
-   - Boundary detection methodology
-   - Relationship mapping (8 relationship types)
-   - Observation guidelines (8 categories with evidence)
-   - 4 complete architecture patterns (web, microservices, event-driven, mobile)
-   - Complete workflow integration (init.json → c1-systems.json)
-   - **Documentation**: 1,558 lines (400 README + 1,158 SKILL.md)
-   - **Use**: Automatically activates when working with system identification
+### Methodology Skills
 
-### In Development
+All skills are automatically activated during workflow execution:
 
-The following workflow components are currently being developed:
+- **c4model-c1** ✅ - System Context methodology (1,558 lines)
+- **c4model-c2** ✅ - Container methodology (2,318 lines)
+- **c4model-c3** ✅ - Component methodology (2,109 lines)
+- **c4model-observations** ✅ - Observation documentation (2,455 lines)
+- **c4model-relations** ✅ - Relation documentation (2,619 lines)
 
-- **c4model-c2** 🔴 - C2 Container methodology skill
-- **c4model-c3** 🔴 - C3 Component methodology skill
-- **c4model-observations** 🔴 - Observation documentation skill
-- **c4model-relations** 🔴 - Relation documentation skill
-- **melly-init** 🔴 - Initialization workflow command
-- **melly-c1** 🔴 - C1 Systems workflow command
-- **melly-c2** 🔴 - C2 Containers workflow command
-- **melly-c3** 🔴 - C3 Components workflow command
-- **melly-doc** 🔴 - Documentation generation command
-- **melly-draw** 🔴 - Diagram visualization command
+**Current Status**: All components are production-ready in the consolidated structure.
 
-**Legend:** ✅ Completed | 🔴 In Development
+**Legend:** ✅ Implemented
 
 ---
 
@@ -676,5 +681,5 @@ After completing the workflow:
 
 ---
 
-**Last Updated:** 2025-11-17
-**Version:** 1.0.0
+**Last Updated:** 2025-11-20
+**Version:** 1.1.0
