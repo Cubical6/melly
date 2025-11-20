@@ -29,7 +29,7 @@ test -f c1-systems.json || echo "ERROR: c1-systems.json not found. Run /melly-c1
 Validate timestamp ordering:
 ```bash
 # Check parent timestamp is older than child
-bash validation/scripts/check-timestamp.sh c1-systems.json init.json
+bash ${CLAUDE_PLUGIN_ROOT}/validation/scripts/check-timestamp.sh c1-systems.json init.json
 ```
 
 If any validation fails, report the error and stop.
@@ -121,7 +121,7 @@ Use `Write` tool to create `c2-containers.json`.
 
 Run validation script:
 ```bash
-cat c2-containers.json | python validation/scripts/validate-c2-containers.py
+cat c2-containers.json | python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c2-containers.py
 ```
 
 If validation fails (exit code 2), fix errors and re-validate.

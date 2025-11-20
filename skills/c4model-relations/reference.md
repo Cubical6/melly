@@ -412,7 +412,7 @@ Before finalizing relations documentation:
 - **Type Definitions:** [types.md](./types.md)
 - **Examples:** [examples.md](./examples.md)
 - **Main Skill:** [SKILL.md](./SKILL.md)
-- **Validation Scripts:** `/validation/scripts/`
+- **Validation Scripts:** `${CLAUDE_PLUGIN_ROOT}/validation/scripts/`
 - **Schema Documentation:** `/docs/observations-relations-schema.md`
 
 ---

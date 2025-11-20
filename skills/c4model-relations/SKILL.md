@@ -115,7 +115,7 @@ Document HOW systems, containers, and components communicate—what flows betwee
 
 **Output:** `systems[].relations[]`, `containers[].relations[]`, `components[].relations[]`
 
-**Validation:** `python validation/scripts/validate-c{1,2,3}-*.py`
+**Validation:** `python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c{1,2,3}-*.py`
 
 ---
 

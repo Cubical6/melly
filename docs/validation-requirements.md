@@ -36,10 +36,10 @@ This document specifies the validation requirements for all Melly workflow compo
 
 ### Script Locations
 
-All validation scripts are in: `validation/scripts/`
+All validation scripts are in: `${CLAUDE_PLUGIN_ROOT}/validation/scripts/`
 
 ```
-validation/
+${CLAUDE_PLUGIN_ROOT}/validation/
 ├── scripts/
 │   ├── validate-init.py
 │   ├── validate-c1-systems.py

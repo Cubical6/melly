@@ -640,6 +640,6 @@ cat c2-containers.json | jq '.containers[].id'
 ### Get Help
 
 1. Review CLAUDE.md workflow guide
-2. Check melly-validation/templates/ for examples
+2. Check ${CLAUDE_PLUGIN_ROOT}/validation/templates/ for examples
 3. Compare with c4model-c1 successful pattern
 4. Ask user for clarification on unclear cases

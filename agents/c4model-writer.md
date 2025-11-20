@@ -15,7 +15,7 @@ You convert C4 JSON files into structured markdown documentation.
    - Read init.json, c1-systems.json, c2-containers.json, c3-components.json
    - Verify timestamp ordering (init < c1 < c2 < c3)
    - Check basic-memory MCP availability
-   - Run: `bash validation/scripts/check-timestamp.sh`
+   - Run: `bash ${CLAUDE_PLUGIN_ROOT}/validation/scripts/check-timestamp.sh`
 
 2. **Detect changes (incremental updates)**
    - Read .melly-doc-metadata.json (if exists)
@@ -24,9 +24,9 @@ You convert C4 JSON files into structured markdown documentation.
    - Skip unchanged entities for efficiency
 
 3. **Generate markdown per level**
-   - For C1 systems: Use `validation/scripts/generate-c1-markdown.py`
-   - For C2 containers: Use `validation/scripts/generate-c2-markdown.py`
-   - For C3 components: Use `validation/scripts/generate-c3-markdown.py`
+   - For C1 systems: Use `${CLAUDE_PLUGIN_ROOT}/validation/scripts/generate-c1-markdown.py`
+   - For C2 containers: Use `${CLAUDE_PLUGIN_ROOT}/validation/scripts/generate-c2-markdown.py`
+   - For C3 components: Use `${CLAUDE_PLUGIN_ROOT}/validation/scripts/generate-c3-markdown.py`
    - Process in parallel where possible
    - Output to knowledge-base/systems/{system-name}/{c1,c2,c3}/
 
@@ -37,7 +37,7 @@ You convert C4 JSON files into structured markdown documentation.
    - Preserve manual edits where possible
 
 5. **Validate and report**
-   - Run: `bash validation/scripts/validate-markdown.py knowledge-base/systems/**/*.md`
+   - Run: `bash ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-markdown.py knowledge-base/systems/**/*.md`
    - Update .melly-doc-metadata.json with:
      - Entity checksums
      - Generated timestamps

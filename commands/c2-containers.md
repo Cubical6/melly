@@ -39,7 +39,7 @@ Use the Task tool to launch the **c2-abstractor** agent with:
 - Output: c2-containers.json
 
 After agent completes:
-- Validate: `cat c2-containers.json | python validation/scripts/validate-c2-containers.py`
+- Validate: `cat c2-containers.json | python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c2-containers.py`
 - Report results summary
 - Suggest next step: `/melly-c3-components` or `/melly-doc-c4model`
 
@@ -61,8 +61,8 @@ After successful completion:
 
 For details on C4 Level 2 methodology:
 - **Methodology**: See `plugins/c4model-c2/skills/c4model-c2/SKILL.md`
-- **Schema**: See `validation/templates/c2-containers-template.json`
-- **Validation**: See `validation/scripts/validate-c2-containers.py`
+- **Schema**: See `${CLAUDE_PLUGIN_ROOT}/validation/templates/c2-containers-template.json`
+- **Validation**: See `${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c2-containers.py`
 - **Workflow**: See `docs/c4model-methodology.md`
 
 ---

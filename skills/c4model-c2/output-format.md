@@ -58,10 +58,10 @@ After generating `c2-containers.json`:
 
 ```bash
 # Validate JSON structure
-python validation/scripts/validate-c2-containers.py c2-containers.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c2-containers.py c2-containers.json
 
 # Verify timestamps
-python validation/scripts/check-timestamp.sh c2-containers.json c1-systems.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/check-timestamp.sh c2-containers.json c1-systems.json
 ```
 
 ## Required Fields

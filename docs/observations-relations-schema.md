@@ -1380,13 +1380,13 @@ A relation is a **directional connection** between entities that:
 
 ```bash
 # Validate observations and relations in c1-systems.json
-python validation/scripts/validate-c1-systems.py knowledge-base/c1-systems.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c1-systems.py knowledge-base/c1-systems.json
 
 # Validate observations and relations in c2-containers.json
-python validation/scripts/validate-c2-containers.py knowledge-base/c2-containers.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c2-containers.py knowledge-base/c2-containers.json
 
 # Validate observations and relations in c3-components.json
-python validation/scripts/validate-c3-components.py knowledge-base/c3-components.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c3-components.py knowledge-base/c3-components.json
 ```
 
 **Exit Codes**:

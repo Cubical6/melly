@@ -30,14 +30,14 @@ You analyze code repositories and generate `init.json` with comprehensive metada
    - Metrics: file counts, basic LOC estimation
 
 4. **Generate init.json**
-   - Use schema from `validation/templates/init-template.json`
+   - Use schema from `${CLAUDE_PLUGIN_ROOT}/validation/templates/init-template.json`
    - Include metadata: timestamp (ISO 8601 UTC), schema version, generator info
    - For each repository: id (kebab-case), name, path (absolute), type, git, manifests, structure, technology, metrics
    - Add summary: total repos, types breakdown, languages, manifest count
    - Write to `init.json` in current directory
 
 5. **Validate and return**
-   - Run: `python validation/scripts/validate-init.py < init.json`
+   - Run: `python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-init.py < init.json`
    - If validation fails (exit code 2): report errors and stop
    - If validation warns (exit code 1): show warnings but continue
    - Return: repository count, manifest count, validation status, next step hint

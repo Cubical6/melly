@@ -100,7 +100,7 @@ Generated output must pass: Schema validation, timestamp ordering (metadata.time
 
 Validation script:
 ```bash
-python validation/scripts/validate-c3-components.py c3-components.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c3-components.py c3-components.json
 ```
 
 ---

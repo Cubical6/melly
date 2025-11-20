@@ -576,7 +576,7 @@
         "Relations (table format)",
         "Metadata (source file, level, IDs)"
       ],
-      "script": "validation/scripts/generate-c3-markdown.py"
+      "script": "${CLAUDE_PLUGIN_ROOT}/validation/scripts/generate-c3-markdown.py"
     },
 
     "usage_notes": [

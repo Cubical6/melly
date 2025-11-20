@@ -485,7 +485,7 @@
     },
 
     "markdown_generation": {
-      "script": "validation/scripts/generate-c1-markdown.py",
+      "script": "${CLAUDE_PLUGIN_ROOT}/validation/scripts/generate-c1-markdown.py",
       "output_pattern": "knowledge-base/systems/{system-id}/c1/README.md",
       "sections": [
         "1. Frontmatter (YAML)",
