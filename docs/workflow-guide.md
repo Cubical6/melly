@@ -20,27 +20,27 @@ Before using Melly, ensure you have:
 ### Implementation Status
 
 - ✅ **Phase 1: Initialization** (`/melly:init`) - IMPLEMENTED
-  - Command: `commands/melly-init.md`
-  - Agent: `agents/c4model-explorer.md`
+  - Command: `commands/init.md`
+  - Agent: `agents/explorer.md`
   - Status: Production-ready
 - ✅ **Phase 2: C1 Systems** (`/melly:c1-systems`) - IMPLEMENTED
-  - Command: `commands/melly-c1-systems.md`
-  - Agent: `agents/c1-abstractor.md`
+  - Command: `commands/c1-systems.md`
+  - Agent: `agents/c1-writer.md`
   - Status: Production-ready
 - ✅ **Phase 3: C2 Containers** (`/melly:c2-containers`) - IMPLEMENTED
-  - Command: `commands/melly-c2-containers.md`
-  - Agent: `agents/c2-abstractor.md`
+  - Command: `commands/c2-containers.md`
+  - Agent: `agents/c2-writer.md`
   - Status: Production-ready
 - ✅ **Phase 4: C3 Components** (`/melly:c3-components`) - IMPLEMENTED
-  - Command: `commands/melly-c3-components.md`
-  - Agent: `agents/c3-abstractor.md`
+  - Command: `commands/c3-components.md`
+  - Agent: `agents/c3-writer.md`
   - Status: Production-ready
 - ✅ **Phase 5: Documentation** (`/melly:doc-c4model`) - IMPLEMENTED
-  - Command: `commands/melly-doc-c4model.md`
+  - Command: `commands/doc-c4model.md`
   - Agent: `agents/c4model-writer.md`
   - Status: Production-ready
 - ✅ **Phase 6: Visualization** (`/melly:draw-c4model`) - IMPLEMENTED
-  - Command: `commands/melly-draw-c4model.md`
+  - Command: `commands/draw-c4model.md`
   - Agent: `agents/c4model-drawer.md`
   - Status: Production-ready
 
