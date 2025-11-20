@@ -348,7 +348,7 @@ Generated output must pass:
 
 Validation script:
 ```bash
-python plugins/melly-validation/scripts/validate-c1-systems.py c1-systems.json
+python validation/scripts/validate-c1-systems.py c1-systems.json
 ```
 
 ---
@@ -445,7 +445,7 @@ Before finalizing:
 3. **Check timestamps** - Child > parent
 4. **Run validation script**
    ```bash
-   python plugins/melly-validation/scripts/validate-c1-systems.py output.json
+   python validation/scripts/validate-c1-systems.py output.json
    ```
 
 ---
@@ -589,7 +589,7 @@ See [troubleshooting-guide.md](./troubleshooting-guide.md) for complete troubles
 
 ### Templates and Examples
 
-- **Template**: `/plugins/melly-validation/templates/c1-systems-template.json`
+- **Template**: `/validation/templates/c1-systems-template.json`
 - **Schema**: `/docs/json-schemas-design.md`
 - **Methodology**: `/docs/c4model-methodology.md`
 - **Workflow**: `/docs/workflow-guide.md`

@@ -2,7 +2,7 @@
 
 **Version**: 1.0.0
 **Plugin**: `melly-validation`
-**Location**: `/home/user/melly/plugins/melly-validation/`
+**Location**: `/home/user/melly/validation/`
 **Date**: 2025-11-15
 
 ---
@@ -36,10 +36,10 @@ This document specifies the validation requirements for all Melly workflow compo
 
 ### Script Locations
 
-All validation scripts are in: `plugins/melly-validation/scripts/`
+All validation scripts are in: `validation/scripts/`
 
 ```
-plugins/melly-validation/
+validation/
 ├── scripts/
 │   ├── validate-init.py
 │   ├── validate-c1-systems.py

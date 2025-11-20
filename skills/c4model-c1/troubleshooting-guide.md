@@ -274,7 +274,7 @@ Fix: Ensure c1-systems.json timestamp > init.json timestamp
 
 ```bash
 # Run validation with verbose output
-python plugins/melly-validation/scripts/validate-c1-systems.py c1-systems.json -v
+python validation/scripts/validate-c1-systems.py c1-systems.json -v
 
 # Check JSON syntax
 cat c1-systems.json | jq .

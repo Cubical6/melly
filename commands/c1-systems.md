@@ -10,7 +10,7 @@ Analyze repositories and identify C1 systems using C4 methodology.
 
 - Init file: ${1:-init.json}
 - Status: !`test -f "${1:-init.json}" && echo "✅ exists" || echo "❌ missing"`
-- Validation: plugins/melly-validation/scripts/
+- Validation: validation/scripts/
 
 ## Workflow
 
@@ -35,7 +35,7 @@ Use the Task tool to launch the **c1-abstractor** agent with the following requi
   - relations[] (from, to, type, protocol)
 
 After agent completes:
-- Validate output: `bash plugins/melly-validation/scripts/validate-c1-systems.py c1-systems.json`
+- Validate output: `bash validation/scripts/validate-c1-systems.py c1-systems.json`
 - Report results: systems count, next step
 
 **Next step**: /melly-c2-containers

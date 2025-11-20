@@ -20,8 +20,8 @@ test -f init.json && test -f c1-systems.json && test -f c2-containers.json || ex
 
 Verify timestamp ordering using validation script:
 ```bash
-bash plugins/melly-validation/scripts/check-timestamp.sh c2-containers.json c1-systems.json
-bash plugins/melly-validation/scripts/check-timestamp.sh c1-systems.json init.json
+bash validation/scripts/check-timestamp.sh c2-containers.json c1-systems.json
+bash validation/scripts/check-timestamp.sh c1-systems.json init.json
 ```
 
 ### 2. Load C3 Methodology
@@ -115,7 +115,7 @@ Write to c3-components.json.
 
 Run validation:
 ```bash
-python plugins/melly-validation/scripts/validate-c3-components.py c3-components.json
+python validation/scripts/validate-c3-components.py c3-components.json
 ```
 
 If validation passes (exit code 0):

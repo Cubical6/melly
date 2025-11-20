@@ -24,7 +24,7 @@ The agent will:
 3. Generate init.json with metadata and structure
 
 After agent completes:
-- Validate output: `python3 plugins/melly-validation/scripts/validate-init.py < init.json`
+- Validate output: `python3 validation/scripts/validate-init.py < init.json`
 - Review init.json for accuracy
 - Suggest next step: /melly-c1-systems
 

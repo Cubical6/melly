@@ -58,10 +58,10 @@ After generating `c2-containers.json`:
 
 ```bash
 # Validate JSON structure
-python plugins/melly-validation/scripts/validate-c2-containers.py c2-containers.json
+python validation/scripts/validate-c2-containers.py c2-containers.json
 
 # Verify timestamps
-python plugins/melly-validation/scripts/check-timestamp.sh c2-containers.json c1-systems.json
+python validation/scripts/check-timestamp.sh c2-containers.json c1-systems.json
 ```
 
 ## Required Fields

@@ -115,7 +115,7 @@ Document HOW systems, containers, and components communicate—what flows betwee
 
 **Output:** `systems[].relations[]`, `containers[].relations[]`, `components[].relations[]`
 
-**Validation:** `python plugins/melly-validation/scripts/validate-c{1,2,3}-*.py`
+**Validation:** `python validation/scripts/validate-c{1,2,3}-*.py`
 
 ---
 
