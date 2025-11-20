@@ -1,7 +1,7 @@
 # Melly Validation Requirements Specification
 
 **Version**: 1.0.0
-**Plugin**: `melly-validation`
+**Plugin**: `melly`
 **Location**: `/home/user/melly/validation/`
 **Date**: 2025-11-15
 
@@ -9,7 +9,7 @@
 
 ## Overview
 
-This document specifies the validation requirements for all Melly workflow components. All validation scripts are centralized in the `melly-validation` plugin for consistency and maintainability.
+This document specifies the validation requirements for all Melly workflow components. All validation scripts are centralized in the `validation/` directory for consistency and maintainability.
 
 **Exit Code Convention**:
 - `0` - Validation passed

@@ -1,12 +1,12 @@
 # Melly
 
-> A marketplace of Claude Code components for contextual knowledge retrieval
+> A collection of Claude Code components for contextual knowledge retrieval
 
-Melly is a marketplace of production-ready Claude Code components that enable intelligent contextual retrieval from knowledge bases. It provides a collection of plugins, skills, agents, and workflows that extend Claude Code with powerful capabilities for codebase analysis, skill development, and documentation generation.
+Melly is a comprehensive collection of production-ready Claude Code components that enable intelligent contextual retrieval from knowledge bases. It provides plugins, skills, agents, and workflows that extend Claude Code with powerful capabilities for codebase analysis, skill development, and documentation generation.
 
 ## 🎯 What is Melly?
 
-Melly serves as a central hub for Claude Code components optimized for contextual retrieval and knowledge management. Whether you need to analyze large codebases, develop new skills, or generate comprehensive architectural documentation - Melly provides the tools and components you need.
+Melly is a comprehensive collection of Claude Code components optimized for contextual retrieval and knowledge management. Whether you need to analyze large codebases, develop new skills, or generate comprehensive architectural documentation - Melly provides the tools and components you need.
 
 ## 📦 Available Plugins
 
@@ -96,14 +96,13 @@ Melly requires the following MCP servers for full functionality:
 
 ### Install Melly
 
-```bash
-# Install Melly core plugin from marketplace
-/plugin install melly@melly
+The Melly plugin is a local plugin defined in `.claude-plugin/marketplace.json`. All components (commands, agents, skills, and validation tools) are automatically available when you clone or install this repository.
 
-# Optional: Install additional plugins
-/plugin install abstractor-agent@melly  # Deep architectural analysis
-/plugin install basic-memory@melly      # MCP knowledge base server
-```
+**Optional Plugins:**
+- **abstractor-agent**: Available in `./plugins/abstractor-agent` for deep architectural analysis
+- **basic-memory**: Available in `./plugins/basic-memory` as an MCP server for knowledge management
+
+To use the MCP server functionality, ensure `basic-memory` is configured in your Claude Code settings. See [plugins/basic-memory](./plugins/basic-memory) for setup instructions.
 
 ## 📚 Documentation
 
@@ -136,7 +135,7 @@ After installation, components are automatically available:
 ```
 melly/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace definition (3 plugins)
+│   └── marketplace.json      # Plugin definition and registry (3 plugins with local sources)
 ├── commands/                 # Slash commands (consolidated)
 │   ├── init.md              # /melly:init - Repository exploration
 │   ├── c1-systems.md        # /melly:c1-systems - C1 analyzer
@@ -196,7 +195,7 @@ melly/
 
 ## 🤝 Contributing
 
-Melly is a community-driven marketplace. Contributions are welcome!
+Melly is a community-driven collection of Claude Code components. Contributions are welcome!
 
 1. Fork the repository
 2. Add your plugin to `plugins/`

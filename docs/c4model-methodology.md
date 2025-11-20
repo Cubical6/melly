@@ -130,7 +130,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ## Melly Workflow
 
-### Phase 1: Initialization (`/melly-init`)
+### Phase 1: Initialization (`/melly:init`)
 
 **Input:** Repository paths
 **Process:**
@@ -143,7 +143,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ---
 
-### Phase 2: C1 System Identification (`/melly-c1-systems`)
+### Phase 2: C1 System Identification (`/melly:c1-systems`)
 
 **Input:** `init.json`
 **Process:**
@@ -161,7 +161,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ---
 
-### Phase 3: C2 Container Identification (`/melly-c2-containers`)
+### Phase 3: C2 Container Identification (`/melly:c2-containers`)
 
 **Input:** `init.json`, `c1-systems.json`
 **Process:**
@@ -178,7 +178,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ---
 
-### Phase 4: C3 Component Identification (`/melly-c3-components`)
+### Phase 4: C3 Component Identification (`/melly:c3-components`)
 
 **Input:** `init.json`, `c1-systems.json`, `c2-containers.json`
 **Process:**
@@ -194,7 +194,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ---
 
-### Phase 5: Documentation Generation (`/melly-doc-c4model`)
+### Phase 5: Documentation Generation (`/melly:doc-c4model`)
 
 **Input:** All JSON files (init, c1, c2, c3)
 **Process:**
@@ -214,7 +214,7 @@ C4: Code             (Lowest abstraction - Classes, functions, etc.)
 
 ---
 
-### Phase 6: Visualization (`/melly-draw-c4model`)
+### Phase 6: Visualization (`/melly:draw-c4model`)
 
 **Input:** All JSON files
 **Process:**
