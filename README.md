@@ -42,33 +42,32 @@ Melly provides a complete workflow for reverse engineering codebases using the C
 
 ### Workflow Commands
 
-1. **`/melly-init`** - Initialize C4 model exploration
+1. **`/melly:init`** - Initialize C4 model exploration
    - Scan repository structure
    - Identify package manifests
    - Generate init.json
 
-2. **`/melly-c1-systems`** - Identify C1 (System Context) level
+2. **`/melly:c1-systems`** - Identify C1 (System Context) level
    - Detect systems from repositories
    - Generate architectural documentation
    - Store in knowledge base via basic-memory
 
-3. **`/melly-c2-containers`** ✅ - Identify C2 (Container) level
+3. **`/melly:c2-containers`** - Identify C2 (Container) level
    - Detect containers within systems
    - Map technology stack
    - Generate container documentation
-   - **Status**: Implemented (43 lines, follows best practices)
 
-4. **`/melly-c3-components`** - Identify C3 (Component) level
+4. **`/melly:c3-components`** - Identify C3 (Component) level
    - Detect components within containers
    - Analyze code structure
    - Generate component documentation
 
-5. **`/melly-doc-c4model`** - Generate comprehensive documentation
+5. **`/melly:doc-c4model`** - Generate comprehensive documentation
    - Create markdown files from JSON data
    - Populate observations and relations
    - Store in basic-memory knowledge base
 
-6. **`/melly-draw-c4model`** - Draw C4 model diagrams
+6. **`/melly:draw-c4model`** - Draw C4 model diagrams
    - Create Mermaid diagrams
    - Generate Obsidian canvas files
    - Visualize system architecture
@@ -98,13 +97,12 @@ Melly requires the following MCP servers for full functionality:
 ### Install Melly
 
 ```bash
-# Clone the Melly repository
-git clone https://github.com/Cubical6/melly.git
-cd melly
+# Install Melly core plugin from marketplace
+/plugin install melly@melly
 
-# Install plugins via Claude Code
-/plugin add ./plugins/abstractor-agent
-/plugin add ./plugins/basic-memory
+# Optional: Install additional plugins
+/plugin install abstractor-agent@melly  # Deep architectural analysis
+/plugin install basic-memory@melly      # MCP knowledge base server
 ```
 
 ## 📚 Documentation
@@ -123,11 +121,14 @@ Comprehensive documentation is available in the `docs/` directory:
 After installation, components are automatically available:
 
 ```bash
-# Use Abstractor Agent for deep architectural analysis
-/system-archaeologist
-
 # Start C4 model workflow
-/melly-init
+/melly:init
+
+# Analyze system context
+/melly:c1-systems
+
+# Use Abstractor Agent for deep architectural analysis (optional plugin)
+/system-archaeologist
 ```
 
 ## 📖 Repository Structure
@@ -135,31 +136,31 @@ After installation, components are automatically available:
 ```
 melly/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace definition (16 plugins)
-├── plugins/                  # Marketplace plugins
-│   ├── abstractor-agent/    # Core: Deep architectural analysis
-│   ├── basic-memory/        # Core: MCP knowledge base server
-│   ├── melly-validation/    # Validation: Scripts and templates
-│   ├── melly-core/          # New: Consolidated core (refactoring)
-│   │
-│   ├── C4 Workflow (6):     # Complete workflow plugins
-│   ├── melly-init/          # /melly-init - Repository exploration
-│   ├── melly-c1/            # /melly-c1-systems - C1 analyzer
-│   ├── melly-c2/            # /melly-c2-containers - C2 analyzer
-│   ├── melly-c3/            # /melly-c3-components - C3 analyzer
-│   ├── melly-doc/           # /melly-doc-c4model - Documentation
-│   ├── melly-draw/          # /melly-draw-c4model - Diagrams
-│   │
-│   ├── C4 Skills (5):       # Methodology skills
+│   └── marketplace.json      # Marketplace definition (3 plugins)
+├── commands/                 # Slash commands (consolidated)
+│   ├── init.md              # /melly:init - Repository exploration
+│   ├── c1-systems.md        # /melly:c1-systems - C1 analyzer
+│   ├── c2-containers.md     # /melly:c2-containers - C2 analyzer
+│   ├── c3-components.md     # /melly:c3-components - C3 analyzer
+│   ├── doc-c4model.md       # /melly:doc-c4model - Documentation
+│   └── draw-c4model.md      # /melly:draw-c4model - Diagrams
+├── agents/                   # Agents for specialized tasks
+│   ├── c1-writer/           # C1 documentation generator
+│   ├── c2-writer/           # C2 documentation generator
+│   ├── c3-writer/           # C3 documentation generator
+│   └── c4model-writer/      # General C4 documentation writer
+├── skills/                   # C4 methodology skills
 │   ├── c4model-c1/          # C1 System Context methodology
 │   ├── c4model-c2/          # C2 Container methodology
 │   ├── c4model-c3/          # C3 Component methodology
-│   ├── c4model-observations/  # Observation documentation
-│   ├── c4model-relations/   # Relation documentation
-│   │
-│   ├── c1-abstractor/       # Standalone: Simplified C1 analyzer
-│   └── melly-writer-lib/    # Library: Documentation writer utilities
-│
+│   ├── c4model-observations/ # Observation documentation
+│   └── c4model-relations/   # Relation documentation
+├── validation/               # Validation scripts and templates
+│   ├── scripts/             # Validation scripts
+│   └── templates/           # Documentation templates
+├── plugins/                  # Optional marketplace plugins
+│   ├── abstractor-agent/    # Optional: Deep architectural analysis
+│   └── basic-memory/        # Optional: MCP knowledge base server
 ├── knowledge-base/           # C4 model knowledge base
 │   ├── libraries/           # Framework documentation (e.g., Laravel)
 │   ├── systems/             # Generated C4 docs (gitignored)
@@ -176,36 +177,20 @@ melly/
 
 ### Plugin Categories
 
-**Total: 16 plugins implemented**
+**Total: 3 plugins available**
 
-**Core Infrastructure (2):**
-- **abstractor-agent**: ✅ System archaeologist for codebase exploration
-- **basic-memory**: ✅ Knowledge management via MCP server
+**Core Plugin (1):**
+- **melly**: ✅ Complete C4 model workflow with consolidated commands, agents, skills, and validation
+  - 6 slash commands (/melly:init, /melly:c1-systems, /melly:c2-containers, etc.)
+  - 4 specialized agents (c1-writer, c2-writer, c3-writer, c4model-writer)
+  - 5 C4 methodology skills (10,000+ lines of comprehensive guidance)
+  - Validation scripts and templates (7 validators, 3 generators)
 
-**C4 Workflow Plugins (6) - All Functional:**
-- **melly-init**: ✅ Repository exploration and initialization
-- **melly-c1**: ✅ C1 System Context analysis
-- **melly-c2**: ✅ C2 Container analysis
-- **melly-c3**: ✅ C3 Component analysis
-- **melly-doc**: ✅ Documentation generation
-- **melly-draw**: ✅ Diagram visualization
+**Optional Plugins (2):**
+- **abstractor-agent**: ✅ System archaeologist for deep codebase exploration
+- **basic-memory**: ✅ Knowledge management via MCP server for storing C4 documentation
 
-**C4 Methodology Skills (5):**
-- **c4model-c1**: ✅ C1 System Context methodology (1,558 lines)
-- **c4model-c2**: ✅ C2 Container methodology (2,318 lines, 20+ tech patterns)
-- **c4model-c3**: ✅ C3 Component methodology (2,109 lines, 12 component types)
-- **c4model-observations**: ✅ Observation documentation (2,455 lines, 34 categories)
-- **c4model-relations**: ✅ Relation documentation (2,619 lines, 48 relation types)
-
-**Validation & Quality (1):**
-- **melly-validation**: ✅ Scripts & templates (7 validators, 3 generators, 2,859 lines)
-
-**Refactoring & Utilities (3):**
-- **melly-core**: ✅ Consolidated core plugin (new architecture)
-- **c1-abstractor**: ✅ Standalone simplified C1 analyzer
-- **melly-writer-lib**: ✅ Library documentation writer utilities
-
-**Current Status**: All components are functional. Architectural refactoring in progress to consolidate plugins and follow Claude Code best practices.
+**Current Status**: All components are functional and follow Claude Code best practices with consolidated single-plugin architecture.
 
 **Legend:** ✅ Implemented and Functional
 

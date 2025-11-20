@@ -1,0 +1,23 @@
+{
+  "name": "melly",
+  "version": "2.0.0",
+  "description": "Complete C4 model workflow for reverse engineering codebases - includes 6 workflow commands, 6 specialized agents, 5 methodology skills, and comprehensive validation tools",
+  "author": {
+    "name": "Melly Team",
+    "email": "melly.jwpd1@simplelogin.com"
+  },
+  "repository": "https://github.com/Cubical6/melly",
+  "license": "MIT",
+  "keywords": [
+    "c4-model",
+    "architecture",
+    "reverse-engineering",
+    "documentation",
+    "workflow",
+    "analysis",
+    "codebase",
+    "systems",
+    "containers",
+    "components"
+  ]
+}
