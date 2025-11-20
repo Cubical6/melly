@@ -6,15 +6,34 @@ This script ensures CONSISTENT markdown structure by using deterministic
 generation instead of AI-based markdown creation.
 
 Usage:
-    python generate-c2-markdown.py c2-containers.json
+    python generate-c2-markdown.py c2-containers.json [--project PROJECT_NAME]
 
 Output:
-    knowledge-base/systems/{system-id}/c2/{container-id}.md (for each container)
+    {project-root}/systems/{system-id}/c2/{container-id}.md (for each container)
 """
 import json
 import sys
 from pathlib import Path
 from typing import Dict, List, Any
+
+# Import project root detection
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
+try:
+    from get_project_root import get_project_root
+except ImportError:
+    # Fallback if import fails
+    def get_project_root(interactive=False):
+        """Fallback: use knowledge-base in git root or cwd"""
+        try:
+            import subprocess
+            git_root = subprocess.check_output(
+                ['git', 'rev-parse', '--show-toplevel'],
+                stderr=subprocess.DEVNULL,
+                text=True
+            ).strip()
+            return Path(git_root) / "knowledge-base", "main"
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            return Path.cwd() / "knowledge-base", "main"
 
 
 def group_by_category(observations: List[Dict]) -> Dict[str, List[Dict]]:
@@ -193,11 +212,46 @@ def generate_c2_markdown(container: Dict[str, Any], source_file: str = "c2-conta
 
 def main():
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python generate-c2-markdown.py <c2-containers.json>")
-        sys.exit(1)
+    import argparse
 
-    json_file = sys.argv[1]
+    parser = argparse.ArgumentParser(
+        description='Generate C2 markdown documentation from JSON'
+    )
+    parser.add_argument('json_file', help='Input JSON file (c2-containers.json)')
+    parser.add_argument(
+        '--project',
+        help='Specific basic-memory project to use (if multiple exist)'
+    )
+
+    args = parser.parse_args()
+    json_file = args.json_file
+
+    # Detect project root
+    try:
+        if args.project:
+            # User specified project - use get_project_root.py CLI
+            import subprocess
+            result = subprocess.run(
+                [sys.executable, Path(__file__).parent / "get-project-root.py",
+                 "--project", args.project, "--quiet"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            project_root = Path(result.stdout.strip())
+            project_name = args.project
+        else:
+            # Auto-detect project
+            project_root, project_name = get_project_root(interactive=False)
+
+        print(f"Using project: {project_name}")
+        print(f"Project root: {project_root}")
+        print()
+    except Exception as e:
+        print(f"Error detecting project root: {e}", file=sys.stderr)
+        print("Falling back to: ./knowledge-base", file=sys.stderr)
+        project_root = Path("knowledge-base")
+        project_name = "default"
 
     # Load JSON
     try:
@@ -229,8 +283,8 @@ def main():
         # Generate markdown
         markdown = generate_c2_markdown(container, json_file)
 
-        # Write to file
-        output_dir = Path(f"knowledge-base/systems/{system_id}/c2")
+        # Write to file using detected project root
+        output_dir = project_root / "systems" / system_id / "c2"
         output_dir.mkdir(parents=True, exist_ok=True)
 
         output_file = output_dir / f"{container_id}.md"

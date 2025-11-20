@@ -6,15 +6,34 @@ This script ensures CONSISTENT markdown structure by using deterministic
 generation instead of AI-based markdown creation.
 
 Usage:
-    python generate-c3-markdown.py c3-components.json
+    python generate-c3-markdown.py c3-components.json [--project PROJECT_NAME]
 
 Output:
-    knowledge-base/systems/{system-id}/c3/{component-id}.md (for each component)
+    {project-root}/systems/{system-id}/c3/{component-id}.md (for each component)
 """
 import json
 import sys
 from pathlib import Path
 from typing import Dict, List, Any
+
+# Import project root detection
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
+try:
+    from get_project_root import get_project_root
+except ImportError:
+    # Fallback if import fails
+    def get_project_root(interactive=False):
+        """Fallback: use knowledge-base in git root or cwd"""
+        try:
+            import subprocess
+            git_root = subprocess.check_output(
+                ['git', 'rev-parse', '--show-toplevel'],
+                stderr=subprocess.DEVNULL,
+                text=True
+            ).strip()
+            return Path(git_root) / "knowledge-base", "main"
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            return Path.cwd() / "knowledge-base", "main"
 
 
 def group_by_category(observations: List[Dict]) -> Dict[str, List[Dict]]:
@@ -224,11 +243,46 @@ def generate_c3_markdown(component: Dict[str, Any], source_file: str = "c3-compo
 
 def main():
     """Main entry point."""
-    if len(sys.argv) < 2:
-        print("Usage: python generate-c3-markdown.py <c3-components.json>")
-        sys.exit(1)
+    import argparse
 
-    json_file = sys.argv[1]
+    parser = argparse.ArgumentParser(
+        description='Generate C3 markdown documentation from JSON'
+    )
+    parser.add_argument('json_file', help='Input JSON file (c3-components.json)')
+    parser.add_argument(
+        '--project',
+        help='Specific basic-memory project to use (if multiple exist)'
+    )
+
+    args = parser.parse_args()
+    json_file = args.json_file
+
+    # Detect project root
+    try:
+        if args.project:
+            # User specified project - use get_project_root.py CLI
+            import subprocess
+            result = subprocess.run(
+                [sys.executable, Path(__file__).parent / "get-project-root.py",
+                 "--project", args.project, "--quiet"],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            project_root = Path(result.stdout.strip())
+            project_name = args.project
+        else:
+            # Auto-detect project
+            project_root, project_name = get_project_root(interactive=False)
+
+        print(f"Using project: {project_name}")
+        print(f"Project root: {project_root}")
+        print()
+    except Exception as e:
+        print(f"Error detecting project root: {e}", file=sys.stderr)
+        print("Falling back to: ./knowledge-base", file=sys.stderr)
+        project_root = Path("knowledge-base")
+        project_name = "default"
 
     # Load JSON
     try:
@@ -265,8 +319,8 @@ def main():
         # Generate markdown
         markdown = generate_c3_markdown(component, json_file)
 
-        # Write to file
-        output_dir = Path(f"knowledge-base/systems/{system_id}/c3")
+        # Write to file using detected project root
+        output_dir = project_root / "systems" / system_id / "c3"
         output_dir.mkdir(parents=True, exist_ok=True)
 
         output_file = output_dir / f"{component_id}.md"

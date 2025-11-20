@@ -15,21 +15,28 @@ Generate structured markdown documentation from C4 model JSON files.
 ## Workflow
 
 Use the Task tool to launch the c4model-writer agent to:
-1. Validate all required JSON files exist
-2. Apply C4 markdown templates
-3. Generate documentation via basic-memory MCP
-4. Run validation on generated files
+1. Detect basic-memory project root (auto-selects from ~/.basic-memory/config.json or uses fallback)
+2. Validate all required JSON files exist
+3. Apply C4 markdown templates
+4. Generate documentation to detected project location
+5. Run validation on generated files
 
 **Agent invocation:**
 ```
 Level: ${1:-all}
 Force regenerate: false (incremental updates enabled)
-Output: knowledge-base/systems/
+Output: Auto-detected project root (see agent output for location)
 ```
+
+**Project Detection:**
+- Single project: Auto-selected automatically
+- Multiple projects: Uses default_project from config or BASIC_MEMORY_PROJECT_ROOT env var
+- No config: Falls back to ./knowledge-base in current directory
 
 ## After Completion
 
 The agent will report:
+- Project name and root path used
 - Entities processed (new/modified/unchanged)
 - Generated file paths
 - Validation results
@@ -37,11 +44,23 @@ The agent will report:
 **Validation:**
 ```bash
 # Validate generated markdown (if needed)
-bash plugins/melly-validation/scripts/validate-markdown.py knowledge-base/systems/**/*.md
+# Use the project root path reported by the agent
+bash plugins/melly-validation/scripts/validate-markdown.py {project-root}/systems/**/*.md
+```
+
+**Basic-Memory Indexing (Optional):**
+If you want generated files indexed in basic-memory for semantic search:
+```bash
+# One-time sync
+basic-memory sync
+
+# Or continuous watching (recommended)
+basic-memory sync --watch
 ```
 
 **Next steps:**
-- Review generated documentation in knowledge-base/
+- Review generated documentation in the reported project root
+- Optionally sync with basic-memory for searchable knowledge
 - Run `/melly-draw-c4model` to create visualizations
 - Commit documentation to repository
 
