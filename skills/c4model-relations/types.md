@@ -490,7 +490,7 @@ This document provides comprehensive definitions for all relation types across C
 - **Detailed Reference:** [reference.md](./reference.md)
 - **Examples:** [examples.md](./examples.md)
 - **Main Skill:** [SKILL.md](./SKILL.md)
-- **Type Schema:** `/plugins/melly-validation/templates/types-relations.json`
+- **Type Schema:** `${CLAUDE_PLUGIN_ROOT}/validation/templates/types-relations.json`
 
 ---
 

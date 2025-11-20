@@ -477,7 +477,7 @@
 
   "references": [
     "C4 Methodology: /home/user/melly/docs/c4model-methodology.md",
-    "Validation Scripts: /home/user/melly/plugins/melly-validation/scripts/",
+    "Validation Scripts: ${CLAUDE_PLUGIN_ROOT}/validation/scripts/",
     "Agent Prompts: /home/user/melly/plugins/*/agents/*.md",
     "JSON Schema: http://json-schema.org/"
   ]

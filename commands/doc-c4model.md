@@ -37,7 +37,7 @@ The agent will report:
 **Validation:**
 ```bash
 # Validate generated markdown (if needed)
-bash plugins/melly-validation/scripts/validate-markdown.py knowledge-base/systems/**/*.md
+bash ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-markdown.py knowledge-base/systems/**/*.md
 ```
 
 **Next steps:**

@@ -879,5 +879,5 @@ If the same observation applies to multiple levels, document it at the **highest
 
 - **[examples.md](examples.md)** - 30+ complete examples
 - **[categories.md](categories.md)** - Category quick reference
-- **Validation scripts** - `plugins/melly-validation/scripts/validate-*.py`
-- **Type definitions** - `plugins/melly-validation/templates/types-observations.json`
+- **Validation scripts** - `${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-*.py`
+- **Type definitions** - `${CLAUDE_PLUGIN_ROOT}/validation/templates/types-observations.json`

@@ -201,7 +201,7 @@ Use the Task tool to launch c1-analyzer agent to:
 3. Generate c1-systems.json
 
 After agent completes:
-- Validate: `bash plugins/melly-validation/scripts/validate-c1-systems.py c1-systems.json`
+- Validate: `bash ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c1-systems.py c1-systems.json`
 - Report results
 - Suggest next step: /melly-c2-containers
 ```
@@ -768,7 +768,7 @@ Before creating ANY component, verify:
 
 **Plugin Structure**:
 ```
-plugins/melly-validation/
+validation/
 ├── plugin.json                    # Plugin metadata ✅
 ├── README.md                      # Usage documentation ✅
 ├── requirements.txt               # Python dependencies ✅
@@ -811,8 +811,8 @@ plugins/melly-validation/
 - **check-timestamp.sh** (4.6 KB): Timestamp ordering validation with time diff
 
 **Tasks**:
-- [x] Create `plugins/melly-validation/plugin.json` with metadata
-- [x] Create `plugins/melly-validation/README.md` documenting usage
+- [x] Create `validation/plugin.json` with metadata
+- [x] Create `validation/README.md` documenting usage
 - [x] Create all template files (see Section 2.4 for details)
 - [x] Implement generation scripts (3 scripts for markdown generation)
 - [x] Implement validation scripts (7 scripts - see Section 2.3 for specs)
@@ -883,7 +883,7 @@ The JSON schema architecture supports progressive abstraction from repositories 
 ### 3.3 Validation Script Specifications ✅ DESIGN COMPLETE
 
 **Status**: Validation requirements documented
-**Location**: `plugins/melly-validation/scripts/`
+**Location**: `${CLAUDE_PLUGIN_ROOT}/validation/scripts/`
 **Reference**: See **[docs/validation-requirements.md](../docs/validation-requirements.md)** for complete specification
 
 **Summary**:
@@ -935,7 +935,7 @@ All validation scripts use exit code convention:
 ### 3.4 Template File Specifications ✅ DESIGN COMPLETE
 
 **Status**: Template structure and usage documented
-**Location**: `plugins/melly-validation/templates/`
+**Location**: `${CLAUDE_PLUGIN_ROOT}/validation/templates/`
 **Reference**: See **[docs/c4model-writer-workflow.md](../docs/c4model-writer-workflow.md)** Section 5 for template usage
 
 **Summary**:
@@ -1035,7 +1035,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
 
 ### 4.3 Template Files ✅ MOVED
 
-**See Section 3.4** - All template files are now part of the `melly-validation` plugin at `plugins/melly-validation/templates/`.
+**See Section 3.4** - All template files are now part of the `melly-validation` plugin at `${CLAUDE_PLUGIN_ROOT}/validation/templates/`.
 
 ---
 
@@ -1228,7 +1228,7 @@ Templates define the structure of generated JSON and Markdown files. The c4model
     3. Read container data from c2-containers.json
     4. Analyze containers and identify components
     5. Generate c3-components.json with observations and relations
-    6. Validate with `plugins/melly-validation/scripts/validate-c3-components.py`
+    6. Validate with `${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c3-components.py`
   - Size: 146 lines (within max 150 for complex agents)
   - Best practices: Simple workflow, uses c4model-c3 skill, minimal scripts
 

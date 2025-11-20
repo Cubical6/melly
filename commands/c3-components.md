@@ -30,7 +30,7 @@ Use Task tool to launch c3-abstractor agent:
 
 After agent completion:
 ```bash
-python plugins/melly-validation/scripts/validate-c3-components.py c3-components.json
+python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c3-components.py c3-components.json
 ```
 
 Report:

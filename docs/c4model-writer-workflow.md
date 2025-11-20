@@ -489,7 +489,7 @@ def merge_manual_edits(generated_markdown, existing_markdown):
 
 Templates define the structure of generated documentation:
 
-**File**: `validation/templates/c1-markdown-template.md`
+**File**: `${CLAUDE_PLUGIN_ROOT}/validation/templates/c1-markdown-template.md`
 
 ```markdown
 ---

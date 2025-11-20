@@ -47,7 +47,7 @@ Analyze repositories from `init.json` and generate `c1-systems.json` containing 
 
 ### Step 3: Generate c1-systems.json
 
-1. Create output following template structure (see `plugins/melly-validation/templates/c1-systems-template.json`)
+1. Create output following template structure (see `${CLAUDE_PLUGIN_ROOT}/validation/templates/c1-systems-template.json`)
 2. Required structure:
    ```json
    {
@@ -82,7 +82,7 @@ Analyze repositories from `init.json` and generate `c1-systems.json` containing 
 
 1. Run validation:
    ```bash
-   python plugins/melly-validation/scripts/validate-c1-systems.py c1-systems.json
+   python ${CLAUDE_PLUGIN_ROOT}/validation/scripts/validate-c1-systems.py c1-systems.json
    ```
 2. If validation fails (exit code 2):
    - Display errors
@@ -133,7 +133,7 @@ Status: ✅ Validated
 Next Steps:
 1. Review c1-systems.json
 2. Run: /melly-c2-containers (Container analysis)
-3. Or create system folders: bash plugins/melly-validation/scripts/create-folders.sh c1-systems.json
+3. Or create system folders: bash ${CLAUDE_PLUGIN_ROOT}/validation/scripts/create-folders.sh c1-systems.json
 ```
 
 ## Key Principles
