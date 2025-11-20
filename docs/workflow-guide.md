@@ -16,22 +16,38 @@ Before using Melly, ensure you have:
    ```bash
    cd /path/to/melly
    /plugin add ./plugins/abstractor-agent
-   /plugin add ./plugins/skill-builder
    /plugin add ./plugins/basic-memory
-   /plugin add ./plugins/melly-init          # ✅ Phase 1 implemented
+   /plugin add ./plugins/melly-init
    ```
 
 ### Implementation Status
 
-- ✅ **Phase 1: Initialization** (`/melly-init`) - IMPLEMENTED (2025-11-17)
+- ✅ **Phase 1: Initialization** (`/melly-init`) - IMPLEMENTED
   - Command: `plugins/melly-init/commands/melly-init.md` (33 lines)
   - Agent: `plugins/melly-init/agents/c4model-explorer.md` (70 lines)
-  - Status: Production-ready, follows Claude Code best practices
-- 🔴 Phase 2: C1 Systems (`/melly-c1-systems`) - Not yet implemented
-- 🔴 Phase 3: C2 Containers (`/melly-c2-containers`) - Not yet implemented
-- 🔴 Phase 4: C3 Components (`/melly-c3-components`) - Not yet implemented
-- 🔴 Phase 5: Documentation (`/melly-doc-c4model`) - Not yet implemented
-- 🔴 Phase 6: Visualization (`/melly-draw-c4model`) - Not yet implemented
+  - Status: Production-ready
+- ✅ **Phase 2: C1 Systems** (`/melly-c1-systems`) - IMPLEMENTED
+  - Command: `plugins/melly-c1/commands/melly-c1-systems.md` (44 lines)
+  - Agent: `plugins/melly-c1/agents/c1-abstractor.md` (133 lines)
+  - Status: Functional, undergoing refactoring
+- ✅ **Phase 3: C2 Containers** (`/melly-c2-containers`) - IMPLEMENTED
+  - Command: `plugins/melly-c2/commands/melly-c2-containers.md` (71 lines)
+  - Agent: `plugins/melly-c2/agents/c2-abstractor.md` (194 lines)
+  - Status: Functional, undergoing refactoring
+- ✅ **Phase 4: C3 Components** (`/melly-c3-components`) - IMPLEMENTED
+  - Command: `plugins/melly-c3/commands/melly-c3-components.md` (45 lines)
+  - Agent: `plugins/melly-c3/agents/c3-abstractor.md` (147 lines)
+  - Status: Functional, undergoing refactoring
+- ✅ **Phase 5: Documentation** (`/melly-doc-c4model`) - IMPLEMENTED
+  - Command: `plugins/melly-doc/commands/melly-doc-c4model.md` (49 lines)
+  - Agent: `plugins/melly-doc/agents/c4model-writer.md` (91 lines)
+  - Status: Functional, undergoing refactoring
+- ✅ **Phase 6: Visualization** (`/melly-draw-c4model`) - IMPLEMENTED
+  - Command: `plugins/melly-draw/commands/melly-draw-c4model.md` (72 lines)
+  - Agent: `plugins/melly-draw/agents/c4model-drawer.md` (134 lines)
+  - Status: Functional, undergoing refactoring
+
+**Note**: All phases are functional. Components are currently being refactored to follow Claude Code best practices (simpler architecture, consolidated plugins).
 
 ---
 
@@ -597,19 +613,14 @@ jobs:
 
 Melly currently provides the following production-ready components:
 
-#### Core Plugins (3)
+#### Core Plugins (2)
 
 1. **abstractor-agent** ✅
    - Deep architectural analysis through subagent-driven exploration
    - Generates C4 diagrams and subsystem catalogs
    - Use: `/system-archaeologist`
 
-2. **skill-builder** ✅
-   - Meta-skill for creating and editing Claude Code skills
-   - CLI tools and Python scripting patterns
-   - Use: "Help me create a skill for [task]"
-
-3. **basic-memory** ✅
+2. **basic-memory** ✅
    - Knowledge management via MCP server
    - Multi-project support with sync
    - Obsidian canvas integration
@@ -622,37 +633,56 @@ Melly currently provides the following production-ready components:
    - JSON templates for all C4 levels
    - Total: 2,859 lines of production-ready code
 
-#### C4 Methodology Skills (1/5)
+#### C4 Methodology Skills (5/5)
 
-1. **c4model-c1** ✅
-   - **C1 (System Context) methodology skill**
-   - Comprehensive guidance for system identification
+1. **c4model-c1** ✅ - C1 (System Context) methodology skill
    - System identification rules and criteria
-   - Actor identification (users and external systems)
-   - Boundary detection methodology
+   - Actor identification and boundary detection
    - Relationship mapping (8 relationship types)
-   - Observation guidelines (8 categories with evidence)
-   - 4 complete architecture patterns (web, microservices, event-driven, mobile)
-   - Complete workflow integration (init.json → c1-systems.json)
-   - **Documentation**: 1,558 lines (400 README + 1,158 SKILL.md)
-   - **Use**: Automatically activates when working with system identification
+   - 4 complete architecture patterns
+   - **Documentation**: 1,558 lines
+   - **Use**: Automatically activates during system identification
 
-### In Development
+2. **c4model-c2** ✅ - C2 (Container) methodology skill
+   - Container identification and technology detection
+   - 20+ technology stack patterns
+   - Runtime environment mapping
+   - **Documentation**: 2,318 lines
+   - **Use**: Automatically activates during container analysis
 
-The following workflow components are currently being developed:
+3. **c4model-c3** ✅ - C3 (Component) methodology skill
+   - Component identification and code structure analysis
+   - 12 component types, 8 design patterns
+   - Dependency mapping
+   - **Documentation**: 2,109 lines
+   - **Use**: Automatically activates during component analysis
 
-- **c4model-c2** 🔴 - C2 Container methodology skill
-- **c4model-c3** 🔴 - C3 Component methodology skill
-- **c4model-observations** 🔴 - Observation documentation skill
-- **c4model-relations** 🔴 - Relation documentation skill
-- **melly-init** 🔴 - Initialization workflow command
-- **melly-c1** 🔴 - C1 Systems workflow command
-- **melly-c2** 🔴 - C2 Containers workflow command
-- **melly-c3** 🔴 - C3 Components workflow command
-- **melly-doc** 🔴 - Documentation generation command
-- **melly-draw** 🔴 - Diagram visualization command
+4. **c4model-observations** ✅ - Observation documentation methodology
+   - 34 observation categories with evidence requirements
+   - Structured observation templates
+   - **Documentation**: 2,455 lines
+   - **Use**: Automatically activates during documentation generation
 
-**Legend:** ✅ Completed | 🔴 In Development
+5. **c4model-relations** ✅ - Relation documentation methodology
+   - 48 relation types with protocol specifications
+   - Relationship mapping and validation
+   - **Documentation**: 2,619 lines
+   - **Use**: Automatically activates during relationship mapping
+
+### Workflow Commands Status
+
+All workflow commands are implemented and functional:
+
+- **melly-init** ✅ - Initialization workflow command
+- **melly-c1** ✅ - C1 Systems workflow command (as `/melly-c1-systems`)
+- **melly-c2** ✅ - C2 Containers workflow command (as `/melly-c2-containers`)
+- **melly-c3** ✅ - C3 Components workflow command (as `/melly-c3-components`)
+- **melly-doc** ✅ - Documentation generation command (as `/melly-doc-c4model`)
+- **melly-draw** ✅ - Diagram visualization command (as `/melly-draw-c4model`)
+
+**Current Status**: Components are undergoing architectural refactoring to simplify and consolidate plugins while maintaining full functionality.
+
+**Legend:** ✅ Implemented
 
 ---
 
@@ -676,5 +706,5 @@ After completing the workflow:
 
 ---
 
-**Last Updated:** 2025-11-17
-**Version:** 1.0.0
+**Last Updated:** 2025-11-20
+**Version:** 1.1.0

@@ -23,19 +23,6 @@ Deep architectural analysis of existing codebases through autonomous subagent-dr
 **Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
 **License:** MIT
 
-### Skill Builder
-
-Meta-skill for creating, editing, and converting Claude Code skills.
-
-**Key Features:**
-- Create new skills with production-ready patterns
-- Improve and refactor existing skills
-- Convert sub-agents to skill format
-- CLI-first approach with Python patterns
-
-**Repository:** [Cubical6/melly](https://github.com/Cubical6/melly)
-**License:** MIT
-
 ### Basic Memory (MCP Server)
 
 Knowledge management system via MCP for storing and retrieving C4 model documentation.
@@ -117,7 +104,6 @@ cd melly
 
 # Install plugins via Claude Code
 /plugin add ./plugins/abstractor-agent
-/plugin add ./plugins/skill-builder
 /plugin add ./plugins/basic-memory
 ```
 
@@ -137,11 +123,11 @@ Comprehensive documentation is available in the `docs/` directory:
 After installation, components are automatically available:
 
 ```bash
-# Use Abstractor Agent
+# Use Abstractor Agent for deep architectural analysis
 /system-archaeologist
 
-# Ask Skill Builder for help
-"Help me create a skill for AWS Lambda deployment"
+# Start C4 model workflow
+/melly-init
 ```
 
 ## 📖 Repository Structure
@@ -149,49 +135,40 @@ After installation, components are automatically available:
 ```
 melly/
 ├── .claude-plugin/
-│   └── marketplace.json      # Marketplace definition (18 workflow plugins)
+│   └── marketplace.json      # Marketplace definition (16 plugins)
 ├── plugins/                  # Marketplace plugins
-│   ├── abstractor-agent/    # Existing: Deep architectural analysis
-│   ├── skill-builder/       # Existing: Meta-skill for skill development
-│   ├── basic-memory/        # Existing: MCP knowledge base server
+│   ├── abstractor-agent/    # Core: Deep architectural analysis
+│   ├── basic-memory/        # Core: MCP knowledge base server
+│   ├── melly-validation/    # Validation: Scripts and templates
+│   ├── melly-core/          # New: Consolidated core (refactoring)
 │   │
-│   ├── Agents (6):          # C4 workflow agents
-│   ├── c4model-explorer/    # Repository exploration and init.json
-│   ├── c1-abstractor/       # C1 System Context analyzer
-│   ├── c2-abstractor/       # C2 Container analyzer
-│   ├── c3-abstractor/       # C3 Component analyzer
-│   ├── c4model-writer/      # Documentation generator
-│   ├── c4model-drawer/      # C4 diagram drawer
+│   ├── C4 Workflow (6):     # Complete workflow plugins
+│   ├── melly-init/          # /melly-init - Repository exploration
+│   ├── melly-c1/            # /melly-c1-systems - C1 analyzer
+│   ├── melly-c2/            # /melly-c2-containers - C2 analyzer
+│   ├── melly-c3/            # /melly-c3-components - C3 analyzer
+│   ├── melly-doc/           # /melly-doc-c4model - Documentation
+│   ├── melly-draw/          # /melly-draw-c4model - Diagrams
 │   │
-│   ├── Commands (6):        # C4 workflow slash commands
-│   ├── melly-init/          # /melly-init
-│   ├── melly-c1-systems/    # /melly-c1-systems
-│   ├── melly-c2-containers/ # /melly-c2-containers
-│   ├── melly-c3-components/ # /melly-c3-components
-│   ├── melly-doc-c4model/   # /melly-doc-c4model
-│   ├── melly-draw-c4model/  # /melly-draw-c4model
-│   │
-│   ├── Skills (5):          # C4 methodology skills
+│   ├── C4 Skills (5):       # Methodology skills
 │   ├── c4model-c1/          # C1 System Context methodology
 │   ├── c4model-c2/          # C2 Container methodology
 │   ├── c4model-c3/          # C3 Component methodology
 │   ├── c4model-observations/  # Observation documentation
 │   ├── c4model-relations/   # Relation documentation
 │   │
-│   └── Validation (1):      # Quality assurance
-│       └── melly-validation/  # Scripts and templates
+│   ├── c1-abstractor/       # Standalone: Simplified C1 analyzer
+│   └── melly-writer-lib/    # Library: Documentation writer utilities
+│
 ├── knowledge-base/           # C4 model knowledge base
-│   ├── libraries/           # Tool and package docs
+│   ├── libraries/           # Framework documentation (e.g., Laravel)
 │   ├── systems/             # Generated C4 docs (gitignored)
 │   └── templates/           # Markdown templates
 ├── docs/                     # Comprehensive documentation
-│   ├── claude-code/         # Claude Code documentation
-│   │   ├── sub-agents.md
-│   │   ├── skills.md
-│   │   ├── slash-commands.md
-│   │   └── ...
-│   ├── c4model-methodology.md  # C4 approach guide
-│   └── workflow-guide.md    # Melly workflow usage
+│   ├── claude-code/         # Claude Code reference docs
+│   ├── c4model/             # C4 model methodology
+│   ├── workflow-guide.md    # User workflow guide
+│   └── ...
 ├── CLAUDE.md                 # Implementation guide
 ├── TASKS.md                  # Development tasks
 └── README.md                 # This file
@@ -199,28 +176,38 @@ melly/
 
 ### Plugin Categories
 
-**Total: 9 plugins** (3 existing + 1 validation + 5 skills) | **In Development: 6 workflow plugins**
+**Total: 16 plugins implemented**
 
-**Implemented Plugins (9):**
+**Core Infrastructure (2):**
 - **abstractor-agent**: ✅ System archaeologist for codebase exploration
-- **skill-builder**: ✅ Create and manage skills
-- **basic-memory**: ✅ Knowledge management via MCP
-- **melly-validation**: ✅ Centralized validation scripts & templates (7 validators, 3 generators)
-- **c4model-c1**: ✅ C1 System Context methodology skill (1,558 lines)
-- **c4model-c2**: ✅ C2 Container methodology skill (2,318 lines)
-- **c4model-c3**: ✅ C3 Component methodology skill (2,109 lines)
-- **c4model-observations**: ✅ Observation documentation methodology (2,455 lines, 34 categories)
-- **c4model-relations**: ✅ Relation documentation methodology (2,619 lines, 48 relation types)
+- **basic-memory**: ✅ Knowledge management via MCP server
 
-**Workflow Plugins (In Development):**
-- **melly-init**: 🔴 Explorer agent, init command
-- **melly-c1**: 🔴 C1 abstractor agent, c1-systems command
-- **melly-c2**: 🔴 C2 abstractor agent, c2-containers command
-- **melly-c3**: 🔴 C3 abstractor agent, c3-components command
-- **melly-doc**: 🔴 Writer agent, doc-c4model command
-- **melly-draw**: 🔴 Drawer agent, draw-c4model command
+**C4 Workflow Plugins (6) - All Functional:**
+- **melly-init**: ✅ Repository exploration and initialization
+- **melly-c1**: ✅ C1 System Context analysis
+- **melly-c2**: ✅ C2 Container analysis
+- **melly-c3**: ✅ C3 Component analysis
+- **melly-doc**: ✅ Documentation generation
+- **melly-draw**: ✅ Diagram visualization
 
-**Legend:** ✅ Completed | 🔴 In Development
+**C4 Methodology Skills (5):**
+- **c4model-c1**: ✅ C1 System Context methodology (1,558 lines)
+- **c4model-c2**: ✅ C2 Container methodology (2,318 lines, 20+ tech patterns)
+- **c4model-c3**: ✅ C3 Component methodology (2,109 lines, 12 component types)
+- **c4model-observations**: ✅ Observation documentation (2,455 lines, 34 categories)
+- **c4model-relations**: ✅ Relation documentation (2,619 lines, 48 relation types)
+
+**Validation & Quality (1):**
+- **melly-validation**: ✅ Scripts & templates (7 validators, 3 generators, 2,859 lines)
+
+**Refactoring & Utilities (3):**
+- **melly-core**: ✅ Consolidated core plugin (new architecture)
+- **c1-abstractor**: ✅ Standalone simplified C1 analyzer
+- **melly-writer-lib**: ✅ Library documentation writer utilities
+
+**Current Status**: All components are functional. Architectural refactoring in progress to consolidate plugins and follow Claude Code best practices.
+
+**Legend:** ✅ Implemented and Functional
 
 ## 🤝 Contributing
 
