@@ -37,18 +37,6 @@
       "keywords": ["abstractor", "agent", "architecture", "analysis", "documentation", "c4-diagrams"]
     },
     {
-      "name": "skill-builder",
-      "source": "./plugins/skill-builder",
-      "version": "1.0.0",
-      "description": "Meta-skill for creating, editing, and converting Claude Code skills. Includes CLI tools (gh, aws, pip), Python scripting patterns, and progressive disclosure best practices.",
-      "author": {
-        "name": "Melly Team"
-      },
-      "repository": "https://github.com/Cubical6/melly",
-      "license": "MIT",
-      "keywords": ["skill-builder", "meta-skill", "cli", "python", "development", "tools"]
-    },
-    {
       "name": "basic-memory",
       "source": "./plugins/basic-memory",
       "version": "1.0.0",
