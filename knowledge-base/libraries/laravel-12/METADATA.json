@@ -1,0 +1,438 @@
+{
+  "library": {
+    "name": "Laravel Framework",
+    "slug": "laravel",
+    "version": "12.x",
+    "language": "PHP",
+    "type": "web-framework",
+    "url": "https://laravel.com",
+    "repository": "https://github.com/laravel/framework",
+    "documentation_source": "https://github.com/laravel/docs",
+    "license": "MIT"
+  },
+  "documentation": {
+    "total_files": 100,
+    "format": "markdown",
+    "last_updated": "2025-11-15",
+    "version_branch": "12.x"
+  },
+  "categories": [
+    {
+      "id": "getting-started",
+      "name": "Getting Started",
+      "description": "Foundation concepts and initial setup",
+      "files": [
+        "installation.md",
+        "configuration.md",
+        "structure.md",
+        "deployment.md",
+        "lifecycle.md",
+        "releases.md",
+        "upgrade.md"
+      ],
+      "key_concepts": [
+        "environment setup",
+        "directory structure",
+        "request lifecycle"
+      ]
+    },
+    {
+      "id": "architecture",
+      "name": "Architecture Concepts",
+      "description": "Core architectural patterns and dependency injection",
+      "files": [
+        "container.md",
+        "providers.md",
+        "facades.md",
+        "contracts.md"
+      ],
+      "key_concepts": [
+        "dependency injection",
+        "service providers",
+        "facades",
+        "contracts"
+      ]
+    },
+    {
+      "id": "basics",
+      "name": "The Basics",
+      "description": "Fundamental web application features",
+      "files": [
+        "routing.md",
+        "middleware.md",
+        "csrf.md",
+        "controllers.md",
+        "requests.md",
+        "responses.md",
+        "views.md",
+        "blade.md",
+        "urls.md",
+        "session.md",
+        "validation.md",
+        "errors.md",
+        "logging.md"
+      ],
+      "key_concepts": [
+        "HTTP routing",
+        "request/response cycle",
+        "template rendering",
+        "form validation"
+      ]
+    },
+    {
+      "id": "digging-deeper",
+      "name": "Digging Deeper",
+      "description": "Advanced features and utilities",
+      "files": [
+        "artisan.md",
+        "broadcasting.md",
+        "cache.md",
+        "collections.md",
+        "context.md",
+        "concurrency.md",
+        "events.md",
+        "filesystem.md",
+        "helpers.md",
+        "http-client.md",
+        "localization.md",
+        "mail.md",
+        "notifications.md",
+        "packages.md",
+        "processes.md",
+        "prompts.md",
+        "queues.md",
+        "rate-limiting.md",
+        "redirects.md",
+        "scheduling.md",
+        "strings.md"
+      ],
+      "key_concepts": [
+        "job queues",
+        "event broadcasting",
+        "task scheduling",
+        "caching strategies"
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security",
+      "description": "Authentication, authorization, and security features",
+      "files": [
+        "authentication.md",
+        "authorization.md",
+        "verification.md",
+        "passwords.md",
+        "encryption.md",
+        "hashing.md"
+      ],
+      "key_concepts": [
+        "user authentication",
+        "access control",
+        "password management",
+        "data encryption"
+      ]
+    },
+    {
+      "id": "database",
+      "name": "Database",
+      "description": "Database operations and query building",
+      "files": [
+        "database.md",
+        "queries.md",
+        "pagination.md",
+        "migrations.md",
+        "seeding.md",
+        "redis.md",
+        "mongodb.md"
+      ],
+      "key_concepts": [
+        "query builder",
+        "database migrations",
+        "data seeding",
+        "pagination"
+      ]
+    },
+    {
+      "id": "eloquent",
+      "name": "Eloquent ORM",
+      "description": "Object-relational mapping",
+      "files": [
+        "eloquent.md",
+        "eloquent-relationships.md",
+        "eloquent-collections.md",
+        "eloquent-mutators.md",
+        "eloquent-resources.md",
+        "eloquent-serialization.md",
+        "eloquent-factories.md"
+      ],
+      "key_concepts": [
+        "active record pattern",
+        "model relationships",
+        "attribute casting",
+        "API resources"
+      ]
+    },
+    {
+      "id": "testing",
+      "name": "Testing",
+      "description": "Testing tools and strategies",
+      "files": [
+        "testing.md",
+        "http-tests.md",
+        "console-tests.md",
+        "database-testing.md",
+        "mocking.md",
+        "dusk.md"
+      ],
+      "key_concepts": [
+        "PHPUnit integration",
+        "feature testing",
+        "browser automation",
+        "test mocking"
+      ]
+    },
+    {
+      "id": "packages",
+      "name": "Official Packages",
+      "description": "First-party Laravel packages",
+      "files": [
+        "billing.md",
+        "cashier-paddle.md",
+        "fortify.md",
+        "horizon.md",
+        "passport.md",
+        "pennant.md",
+        "precognition.md",
+        "pulse.md",
+        "sanctum.md",
+        "scout.md",
+        "socialite.md",
+        "telescope.md"
+      ],
+      "key_concepts": [
+        "subscription billing",
+        "API authentication",
+        "queue monitoring",
+        "full-text search"
+      ]
+    },
+    {
+      "id": "development-tools",
+      "name": "Development Tools",
+      "description": "Local development and deployment",
+      "files": [
+        "homestead.md",
+        "valet.md",
+        "sail.md",
+        "octane.md",
+        "pint.md",
+        "envoy.md",
+        "mix.md",
+        "vite.md"
+      ],
+      "key_concepts": [
+        "local development",
+        "docker containers",
+        "asset compilation",
+        "code style"
+      ]
+    },
+    {
+      "id": "frontend",
+      "name": "Frontend & UI",
+      "description": "Frontend integration",
+      "files": [
+        "frontend.md",
+        "starter-kits.md",
+        "folio.md",
+        "reverb.md"
+      ],
+      "key_concepts": [
+        "asset bundling",
+        "authentication scaffolding",
+        "WebSocket server"
+      ]
+    },
+    {
+      "id": "meta",
+      "name": "Meta & Documentation",
+      "description": "Project documentation and guides",
+      "files": [
+        "readme.md",
+        "documentation.md",
+        "contributions.md",
+        "license.md",
+        "mcp.md"
+      ],
+      "key_concepts": [
+        "contribution guidelines",
+        "documentation standards"
+      ]
+    }
+  ],
+  "key_relations": [
+    {
+      "type": "depends_on",
+      "source": "eloquent.md",
+      "target": "database.md",
+      "description": "Eloquent ORM builds on database query builder"
+    },
+    {
+      "type": "extends",
+      "source": "eloquent-collections.md",
+      "target": "collections.md",
+      "description": "Eloquent collections extend base collection functionality"
+    },
+    {
+      "type": "requires",
+      "source": "horizon.md",
+      "target": "queues.md",
+      "description": "Horizon monitors queue operations"
+    },
+    {
+      "type": "requires",
+      "source": "broadcasting.md",
+      "target": "redis.md",
+      "description": "Broadcasting typically uses Redis for pub/sub"
+    },
+    {
+      "type": "uses",
+      "source": "controllers.md",
+      "target": ["requests.md", "responses.md", "validation.md"],
+      "description": "Controllers handle requests, validation, and responses"
+    },
+    {
+      "type": "connects_to",
+      "source": "routing.md",
+      "target": ["middleware.md", "controllers.md"],
+      "description": "Routes connect to controllers via middleware"
+    },
+    {
+      "type": "implements",
+      "source": "fortify.md",
+      "target": "authentication.md",
+      "description": "Fortify provides backend implementation of authentication"
+    },
+    {
+      "type": "simplifies",
+      "source": "sanctum.md",
+      "target": "passport.md",
+      "description": "Sanctum is simpler alternative to Passport for SPA/mobile auth"
+    },
+    {
+      "type": "replaces",
+      "source": "vite.md",
+      "target": "mix.md",
+      "description": "Vite replaces Mix for modern asset bundling"
+    },
+    {
+      "type": "provides",
+      "source": "sail.md",
+      "target": "Local Docker environment",
+      "description": "Sail provides Docker-based local development"
+    },
+    {
+      "type": "validates",
+      "source": "validation.md",
+      "target": "requests.md",
+      "description": "Validation rules validate request input"
+    },
+    {
+      "type": "tests",
+      "source": "dusk.md",
+      "target": "Frontend functionality",
+      "description": "Dusk provides browser automation testing"
+    },
+    {
+      "type": "monitors",
+      "source": "telescope.md",
+      "target": "All application layers",
+      "description": "Telescope debugs and monitors application behavior"
+    },
+    {
+      "type": "processes",
+      "source": "queues.md",
+      "target": ["mail.md", "notifications.md", "broadcasting.md"],
+      "description": "Queues handle asynchronous job processing"
+    }
+  ],
+  "topics": {
+    "core_architecture": [
+      "container.md",
+      "providers.md",
+      "facades.md",
+      "lifecycle.md"
+    ],
+    "http_layer": [
+      "routing.md",
+      "controllers.md",
+      "requests.md",
+      "responses.md",
+      "middleware.md",
+      "validation.md"
+    ],
+    "database_orm": [
+      "database.md",
+      "queries.md",
+      "eloquent.md",
+      "eloquent-relationships.md",
+      "migrations.md"
+    ],
+    "async_operations": [
+      "queues.md",
+      "events.md",
+      "broadcasting.md",
+      "scheduling.md",
+      "concurrency.md"
+    ],
+    "security": [
+      "authentication.md",
+      "authorization.md",
+      "encryption.md",
+      "hashing.md",
+      "csrf.md"
+    ],
+    "api_development": [
+      "eloquent-resources.md",
+      "passport.md",
+      "sanctum.md",
+      "http-client.md",
+      "rate-limiting.md"
+    ],
+    "testing": [
+      "testing.md",
+      "http-tests.md",
+      "console-tests.md",
+      "database-testing.md",
+      "dusk.md",
+      "mocking.md"
+    ],
+    "devops": [
+      "homestead.md",
+      "valet.md",
+      "sail.md",
+      "deployment.md",
+      "octane.md",
+      "envoy.md"
+    ],
+    "monitoring": [
+      "telescope.md",
+      "horizon.md",
+      "pulse.md",
+      "logging.md"
+    ]
+  },
+  "statistics": {
+    "total_files": 100,
+    "categories": 12,
+    "estimated_total_words": 300000,
+    "code_examples": "present in all files",
+    "cross_references": "extensive"
+  },
+  "analyzer_info": {
+    "analyzer": "Manual Library Documentation Analyzer",
+    "version": "1.0.0",
+    "analyzed_at": "2025-11-21",
+    "analysis_type": "structural_and_semantic"
+  }
+}

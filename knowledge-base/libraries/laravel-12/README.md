@@ -23,6 +23,14 @@ Complete Laravel 12 framework documentation in markdown format. This collection 
 
 This directory contains 100 markdown documentation files from the official Laravel framework documentation repository. Each file covers a specific aspect of the Laravel framework.
 
+## Documentation Structure
+
+This directory includes comprehensive structural metadata:
+
+- **[INDEX.md](INDEX.md)** - Complete documentation index with 12 categories, semantic relations, and usage recommendations
+- **[METADATA.json](METADATA.json)** - Structured metadata for programmatic access (categories, relations, topics)
+- **[QUICK-REFERENCE.md](QUICK-REFERENCE.md)** - Quick lookup guide with common Laravel patterns and code examples
+
 ## Usage
 
 These documentation files can be used:
@@ -30,6 +38,7 @@ These documentation files can be used:
 - For contextual knowledge retrieval by Claude Code agents
 - As training data for understanding Laravel patterns and best practices
 - For generating Laravel-specific documentation and code
+- With semantic search using the structured metadata
 
 ## Key Documentation Files
 
